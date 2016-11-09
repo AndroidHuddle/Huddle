@@ -1,6 +1,8 @@
 # Huddle
 **Huddle** is an android app that allows a user to organize events. Imagine you're in a part of town that you don't normally visit. You have a couple of hours to spend there after your work meetings. You open up Huddle. You check out what is a cool venue around the area and check out who from your contacts' list is also close by. This app is a great way to quickly create events and have spontaneous meetups with your friends.
 
+This is our initial wireframes: https://docs.google.com/presentation/d/1skKVUJvXC-LZcL3suBF1pVtCR_QU1Ju7DTob0NrL2ig/edit?usp=sharing
+
 Time spent: **X** hours spent in total
 
 ## User Stories
