@@ -7,6 +7,9 @@ import com.yelp.clientlib.entities.Category;
 import com.yelp.clientlib.entities.Location;
 import com.yelp.clientlib.entities.Review;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class Business implements Parcelable {
@@ -29,44 +32,58 @@ public class Business implements Parcelable {
 
     public Business() {}
 
-    public static ArrayList<Business> fromSearchResponse(ArrayList<com.yelp.clientlib.entities.Business> searchResponseBusinesses) {
-        ArrayList<Business> a = new ArrayList<>();
-        for (int i = 0; i < searchResponseBusinesses.size(); i++) {
+//    public static ArrayList<Business> fromSearchResponse(ArrayList<com.yelp.clientlib.entities.Business> searchResponseBusinesses) {
+//        ArrayList<Business> a = new ArrayList<>();
+//        for (int i = 0; i < searchResponseBusinesses.size(); i++) {
+//            try {
+//                Business b = Business.fromJSON(searchResponseBusinesses.get(i));
+//                a.add(b);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                continue;
+//            }
+//        }
+//        return a;
+//    }
+
+
+    private static Business fromJson(JSONObject jsonObject) {
+        Business b = new Business();
+
+        try {
+            b.name = jsonObject.getString("name");
+//            b.categories = business.categories();
+//            b.displayPhone = business.displayPhone();
+//            b.distance = business.distance();
+//            b.imageUrl = business.imageUrl();
+//            b.id = business.id();
+//            b.isClosed = business.isClosed();
+//            b.location = business.location();
+//            b.mobileUrl = business.mobileUrl();
+//            b.rating = business.rating();
+//            b.ratingImgUrl = business.ratingImgUrl();
+//            b.reviewCount = business.reviewCount();
+//            b.reviews = business.reviews();
+//            b.snippetText = business.snippetText();
+//            b.url = business.url();
+        } catch(Exception e) {}
+
+        return b;
+    }
+
+    public static ArrayList<Business> fromJSONArray(JSONArray businessesJson) {
+        ArrayList<Business> b = new ArrayList<>();
+        int length = businessesJson.length();
+        for (int i = 0; i < length; i++) {
+
             try {
-                Business b = Business.fromJSON(searchResponseBusinesses.get(i));
-                a.add(b);
+                b.add(fromJson(businessesJson.getJSONObject(i)));
             } catch (Exception e) {
                 e.printStackTrace();
                 continue;
             }
+
         }
-        return a;
-    }
-
-
-
-
-    private static Business fromJSON(com.yelp.clientlib.entities.Business business) {
-        Business b = new Business();
-
-        try {
-            b.name = business.name();
-            b.categories = business.categories();
-            b.displayPhone = business.displayPhone();
-            b.distance = business.distance();
-            b.imageUrl = business.imageUrl();
-            b.id = business.id();
-            b.isClosed = business.isClosed();
-            b.location = business.location();
-            b.mobileUrl = business.mobileUrl();
-            b.rating = business.rating();
-            b.ratingImgUrl = business.ratingImgUrl();
-            b.reviewCount = business.reviewCount();
-            b.reviews = business.reviews();
-            b.snippetText = business.snippetText();
-            b.url = business.url();
-        } catch(Exception e) {}
-
         return b;
     }
 

@@ -8,6 +8,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.yelp.clientlib:yelp-android:2.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
 }
 
 android {
