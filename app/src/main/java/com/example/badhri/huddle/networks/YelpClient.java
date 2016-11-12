@@ -2,71 +2,42 @@ package com.example.badhri.huddle.networks;
 
 /** Return the Call<SearchResponse> so that user can implement the Async / Sync approach */
 
-import android.util.Log;
-
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
-import com.yelp.clientlib.entities.Business;
 import com.yelp.clientlib.entities.SearchResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-/**
- //        Asynchronous Approach with callback
- //        Callback<SearchResponse> callback = new Callback<SearchResponse>() {
- //
- //            @Override
- //            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
- //                SearchResponse searchResponse = response.body();
- //                int totalNumberOfResult = searchResponse.total();  // 3
- //                ArrayList<Business> businesses = searchResponse.businesses();
- //                Log.d("DEBUG", businesses.toString());
- //            }
- //
- //            @Override
- //            public void onFailure(Call<SearchResponse> call, Throwable t) {
- //
- //            }
- //        };
- //        call.enqueue(callback);
-
- //        Synchronous approach
- //        SearchResponse searchResponse = call.execute().body();
- //        ArrayList<Business> businesses = searchResponse.businesses();
- */
 public class YelpClient {
 
     public static void main(String args[]) {
-        YelpClient a = new YelpClient();
-
-        Callback<SearchResponse> callback = new Callback<SearchResponse>() {
-
-            @Override
-            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                SearchResponse searchResponse = response.body();
-                ArrayList<Business> businesses = searchResponse.businesses();
-                ArrayList<com.example.badhri.huddle.models.Business> b = com.example.badhri.huddle.models.Business.fromSearchResponse(businesses);
-                Log.d("DEBUG", b.toString());
-            }
-
-            @Override
-            public void onFailure(Call<SearchResponse> call, Throwable t) {
-                Log.d("DEBUG","Failing");
-            }
-        };
-        try {
-            Call<SearchResponse> call = a.getRestaurants("37.7867703362929,-122.399958372115");
-            call.enqueue(callback);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        YelpClient a = new YelpClient();
+//
+//        Callback<SearchResponse> callback = new Callback<SearchResponse>() {
+//
+//            @Override
+//            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+//                SearchResponse searchResponse = response.body();
+//                ArrayList<Business> businesses = searchResponse.businesses();
+//                ArrayList<com.example.badhri.huddle.models.Business> b = com.example.badhri.huddle.models.Business.fromSearchResponse(businesses);
+//                Log.d("DEBUG", b.toString());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SearchResponse> call, Throwable t) {
+//                Log.d("DEBUG","Failing");
+//            }
+//        };
+//        try {
+//            Call<SearchResponse> call = a.getRestaurants("37.7867703362929,-122.399958372115");
+//            call.enqueue(callback);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static final String CONSUMER_KEY = "4O9FjQaJoNOiCLdycjyxTg";
