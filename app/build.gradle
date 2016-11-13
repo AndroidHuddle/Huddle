@@ -17,6 +17,8 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.parse:parse-android:1.13.1'
+    compile 'com.parse:parseinterceptors:0.0.2'
 }
 
 android {
