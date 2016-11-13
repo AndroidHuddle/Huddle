@@ -32,21 +32,6 @@ public class Business implements Parcelable {
 
     public Business() {}
 
-//    public static ArrayList<Business> fromSearchResponse(ArrayList<com.yelp.clientlib.entities.Business> searchResponseBusinesses) {
-//        ArrayList<Business> a = new ArrayList<>();
-//        for (int i = 0; i < searchResponseBusinesses.size(); i++) {
-//            try {
-//                Business b = Business.fromJSON(searchResponseBusinesses.get(i));
-//                a.add(b);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                continue;
-//            }
-//        }
-//        return a;
-//    }
-
-
     private static Business fromJson(JSONObject jsonObject) {
         Business b = new Business();
 
