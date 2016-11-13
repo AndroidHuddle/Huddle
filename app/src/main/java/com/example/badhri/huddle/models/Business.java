@@ -52,21 +52,65 @@ public class Business implements Parcelable {
 
         try {
             b.name = jsonObject.getString("name");
-//            b.categories = business.categories();
-//            b.displayPhone = business.displayPhone();
-//            b.distance = business.distance();
-//            b.imageUrl = business.imageUrl();
-//            b.id = business.id();
-//            b.isClosed = business.isClosed();
-//            b.location = business.location();
-//            b.mobileUrl = business.mobileUrl();
-//            b.rating = business.rating();
-//            b.ratingImgUrl = business.ratingImgUrl();
-//            b.reviewCount = business.reviewCount();
-//            b.reviews = business.reviews();
-//            b.snippetText = business.snippetText();
-//            b.url = business.url();
         } catch(Exception e) {}
+
+        try {
+            b.categories = (ArrayList<Category>) jsonObject.get("categories");
+        } catch(Exception e){}
+
+        try {
+            b.displayPhone = jsonObject.getString("display_phone");
+        }catch(Exception e){}
+
+
+        try {
+            b.distance = jsonObject.getDouble("distance");
+        }catch(Exception e){}
+
+
+        try {
+            b.imageUrl = jsonObject.getString("image_url");
+        }catch(Exception e){}
+
+        try {
+            b.id = jsonObject.getString("id");
+        }catch(Exception e){}
+
+        try {
+            b.isClosed = jsonObject.getBoolean("is_closed");
+        }catch(Exception e){}
+
+        try {
+            b.location = (Location) jsonObject.get("location");
+        }catch(Exception e){}
+
+        try {
+            b.mobileUrl = jsonObject.getString("mobile_url");
+        }catch(Exception e){}
+
+        try {
+            b.rating = jsonObject.getDouble("rating");
+        }catch(Exception e){}
+
+        try {
+            b.ratingImgUrl = jsonObject.getString("rating_img_url");
+        }catch(Exception e){}
+
+        try {
+            b.reviewCount = jsonObject.getInt("review_count");
+        }catch(Exception e){}
+
+        try {
+            b.reviews = (ArrayList<Review>) jsonObject.get("reviews");
+        }catch(Exception e){}
+
+        try {
+            b.snippetText = jsonObject.getString("snippet_text");
+        }catch(Exception e){}
+
+        try {
+            b.url = jsonObject.getString("url");
+        } catch (Exception e){}
 
         return b;
     }
