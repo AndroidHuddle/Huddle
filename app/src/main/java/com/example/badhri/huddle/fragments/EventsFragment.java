@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.Utils.DividerItemDecoration;
+import com.example.badhri.huddle.utils.DividerItemDecoration;
 import com.example.badhri.huddle.adapters.EventsAdapter;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
@@ -93,6 +93,7 @@ public class EventsFragment extends Fragment {
         // Execute query to fetch all messages from Parse asynchronously
         // This is equivalent to a SELECT query with SQL
         mEvents.clear();
+
         query.findInBackground(new FindCallback<Attendees>() {
             public void done(List<Attendees> attendees, ParseException e) {
                 if (e == null) {
@@ -106,6 +107,7 @@ public class EventsFragment extends Fragment {
                                     adapter.notifyDataSetChanged();
                                 } else {
                                     // something went wrong
+                                    e.printStackTrace();
                                 }
                             }
                         });
@@ -119,6 +121,7 @@ public class EventsFragment extends Fragment {
                     }*/
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
+                    e.printStackTrace();
                 }
             }
         });

@@ -19,6 +19,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parseinterceptors:0.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.2'
 }
 
 android {
@@ -34,7 +35,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
