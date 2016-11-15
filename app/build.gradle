@@ -1,4 +1,50 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
 apply plugin: 'com.android.application'
+<<<<<<< HEAD
+=======
+apply plugin: 'android-apt'
+apply plugin: 'io.fabric'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.yelp.clientlib:yelp-android:2.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+
+    //Twitter Digits for login using phone number
+    compile('com.digits.sdk.android:digits:2.0.2@aar') {
+        transitive = true;
+    }
+}
+
+
+Properties props = new Properties()
+try {
+    props.load(file('fabric.properties').newDataInputStream())
+} catch (Exception ex) {
+    throw new GradleException("Missing 'fabric.properties' file.");
+}
+>>>>>>> a14bb62... Integrate the login process into the app
 
 android {
     compileSdkVersion 24
@@ -10,6 +56,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("consumerKey")}\""
+        buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("consumerSecret")}\""
     }
     buildTypes {
         release {
@@ -19,7 +67,17 @@ android {
     }
 }
 
+<<<<<<< HEAD
 apply plugin: 'android-apt'
+=======
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+
+>>>>>>> a14bb62... Integrate the login process into the app
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
