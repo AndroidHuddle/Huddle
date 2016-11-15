@@ -1,5 +1,16 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'io.fabric'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -17,6 +28,19 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
+
+    //Twitter Digits for login using phone number
+    compile('com.digits.sdk.android:digits:2.0.2@aar') {
+        transitive = true;
+    }
+}
+
+
+Properties props = new Properties()
+try {
+    props.load(file('fabric.properties').newDataInputStream())
+} catch (Exception ex) {
+    throw new GradleException("Missing 'fabric.properties' file.");
 }
 
 android {
@@ -29,6 +53,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("consumerKey")}\""
+        buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("consumerSecret")}\""
     }
     buildTypes {
         release {
@@ -53,6 +79,7 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 
