@@ -26,12 +26,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    testCompile 'junit:junit:4.12'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parseinterceptors:0.0.2'
     compile 'com.android.support:design:24.2.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.android.support:support-v4:24.2.1'
 }

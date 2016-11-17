@@ -22,6 +22,18 @@ import butterknife.ButterKnife;
 public class EventsAdapter extends
         RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
+
+    private static OnItemClickListener listener;
+
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,13 +51,27 @@ public class EventsAdapter extends
         @BindView(R.id.tvVenue)
         public TextView tvVenue;
 
+
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Triggers click upwards to the adapter on click
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
+                }
+            });
         }
     }
 

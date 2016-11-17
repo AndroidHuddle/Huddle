@@ -1,5 +1,6 @@
 package com.example.badhri.huddle.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,7 @@ public class EventsFragment extends Fragment {
 
     LinearLayoutManager linearLayoutManager;
     EventsAdapter adapter;
+    private OnCompleteEventClick mListener;
 
 
     private static final String TAG = "";
@@ -77,9 +79,32 @@ public class EventsFragment extends Fragment {
             }
         });*/
 
+        setEventClickHandler();
         addEvents();
         //setUpSwipe();
         return v;
+    }
+
+    private void setEventClickHandler() {
+        // i was unable to set a getAdapter to the DashBoard to apply the listener there
+        adapter.setOnItemClickListener(new EventsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                mListener.onEventPress(position, mEvents.get(position));
+            }
+        });
+    }
+
+
+
+    public interface OnCompleteEventClick{
+        public abstract void onEventPress(int tabIndex, Events events);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mListener = (OnCompleteEventClick) context;
     }
 
     private void addEvents() {
@@ -124,6 +149,7 @@ public class EventsFragment extends Fragment {
         });
 
     }
+
 
     public static final String ARG_FILTER = "ARG_FILTER";
 

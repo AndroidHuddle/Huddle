@@ -22,7 +22,8 @@
         <activity
             android:name=".activities.DashBoard"
             android:label="@string/title_activity_dash_board"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.EventDetailActivity"></activity>
     </application>
 
 </manifest>
