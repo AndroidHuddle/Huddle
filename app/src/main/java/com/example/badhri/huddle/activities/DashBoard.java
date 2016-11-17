@@ -7,12 +7,15 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.TabFragmentAdapter;
+import com.example.badhri.huddle.fragments.EventsFragment;
+import com.example.badhri.huddle.parseModels.Events;
 
-public class DashBoard extends AppCompatActivity {
+public class DashBoard extends AppCompatActivity implements EventsFragment.OnCompleteEventClick{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +35,18 @@ public class DashBoard extends AppCompatActivity {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TabFragmentAdapter(getSupportFragmentManager(),
-                this));
+        viewPager.setAdapter(new TabFragmentAdapter(getSupportFragmentManager(), this));
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
+
+    // get the event up to the activity level for best practice of communication
+    @Override
+    public void onEventPress(int tabIndex, Events event) {
+        Log.d("DEBUG", event.toString());
+        Log.d("DEBUG", String.valueOf(tabIndex));
+    }
 }
