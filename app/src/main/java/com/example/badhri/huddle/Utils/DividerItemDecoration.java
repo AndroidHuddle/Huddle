@@ -29,6 +29,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import static android.support.v7.recyclerview.R.styleable.RecyclerView;
+
 
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 
