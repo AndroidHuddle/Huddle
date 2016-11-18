@@ -4,6 +4,10 @@ import android.app.Application;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.digits.sdk.android.AuthCallback;
+import com.digits.sdk.android.Digits;
+import com.digits.sdk.android.DigitsException;
+import com.digits.sdk.android.DigitsSession;
 import com.example.badhri.huddle.activities.MainActivity;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
@@ -11,6 +15,10 @@ import com.example.badhri.huddle.parseModels.User;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by badhri on 11/12/16.
