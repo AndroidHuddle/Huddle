@@ -1,4 +1,4 @@
-package com.example.badhri.huddle.Utils;
+package com.example.badhri.huddle.utils;
 
 /**
  * Created by badhri on 11/12/16.
