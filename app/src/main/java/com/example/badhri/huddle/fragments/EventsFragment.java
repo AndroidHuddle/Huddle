@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.Utils.DividerItemDecoration;
+import com.example.badhri.huddle.utils.DividerItemDecoration;
 import com.example.badhri.huddle.adapters.EventsAdapter;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
