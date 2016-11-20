@@ -25,7 +25,11 @@ public class HuddleApplication extends Application {
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("androidhuddle") // should correspond to APP_ID env variable
+                .clientKey("jargon")
                 .addNetworkInterceptor(new ParseLogInterceptor())
-                .server("http://androidhuddle.herokuapp.com/parse").build());
+                .server("http://androidhuddle.herokuapp.com/parse/").build());
+        //http://yourappname.herokuapp.com/parse
+        //http://androidhuddle.herokuapp.com/parse
+        //Ignoring header X-Parse-Client-Key because its value was null.
     }
 }

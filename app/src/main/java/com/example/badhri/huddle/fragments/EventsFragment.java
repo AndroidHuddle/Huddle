@@ -144,6 +144,7 @@ public class EventsFragment extends Fragment {
                     }*/
                 } else {
                     Log.e("message", "Error Loading Messages" + e);
+                    e.printStackTrace();
                 }
             }
         });
