@@ -24,7 +24,18 @@
             android:name=".activities.DashBoard"
             android:label="@string/title_activity_dash_board"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.EventDetailActivity"></activity>
+        <activity android:name=".activities.EventDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="hdyelp"
+                    android:scheme="oauth" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_main_activity"

@@ -1,6 +1,7 @@
 package com.example.badhri.huddle;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
@@ -9,6 +10,7 @@ import com.digits.sdk.android.Digits;
 import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
 import com.example.badhri.huddle.activities.MainActivity;
+import com.example.badhri.huddle.networks.YelpClient;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
 import com.example.badhri.huddle.parseModels.User;
@@ -26,10 +28,12 @@ import io.fabric.sdk.android.Fabric;
 
 public class HuddleApplication extends Application {
     private AuthCallback authCallback;
+    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        HuddleApplication.context = this;
         //Register all Parse models here
         ParseObject.registerSubclass(Events.class);
         ParseObject.registerSubclass(User.class);
@@ -74,5 +78,9 @@ public class HuddleApplication extends Application {
 
     public AuthCallback getAuthCallback(){
         return authCallback;
+    }
+
+    public static YelpClient getYelpRestClient() {
+        return (YelpClient) YelpClient.getInstance(YelpClient.class, HuddleApplication.context);
     }
 }

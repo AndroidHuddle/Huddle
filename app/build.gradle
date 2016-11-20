@@ -1,3 +1,7 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+apply plugin: 'io.fabric'
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -8,9 +12,7 @@ buildscript {
     }
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-apply plugin: 'io.fabric'
+
 
 
 
@@ -33,6 +35,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "CONSUMER_KEY", "\"${props.getProperty("consumerKey")}\""
         buildConfigField "String", "CONSUMER_SECRET", "\"${props.getProperty("consumerSecret")}\""
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -78,6 +81,7 @@ dependencies {
     compile 'com.parse:parseinterceptors:0.0.2'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.yelp.clientlib:yelp-android:2.0.0'
 
     //Twitter Digits for login using phone number
     compile('com.digits.sdk.android:digits:2.0.2@aar') {
