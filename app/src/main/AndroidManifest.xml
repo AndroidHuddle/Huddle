@@ -55,6 +55,11 @@
 
         <activity android:name=".activities.CreateEventActivity" />
         <activity android:name=".activities.SelectPlaceActivity"></activity>
+
+        <!-- The same key is valid for both Google Maps and Places -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_places_api_key" />
     </application>
 
 </manifest>
