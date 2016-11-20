@@ -3,6 +3,7 @@ package com.example.badhri.huddle;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.digits.sdk.android.AuthCallback;
@@ -60,6 +61,12 @@ public class HuddleApplication extends Application {
             public void success(DigitsSession session, String phoneNumber) {
                 // Do something with the session
                 Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
+
+                // storing phone numbers and username
+                SharedPreferences mSettings = getApplicationContext().getSharedPreferences("Settings", 0);
+                SharedPreferences.Editor editor = mSettings.edit();
+                editor.putString("phoneNumber", phoneNumber);
+                editor.apply();
 
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//I don't really get why this is needed
