@@ -14,6 +14,12 @@ import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.TabFragmentAdapter;
 import com.example.badhri.huddle.fragments.EventsFragment;
 import com.example.badhri.huddle.parseModels.Events;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DashBoard extends AppCompatActivity implements EventsFragment.OnCompleteEventClick{
 
@@ -40,6 +46,17 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        // Want to see if it works
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                //Do something after 100ms
+//                YelpClient c = HuddleApplication.getYelpRestClient();
+//                c.search("restaurants", "San Francisco", searchHandler());
+//            }
+//        }, 4000);
     }
 
 
@@ -48,5 +65,31 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
     public void onEventPress(int tabIndex, Events event) {
         Log.d("DEBUG", event.toString());
         Log.d("DEBUG", String.valueOf(tabIndex));
+    }
+
+    // this is mainly to show how it works
+    private JsonHttpResponseHandler searchHandler() {
+        return new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray businessesJson = response.getJSONArray("businesses");
+                    Log.d("DEBUG", businessesJson.toString());
+//                    ArrayList<Business> businesses = Business.fromJSONArray(businessesJson);
+                    Log.d("DEBUG", String.valueOf(statusCode));
+                } catch (Exception e) {
+                    Log.e("ERROR", e.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e("ERROR", errorResponse.toString());
+                Log.e("ERROR", statusCode+"");
+                Log.e("ERROR", headers.toString());
+                Log.e("ERROR", throwable.toString());
+            }
+
+        };
     }
 }
