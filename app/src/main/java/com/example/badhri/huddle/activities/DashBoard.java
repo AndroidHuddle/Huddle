@@ -1,5 +1,6 @@
 package com.example.badhri.huddle.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.View;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.TabFragmentAdapter;
 import com.example.badhri.huddle.fragments.EventsFragment;
+import com.example.badhri.huddle.models.EventNonParse;
 import com.example.badhri.huddle.parseModels.Events;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -66,6 +68,12 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
         Log.d("DEBUG", event.toString());
         Log.d("DEBUG", String.valueOf(tabIndex));
         Log.d("DEBUG", event.getVenue());
+
+        // open up the event details activity
+        EventNonParse eventNonParse = EventNonParse.fromEvent(event);
+        Intent i = new Intent(DashBoard.this, EventDetailActivity.class);
+        i.putExtra("event", eventNonParse);
+        startActivity(i);
     }
 
     // this is mainly to show how it works
