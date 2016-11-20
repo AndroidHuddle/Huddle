@@ -23,7 +23,7 @@ public class EventsAdapter extends
         RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
 
-    private static OnItemClickListener listener;
+    private OnItemClickListener listener;
 
     // Define the listener interface
     public interface OnItemClickListener {
@@ -59,19 +59,6 @@ public class EventsAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Triggers click upwards to the adapter on click
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(itemView, position);
-                        }
-                    }
-                }
-            });
         }
     }
 
@@ -119,6 +106,22 @@ public class EventsAdapter extends
         tvEndTime.setText(event.getEndTime().toString());
         TextView tvVenue  = viewHolder.tvVenue;
         tvVenue.setText(event.getVenue());
+
+        View parent = (View)viewHolder.tvVenue.getParent();
+        parent.setTag(position);
+
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Triggers click upwards to the adapter on click
+                if (listener != null) {
+                    int position = (int)v.getTag();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(v, position);
+                    }
+                }
+            }
+        });
     }
 
     // Returns the total count of items in the list

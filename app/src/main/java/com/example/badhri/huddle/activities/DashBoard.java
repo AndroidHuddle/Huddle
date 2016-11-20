@@ -65,6 +65,7 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
     public void onEventPress(int tabIndex, Events event) {
         Log.d("DEBUG", event.toString());
         Log.d("DEBUG", String.valueOf(tabIndex));
+        Log.d("DEBUG", event.getVenue());
     }
 
     // this is mainly to show how it works

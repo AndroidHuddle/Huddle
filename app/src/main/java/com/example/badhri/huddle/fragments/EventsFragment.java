@@ -90,6 +90,7 @@ public class EventsFragment extends Fragment {
         adapter.setOnItemClickListener(new EventsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Log.d("DEBUG", "position" + position);
                 mListener.onEventPress(position, mEvents.get(position));
             }
         });
