@@ -56,6 +56,11 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/notice.txt'
     }
+    compileOptions {
+
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 repositories {
@@ -81,7 +86,6 @@ dependencies {
     compile 'com.parse:parseinterceptors:0.0.2'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.yelp.clientlib:yelp-android:2.0.0'
 
     //Twitter Digits for login using phone number
     compile('com.digits.sdk.android:digits:2.0.2@aar') {

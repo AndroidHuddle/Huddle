@@ -17,8 +17,8 @@ public class YelpClient extends OAuthBaseClient{
     public static final String REST_URL = "https://api.yelp.com/v2";
     public static final String CONSUMER_KEY = "4O9FjQaJoNOiCLdycjyxTg";
     public static final String CONSUMER_SECRET = "B6nbe5j3eYwxwcoN0vSJVIChX3I";
-    public static final String TOKEN = "HbwgSPLuaA4ng1GRYXj5oBAe0Z0NKclN";
-    public static final String TOKEN_SECRET = "ht4m9xuvDa3wF6iVqshIIMdga6w";
+    public static final String TOKEN = "SGN_qGd_rDU6sf8LubCu4EMXUSMnEC3f";
+    public static final String TOKEN_SECRET = "cMw4RmHMr5aZ9Olg0LIonQpRl48";
     public static final String REST_CALLBACK_URL = "oauth://hdyelp"; // Change this (here and in manifest)
 
 

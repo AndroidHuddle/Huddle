@@ -10,11 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.TabFragmentAdapter;
 import com.example.badhri.huddle.fragments.EventsFragment;
-import com.example.badhri.huddle.networks.YelpClient;
 import com.example.badhri.huddle.parseModels.Events;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -50,8 +48,15 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
         tabLayout.setupWithViewPager(viewPager);
 
         // Want to see if it works
-        YelpClient c = HuddleApplication.getYelpRestClient();
-        c.search("restaurants", "San Francisco", searchHandler());
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                //Do something after 100ms
+//                YelpClient c = HuddleApplication.getYelpRestClient();
+//                c.search("restaurants", "San Francisco", searchHandler());
+//            }
+//        }, 4000);
     }
 
 
@@ -80,6 +85,9 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e("ERROR", errorResponse.toString());
+                Log.e("ERROR", statusCode+"");
+                Log.e("ERROR", headers.toString());
+                Log.e("ERROR", throwable.toString());
             }
 
         };
