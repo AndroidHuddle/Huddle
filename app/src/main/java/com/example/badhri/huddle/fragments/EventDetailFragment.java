@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.UsersAdapter;
+import com.example.badhri.huddle.models.EventNonParse;
 import com.example.badhri.huddle.parseModels.User;
 
 import java.util.ArrayList;
@@ -26,8 +28,22 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.rvAttendees)
     RecyclerView rvAttendees;
 
+    @BindView(R.id.tvEventName)
+    TextView tvEventName;
+
+    @BindView(R.id.tvEventTime)
+    TextView tvEventTime;
+
+    @BindView(R.id.tvEventAddress)
+    TextView tvEventAddress;
+
+    @BindView(R.id.tvCost)
+    TextView tvCost;
+
+
     private ArrayList<User> users;
     private UsersAdapter usersAdapter;
+    EventNonParse event;
 
     private Unbinder unbinder;
 
@@ -60,6 +76,7 @@ public class EventDetailFragment extends Fragment {
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
+            event = getArguments().getParcelable("event");
         }
         users = new ArrayList<>();
         usersAdapter = new UsersAdapter(getActivity(), users);
@@ -74,6 +91,10 @@ public class EventDetailFragment extends Fragment {
 //        for (int i = 0; i < 15; i++) {
 //            usersAdapter.add(com.example.badhri.huddle.models.User.randomUser());
 //        }
+
+        tvEventName.setText(event.getEventName());
+        tvEventTime.setText(event.getEndTime().toString());
+        tvEventAddress.setText(event.getVenue());
     }
 
 }
