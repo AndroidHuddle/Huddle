@@ -81,22 +81,22 @@
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
+
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5d1bd484cd61d1d67c4346b01080979ac702ec8b" />
+
+        <meta-data android:name="com.parse.push.gcm_sender_id"
+            android:value="@string/gcm_sender_id"/>
+
+        <data
+            android:host="hdyelp"
+            android:scheme="oauth" />
+
+        <!-- The same key is valid for both Google Maps and Places -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_places_api_key" />
     </application>
-
-    <meta-data
-        android:name="io.fabric.ApiKey"
-        android:value="5d1bd484cd61d1d67c4346b01080979ac702ec8b" />
-
-    <meta-data android:name="com.parse.push.gcm_sender_id"
-        android:value="@string/gcm_sender_id"/>
-
-    <data
-        android:host="hdyelp"
-        android:scheme="oauth" />
-
-    <!-- The same key is valid for both Google Maps and Places -->
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="@string/google_places_api_key" />
-
 </manifest>

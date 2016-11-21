@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.Utils.ParsePushHelper;
 import com.parse.ParsePush;
 
 public class
@@ -27,7 +28,7 @@ MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, DashBoard.class);
                 startActivity(i);
 
-                //ParsePushHelper.pushToUser("badhri", "You have a new freing request", "Parse");
+                ParsePushHelper.pushToUser("badhri", "You have a new freing request", "Parse");
                 /*Events event = new Events();
                 event.setVenue("new york" + new Random().nextInt(50) + 1);
                 event.setEventName("test" + new Random().nextInt(50) + 1);
