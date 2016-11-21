@@ -14,8 +14,10 @@ import com.example.badhri.huddle.activities.MainActivity;
 import com.example.badhri.huddle.networks.YelpClient;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
+import com.example.badhri.huddle.parseModels.Friends;
 import com.example.badhri.huddle.parseModels.User;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.interceptors.ParseLogInterceptor;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
@@ -27,9 +29,12 @@ import io.fabric.sdk.android.Fabric;
  * Created by badhri on 11/12/16.
  */
 
+
 public class HuddleApplication extends Application {
     private AuthCallback authCallback;
     private static Context context;
+    final public static String TAG = "Huddle";
+    final public static  String CHANNEL_NAME = "huddle";
 
     @Override
     public void onCreate() {
@@ -39,13 +44,18 @@ public class HuddleApplication extends Application {
         ParseObject.registerSubclass(Events.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Attendees.class);
+        ParseObject.registerSubclass(Friends.class);
         // set applicationId and server based on the values in the Heroku settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("androidhuddle") // should correspond to APP_ID env variable
                 .clientKey("jargon")
                 .addNetworkInterceptor(new ParseLogInterceptor())
-                .server("http://androidhuddle.herokuapp.com/parse").build());
+                .server("https://androidhuddle.herokuapp.com/parse").build());
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user", "badhri");
+        installation.saveInBackground();
+
         setupCallbackforLogin();
     }
 

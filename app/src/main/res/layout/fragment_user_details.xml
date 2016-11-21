@@ -1,0 +1,65 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.badhri.huddle.fragments.UserDetailsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlUserHeader"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_phone"
+            android:layout_marginLeft="38dp"
+            android:layout_marginStart="38dp"
+            android:id="@+id/ivPhoneNumber"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivPhoneNumber"
+            android:id="@+id/tvPhoneNumber"
+            android:layout_alignTop="@+id/ivPhoneNumber" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_email"
+            android:layout_marginLeft="38dp"
+            android:layout_marginStart="38dp"
+            android:id="@+id/ivEmail"
+            android:layout_below="@+id/ivPhoneNumber"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvPhoneNumber"
+            android:layout_toRightOf="@+id/ivEmail"
+            android:id="@+id/tvEmail"
+            android:layout_alignTop="@+id/ivEmail" />
+
+    </RelativeLayout>
+
+</FrameLayout>
