@@ -61,7 +61,7 @@ public class UsersAdapter extends
         // get the user name
 
         // hardcoded at the moment - instead, get the name from the user object
-        textView.setText("User name");
+        textView.setText(user.getUsername());
     }
 
     public void add(User u) {

@@ -13,6 +13,8 @@ public class User extends ParseObject {
     public static final String EMAIL_KEY = "email";
     public static final String EMAIL_VERIFIED__KEY = "emailVerified";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
+    public static final String STATUS_KEY = "phoneNumber";
+
 
     public String getUsername() {
         return getString(USERNAME_KEY);
@@ -43,6 +45,14 @@ public class User extends ParseObject {
 
     public void setPhoneNumber(Long number)  {
         put(PHONE_NUMBER_KEY, number);
+    }
+
+    public String getStatus() {
+        return getString(STATUS_KEY);
+    }
+
+    public void setStatus(String status)  {
+        put(STATUS_KEY, status);
     }
 
 }

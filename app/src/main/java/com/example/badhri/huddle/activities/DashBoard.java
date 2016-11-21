@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.badhri.huddle.R;
@@ -61,6 +63,32 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
 //        }, 4000);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.dashboard, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        switch (item.getItemId()) {
+            // This is the up button
+            case R.id.miProfile:
+                i = new Intent(this, ProfileActivity.class);
+                i.putExtra(ProfileActivity.USER_ARG, "B2wtCIzbY2");
+                startActivity(i);
+                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
+                return true;
+            case R.id.miFriends:
+                i = new Intent(this, FriendListActivity.class);
+                i.putExtra(ProfileActivity.USER_ARG, "B2wtCIzbY2");
+                startActivity(i);
+                // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     // get the event up to the activity level for best practice of communication
     @Override
