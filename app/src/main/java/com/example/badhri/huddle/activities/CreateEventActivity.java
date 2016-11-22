@@ -56,6 +56,8 @@ public class CreateEventActivity extends AppCompatActivity {
         eventActivityTypeAdapter.setOnItemClickListener(new EventActivityTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                // will open up the event making aspect
+                // possibly pass in data for use
                 Log.d("DEBUG", "click to make event" + eventActivityTypeAdapter.getEventActivityType(position).getEventType());
             }
         });
