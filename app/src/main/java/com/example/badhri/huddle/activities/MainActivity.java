@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.Utils.ParsePushHelper;
+import com.example.badhri.huddle.utils.ParsePushHelper;
 import com.parse.ParsePush;
 
 public class
