@@ -43,6 +43,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
     packagingOptions {
         pickFirst 'META-INF/license.txt'
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -84,7 +87,6 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parseinterceptors:0.0.2'
-    compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
 
     //Twitter Digits for login using phone number
@@ -103,4 +105,6 @@ dependencies {
     //permissions
     compile 'com.github.hotchemi:permissionsdispatcher:2.0.7'
     apt 'com.github.hotchemi:permissionsdispatcher-processor:2.0.7'
+
+    compile 'com.android.support:multidex:1.0.1'
 }
