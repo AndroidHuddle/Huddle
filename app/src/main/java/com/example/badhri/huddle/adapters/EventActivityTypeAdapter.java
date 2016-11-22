@@ -24,6 +24,18 @@ public class EventActivityTypeAdapter extends RecyclerView.Adapter<EventActivity
     // Store the context for easy access
     private Context mContext;
 
+    // Define listener member variable
+    private OnItemClickListener listener;
+    // Define the listener interface
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     // Pass in the contact array into the constructor
     public EventActivityTypeAdapter(Context context, List<EventActivityType> eventActivityTypes) {
         mEventActivityTypes = eventActivityTypes;
@@ -33,6 +45,10 @@ public class EventActivityTypeAdapter extends RecyclerView.Adapter<EventActivity
     // Easy access to the context object in the recyclerview
     private Context getContext() {
         return mContext;
+    }
+
+    public EventActivityType getEventActivityType(int index) {
+        return mEventActivityTypes.get(index);
     }
 
     @Override
@@ -56,6 +72,22 @@ public class EventActivityTypeAdapter extends RecyclerView.Adapter<EventActivity
         // Set item views based on your views and data model
         TextView textView = holder.tvEventActivityTypeName;
         textView.setText(eventActivityType.getEventType());
+
+        View parent = (View) holder.tvEventActivityTypeName.getParent();
+        parent.setTag(position);
+
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Triggers click upwards to the adapter on click
+                if (listener != null) {
+                    int position = (int)v.getTag();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(v, position);
+                    }
+                }
+            }
+        });
     }
 
     @Override

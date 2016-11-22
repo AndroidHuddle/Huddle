@@ -36,9 +36,9 @@ public class CreateEventActivity extends AppCompatActivity {
         eventActivityTypes.add(show);
         eventActivityTypes.add(restaurant);
         eventActivityTypes.add(custom);
-        Log.d("DEBUG", String.valueOf(eventActivityTypes.size()));
 
-        EventActivityTypeAdapter eventActivityTypeAdapter = new EventActivityTypeAdapter(this, eventActivityTypes);
+
+        final EventActivityTypeAdapter eventActivityTypeAdapter = new EventActivityTypeAdapter(this, eventActivityTypes);
         rvEventActivityTypes.setAdapter(eventActivityTypeAdapter);
         rvEventActivityTypes.setLayoutManager(new LinearLayoutManager(this));
         eventActivityTypeAdapter.notifyDataSetChanged();
@@ -50,6 +50,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 //launch 'select place' part
                 Intent i = new Intent(CreateEventActivity.this, SelectPlaceActivity.class);
                 startActivity(i);
+            }
+        });
+
+        eventActivityTypeAdapter.setOnItemClickListener(new EventActivityTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.d("DEBUG", "click to make event" + eventActivityTypeAdapter.getEventActivityType(position).getEventType());
             }
         });
     }
