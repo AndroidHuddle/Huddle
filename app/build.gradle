@@ -107,4 +107,6 @@ dependencies {
     apt 'com.github.hotchemi:permissionsdispatcher-processor:2.0.7'
 
     compile 'com.android.support:multidex:1.0.1'
+
+    compile 'com.android.support:cardview-v7:24.2.1'
 }
