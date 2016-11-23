@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.EventActivityTypeAdapter;
 import com.example.badhri.huddle.models.EventActivityType;
+import com.example.badhri.huddle.utils.GPSTracker;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        GPSTracker gps = new GPSTracker(getApplication());
+
+        double latitude_user = gps.getLatitude();
+        double longitude_user  = gps.getLongitude();
+        Log.d("DEBUG", String.valueOf(latitude_user) + " : " + String.valueOf(longitude_user));
 
         eventActivityTypeAdapter.setOnItemClickListener(new EventActivityTypeAdapter.OnItemClickListener() {
             @Override
