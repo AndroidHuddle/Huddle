@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_places, container, false);
+
         if (mapFragment == null) {
             mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
         }
@@ -111,6 +113,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 place = PlacePicker.getPlace(activity, data);
+                Log.d("DEBUG", data.toString());
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
 
@@ -134,15 +137,15 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 if (googleMap != null) {
 
                     map = googleMap;
-
                     //some properties for the map:
 
 //                    map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 //                    map.setTrafficEnabled(true);
 //                    map.setBuildingsEnabled(true);
 //                    map.getUiSettings().setZoomControlsEnabled(true);
-
+                    map.clear();
                     centerMapUsingLocation();
+                    map.clear();
                 } else {
                     Toast.makeText(activity, "Error - Map was null", Toast.LENGTH_SHORT).show();
                 }
@@ -165,7 +168,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 .position(position)
                 .title(place.getName().toString())
                 .snippet(place.getAddress().toString())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
     }
 
 
@@ -174,4 +177,24 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(activity, "Error - connection failed", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onStop() {
+        // Disconnecting the client invalidates it.
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.stopAutoManage(getActivity());
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+        }
+
+    }
+
 }

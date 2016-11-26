@@ -1,6 +1,7 @@
 package com.example.badhri.huddle.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,16 +9,52 @@ import android.widget.Button;
 
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.models.UserNonParse;
+import com.example.badhri.huddle.parseModels.User;
+import com.example.badhri.huddle.utils.GPSTracker;
 import com.example.badhri.huddle.utils.ParsePushHelper;
+import com.parse.ParseException;
 import com.parse.ParsePush;
 
 public class
 MainActivity extends AppCompatActivity {
-
+    UserNonParse user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // get the user's current location and add to parse; this value should be updated
+        // right before the create event activity
+        GPSTracker gpsTracker = new GPSTracker(this);
+        Double latitude = gpsTracker.getLatitude();
+        Double longitude = gpsTracker.getLongitude();
+
+        // note that the phone number on the shared preferences has a + as a prefix to the phone number
+        user = getIntent().getParcelableExtra("user");
+        if (user == null) {
+            SharedPreferences mSettings = getApplicationContext().getSharedPreferences("Settings", 0);
+            String phonenumber = mSettings.getString("phoneNumber", null);
+            String username = mSettings.getString("username", null);
+
+            User u = new User();
+            u.setPhoneNumber(Long.valueOf(phonenumber.substring(1)));
+            u.setUsername(username);
+            u.setLatitude(latitude);
+            u.setLongitude(longitude);
+            try {
+                u.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            UserNonParse user = UserNonParse.fromUser(u);
+
+        }
+
+//        Log.d("DEBUG", "getting user in the main activity");
+
+
+
 
         Button post = (Button)findViewById(R.id.button);
         ParsePush.subscribeInBackground(HuddleApplication.CHANNEL_NAME);

@@ -38,7 +38,7 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
             @Override
             public void onClick(View view) {
                 //launch 'create event' part
-                Intent i = new Intent(DashBoard.this, CreateEventActivity.class);
+                Intent i = new Intent(DashBoard.this, SelectPlaceActivity.class);
                 startActivity(i);
             }
         });

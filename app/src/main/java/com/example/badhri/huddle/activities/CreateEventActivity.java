@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class CreateEventActivity extends AppCompatActivity {
     ArrayList<EventActivityType> eventActivityTypes;
+    double latitude_user;
+    double longitude_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +58,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
         GPSTracker gps = new GPSTracker(getApplication());
 
-        double latitude_user = gps.getLatitude();
-        double longitude_user  = gps.getLongitude();
+        latitude_user = gps.getLatitude();
+        longitude_user  = gps.getLongitude();
         Log.d("DEBUG", String.valueOf(latitude_user) + " : " + String.valueOf(longitude_user));
 
         eventActivityTypeAdapter.setOnItemClickListener(new EventActivityTypeAdapter.OnItemClickListener() {
@@ -65,7 +67,12 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 // will open up the event making aspect
                 // possibly pass in data for use
-                Log.d("DEBUG", "click to make event" + eventActivityTypeAdapter.getEventActivityType(position).getEventType());
+//                Log.d("DEBUG", "click to make event" + eventActivityTypeAdapter.getEventActivityType(position).getEventType());
+                Intent i = new Intent(CreateEventActivity.this, SelectPlaceActivity.class);
+                i.putExtra("latitude", latitude_user);
+                i.putExtra("longitude", longitude_user);
+                i.putExtra("eventActivityType", eventActivityTypeAdapter.getEventActivityType(position).getEventType());
+                startActivity(i);
             }
         });
     }

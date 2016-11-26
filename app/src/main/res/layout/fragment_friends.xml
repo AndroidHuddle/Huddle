@@ -1,15 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--<fragment-->
+        <!--android:id="@+id/map_friends"-->
+        <!--class="com.google.android.gms.maps.SupportMapFragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentTop="true" />-->
 
-    <TextView
-        android:text="Friends fragment"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="197dp"
-        android:id="@+id/textView" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true">
+
+        <Button
+            android:id="@+id/button_placepicker_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Place picker" />
+
+        <Button
+            android:id="@+id/button_select_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/button_placepicker_friends"
+            android:text="Select" />
+    </RelativeLayout>
 
 </RelativeLayout>
+
