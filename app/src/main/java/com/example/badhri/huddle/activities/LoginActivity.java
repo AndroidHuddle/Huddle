@@ -34,21 +34,27 @@ public class LoginActivity extends AppCompatActivity {
         digitsButton.setCallback(((HuddleApplication) getApplication()).getAuthCallback());
         checkUsernameListener();
         mSettings = getApplicationContext().getSharedPreferences("Settings", 0);
+        // checking if we already collected the user phone number in shared preferences;
         if (!mSettings.getString("phoneNumber", "missing").equals("missing") && !mSettings.getString("username", "missing").equals("missing")) {
-//            Log.d("DEBUG",mSettings.getString("phoneNumber", "missing"));
-//            Log.d("DEBUG",mSettings.getString("username", "missing"));
+            // is calling onClickCollectUsername;
             digitsButton.performClick();
         }
     }
 
     @OnClick(R.id.auth_button)
     public void onClickCollectUsername() {
-        username = etUsername.getText().toString();
-        System.out.println(username);
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString("username", username);
-        editor.apply();
+        if (!mSettings.getString("username", "missing").equals("missing")) {
+            username = mSettings.getString("username", "missing");
+        } else {
+            username = etUsername.getText().toString();
+        }
 
+        // checking from our list of users
+        if (username.length() > 0) {
+            SharedPreferences.Editor editor = mSettings.edit();
+            editor.putString("username", username);
+            editor.apply();
+        }
     }
 
     private void checkUsernameListener() {

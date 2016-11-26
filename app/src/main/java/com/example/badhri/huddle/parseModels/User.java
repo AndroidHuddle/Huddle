@@ -14,6 +14,8 @@ public class User extends ParseObject {
     public static final String EMAIL_VERIFIED__KEY = "emailVerified";
     public static final String PHONE_NUMBER_KEY = "phoneNumber";
     public static final String STATUS_KEY = "phoneNumber";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
 
     public String getUsername() {
@@ -54,6 +56,14 @@ public class User extends ParseObject {
     public void setStatus(String status)  {
         put(STATUS_KEY, status);
     }
+
+    public Double getLatitude() { return getDouble(LATITUDE); }
+
+    public void setLatitude(Double latitude) { put(LATITUDE, latitude);}
+
+    public Double getLongitude() { return getDouble(LONGITUDE); }
+
+    public void setLongitude(Double longitude) { put(LONGITUDE, longitude);}
 
 }
 
