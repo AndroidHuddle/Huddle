@@ -1,0 +1,104 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.badhri.huddle.fragments.EventEditFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+
+        <EditText
+            android:id="@+id/etEventName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            tools:text="A Wonderful Event"
+            android:gravity="center_horizontal"/>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            tools:text="123 Fake Street"
+            android:layout_below="@+id/etEventName"
+            >
+        </TextView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/llprice"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/price">
+                </TextView>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tvPrice"
+                    tools:text="$$$">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/llrating"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/rating">
+                </TextView>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tvRating"
+                    tools:text="3.4/5.0">
+                </TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/llphonenumber"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/phonenumber">
+                </TextView>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/tvPhoneNumber"
+                    tools:text="1 234 456 6789">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lvInvitees"
+            android:layout_height="180dp"
+            android:layout_width="match_parent">
+        </ListView>
+
+        <TextView
+            android:id="@+id/tvReviews"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            tools:text="This is a review about raving about the place. So good. Would come back definitely">
+
+        </TextView>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/send_invite">
+
+        </Button>
+    </LinearLayout>
+
+</FrameLayout>

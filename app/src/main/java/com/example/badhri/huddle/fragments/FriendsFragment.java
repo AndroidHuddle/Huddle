@@ -1,5 +1,6 @@
 package com.example.badhri.huddle.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.models.UserNonParse;
@@ -19,6 +22,7 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -27,7 +31,21 @@ import butterknife.Unbinder;
 public class FriendsFragment extends Fragment{
     private Unbinder unbinder;
     private UserNonParse user;
+    @BindView(R.id.cb_friends_to_invite)
+    LinearLayout cbFriendsToInvite;
+    private OnCheckCompleteDetails mListeners;
 
+    public interface OnCheckCompleteDetails {
+        public abstract void getInviteList(ArrayList<String> invitees);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnCheckCompleteDetails) {
+            this.mListeners = (OnCheckCompleteDetails) context;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,7 +84,7 @@ public class FriendsFragment extends Fragment{
         return v;
     }
 
-    private void queryUsers(ArrayList<String> friends) {
+    private void queryUsers(final ArrayList<String> friends) {
         ParseQuery query = new ParseQuery("User");
         query.findInBackground(new FindCallback() {
             @Override
@@ -81,22 +99,33 @@ public class FriendsFragment extends Fragment{
                 for (int i = 0; i < lu.size(); i++) {
 
                     User u = lu.get(i);
-                    try {
-                        System.out.println(u.getUsername());
-                        System.out.println(String.valueOf(u.getPhoneNumber()));
-                        UserNonParse unp = UserNonParse.fromUser(u);
-                        lnp.add(unp);
-                    } catch (Exception e){}
-
+                    if (friends.contains(u.getObjectId())) {
+                        try {
+                            UserNonParse unp = UserNonParse.fromUser(u);
+                            lnp.add(unp);
+                            CheckBox checkBox = new CheckBox(getContext());
+                            checkBox.setText(unp.getUsername());
+                            // checkBox.getTag() to get the parse id
+                            checkBox.setTag(unp.getParseId().toString());
+                            cbFriendsToInvite.addView(checkBox);
+                        } catch (Exception e){}
+                    }
                 }
-
-                // take these users and mark as checkboxes on the friendsfragment page
             }
         });
     }
 
     @OnClick(R.id.btn_check_details)
     public void onClickFinalDetails() {
+        ArrayList<String> inviteeList = new ArrayList<>();
+        for (int i = 0; i < cbFriendsToInvite.getChildCount(); i++) {
+            CheckBox cb = (CheckBox) cbFriendsToInvite.getChildAt(i);
+            if (cb.isChecked()) {
+                inviteeList.add(cb.getTag().toString());
+            }
+        }
+        Log.d("DEBUG", inviteeList.toString());
+        mListeners.getInviteList(inviteeList);
         Log.d("DEBUG", "checking for final details of invite");
     }
 
