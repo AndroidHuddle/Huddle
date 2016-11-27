@@ -16,6 +16,7 @@ import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.TabFragmentAdapter;
 import com.example.badhri.huddle.fragments.EventsFragment;
 import com.example.badhri.huddle.models.EventNonParse;
+import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.parseModels.Events;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -26,6 +27,8 @@ import cz.msebera.android.httpclient.Header;
 
 public class DashBoard extends AppCompatActivity implements EventsFragment.OnCompleteEventClick{
 
+    private UserNonParse user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +36,17 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        user = getIntent().getParcelableExtra("user");
+        // check that the user is not null, it shouldn't be able to get this far as being null.
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //launch 'create event' part
                 Intent i = new Intent(DashBoard.this, SelectPlaceActivity.class);
+                // pass the user in the oncreate methods;
+                i.putExtra("user", user);
                 startActivity(i);
             }
         });

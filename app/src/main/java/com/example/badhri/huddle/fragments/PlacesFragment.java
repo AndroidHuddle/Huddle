@@ -2,6 +2,7 @@ package com.example.badhri.huddle.fragments;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +50,26 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     private SupportMapFragment mapFragment;
     private GoogleApiClient mGoogleApiClient;
     private Activity activity;
+
+    private OnCompleteEventClick mListener;
+
+    public interface OnCompleteEventClick{
+        public abstract void onEventSelect(String place);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PlacesFragment.OnCompleteEventClick) {
+            this.mListener = (OnCompleteEventClick) context;
+        }
+    }
+
+    // Now we can fire the event when the user selects something in the fragment
+//    public void onSomeClick(View v) {
+//        // need to get the current place and lat and long to pass as an event back to SelectPlaceActivity
+//        mListener.onEventPress(null);
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,10 +134,14 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 place = PlacePicker.getPlace(activity, data);
+
+                // I should force the place to be an event object and pass that back to the
+                // select place activity as an object
                 Log.d("DEBUG", data.toString());
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
 
+                mListener.onEventSelect(place.getName().toString());
                 //draw this on the map:
                 if (mapFragment != null) {
                     buildMap();

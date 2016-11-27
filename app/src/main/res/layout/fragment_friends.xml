@@ -18,17 +18,23 @@
         android:layout_alignParentRight="true">
 
         <Button
-            android:id="@+id/button_placepicker_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Place picker" />
+        android:id="@+id/btn_check_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_final_details" />
 
-        <Button
-            android:id="@+id/button_select_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/button_placepicker_friends"
-            android:text="Select" />
+        <!--<Button-->
+            <!--android:id="@+id/button_placepicker_friends"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Place picker" />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/button_select_friends"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@+id/button_placepicker_friends"-->
+            <!--android:text="Select" />-->
     </RelativeLayout>
 
 </RelativeLayout>

@@ -28,6 +28,12 @@ public class UserNonParse implements Parcelable {
     // no form currently to collect a user email
     private String email;
 
+    public String getParseId() {
+        return parseId;
+    }
+
+    private String parseId;
+
     public UserNonParse() {
 
     }
@@ -35,7 +41,7 @@ public class UserNonParse implements Parcelable {
     public static UserNonParse fromUser(User user) {
         UserNonParse u = new UserNonParse();
         try {
-            u.phoneNumber = user.getUsername();
+            u.phoneNumber = String.valueOf(user.getPhoneNumber());
         } catch (Exception e) {}
 
         try {
@@ -44,6 +50,10 @@ public class UserNonParse implements Parcelable {
 
         try {
             u.email = user.getEmail();
+        } catch (Exception e) {}
+
+        try {
+            u.parseId = user.getObjectId();
         } catch (Exception e) {}
 
         return u;
@@ -60,15 +70,17 @@ public class UserNonParse implements Parcelable {
         dest.writeString(this.phoneNumber);
         dest.writeString(this.username);
         dest.writeString(this.email);
+        dest.writeString(this.parseId);
     }
 
     protected UserNonParse(Parcel in) {
         this.phoneNumber = in.readString();
         this.username = in.readString();
         this.email = in.readString();
+        this.parseId = in.readString();
     }
 
-    public static final Parcelable.Creator<UserNonParse> CREATOR = new Parcelable.Creator<UserNonParse>() {
+    public static final Creator<UserNonParse> CREATOR = new Creator<UserNonParse>() {
         @Override
         public UserNonParse createFromParcel(Parcel source) {
             return new UserNonParse(source);
