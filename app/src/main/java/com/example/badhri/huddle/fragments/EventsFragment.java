@@ -105,7 +105,9 @@ public class EventsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mListener = (OnCompleteEventClick) context;
+        if (context instanceof OnCompleteEventClick) {
+            this.mListener = (OnCompleteEventClick) context;
+        }
     }
 
     private void addEvents() {

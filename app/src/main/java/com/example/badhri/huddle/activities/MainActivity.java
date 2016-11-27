@@ -62,7 +62,11 @@ MainActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener (){
             @Override
             public void onClick(View v) {
+//                how do we want to handle this page
+                // are we going to move it out or is there something in mind for this page
+                // otherwise, in the previous screen that transitions to this, need to make sure we pass the user in
                 Intent i = new Intent(MainActivity.this, DashBoard.class);
+                i.putExtra("user", user);
                 startActivity(i);
 
                 ParsePushHelper.pushToUser("badhri", "You have a new freing request", "Parse");

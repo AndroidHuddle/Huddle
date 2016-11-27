@@ -151,6 +151,8 @@ public class HuddleApplication extends Application {
                                 e.printStackTrace();
                             }
                             user = UserNonParse.fromUser(users.get(i));
+                            System.out.println("get the parse user id: ");
+                            System.out.println(user.getParseId());
                         }
                     }
                     // did not find user in parse
