@@ -26,9 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.http.HEAD;
 
 
-public class FriendsFragment extends Fragment{
+public class FriendsFragment extends Fragment {
     private Unbinder unbinder;
     private UserNonParse user;
     @BindView(R.id.cb_friends_to_invite)
@@ -134,10 +135,12 @@ public class FriendsFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-        if(args != null){
+        if (args != null) {
             user = args.getParcelable("user");
-            Log.d("DEBUG", "in friends fragment");
-            Log.d("DEBUG", user.getPhoneNumber());
+            if (user != null) {
+                Log.d("DEBUG", "in friends fragment");
+                Log.d("DEBUG", user.getPhoneNumber());
+            }
         }
         // query the friends table in parse
         // will also need to match the friends and get their current location
