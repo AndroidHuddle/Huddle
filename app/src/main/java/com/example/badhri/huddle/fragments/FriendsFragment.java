@@ -24,7 +24,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class FriendsFragment extends Fragment{
+public class FriendsFragment extends Fragment {
     private Unbinder unbinder;
     private UserNonParse user;
 
@@ -86,7 +86,8 @@ public class FriendsFragment extends Fragment{
                         System.out.println(String.valueOf(u.getPhoneNumber()));
                         UserNonParse unp = UserNonParse.fromUser(u);
                         lnp.add(unp);
-                    } catch (Exception e){}
+                    } catch (Exception e) {
+                    }
 
                 }
 
@@ -105,10 +106,12 @@ public class FriendsFragment extends Fragment{
         super.onCreate(savedInstanceState);
 
         Bundle args = getArguments();
-        if(args != null){
+        if (args != null) {
             user = args.getParcelable("user");
-            Log.d("DEBUG", "in friends fragment");
-            Log.d("DEBUG", user.getPhoneNumber());
+            if (user != null) {
+                Log.d("DEBUG", "in friends fragment");
+                Log.d("DEBUG", user.getPhoneNumber());
+            }
         }
         // query the friends table in parse
         // will also need to match the friends and get their current location
