@@ -77,17 +77,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.yelp.clientlib:yelp-android:2.0.0'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'com.parse:parse-android:1.13.1'
-    compile 'com.parse:parseinterceptors:0.0.2'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
 
     //Twitter Digits for login using phone number
     compile('com.digits.sdk.android:digits:2.0.2@aar') {
@@ -95,18 +85,29 @@ dependencies {
     }
 
     //strip for tabbed fragments
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    
 
     //Google Maps and Google Places
+    
+    //permissions
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.0.7'
+
+    
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.yelp.clientlib:yelp-android:2.0.0'
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'com.codepath.libraries:android-oauth-handler:1.1.0'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.parse:parse-android:1.13.1'
+    compile 'com.parse:parseinterceptors:0.0.2'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.google.android.gms:play-services-maps:9.8.0'
     compile 'com.google.android.gms:play-services-location:9.8.0'
     compile 'com.google.android.gms:play-services-places:9.8.0'
-
-    //permissions
     compile 'com.github.hotchemi:permissionsdispatcher:2.0.7'
-    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.0.7'
-
     compile 'com.android.support:multidex:1.0.1'
-
     compile 'com.android.support:cardview-v7:24.2.1'
 }

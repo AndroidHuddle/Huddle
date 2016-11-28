@@ -3,7 +3,7 @@
     package="com.example.badhri.huddle">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,8 +14,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <!-- ${packageName} is substituted for the package name declared above.  -->
-    <permission android:protectionLevel="signature" android:name="${packageName}.permission.C2D_MESSAGE" />
+    <!-- ${packageName} is substituted for the package name declared above. -->
+    <permission
+        android:name="${packageName}.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="${packageName}.permission.C2D_MESSAGE" />
 
     <application
@@ -24,8 +27,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,22 +52,18 @@
                     android:scheme="oauth" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activities.EventDetailActivity" />
-
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/title_main_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".activities.CreateEventActivity" />
-        <activity android:name=".activities.SelectPlaceActivity"></activity>
-
-
+        <activity android:name=".activities.SelectPlaceActivity" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.FriendListActivity"></activity>
+        <activity android:name=".activities.FriendListActivity" />
 
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -76,7 +74,9 @@
         </receiver>
 
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+
+        <receiver
+            android:name="com.parse.ParsePushBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -85,13 +85,12 @@
             </intent-filter>
         </receiver>
 
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5d1bd484cd61d1d67c4346b01080979ac702ec8b" />
-
-        <meta-data android:name="com.parse.push.gcm_sender_id"
-            android:value="@string/gcm_sender_id"/>
+        <meta-data
+            android:name="com.parse.push.gcm_sender_id"
+            android:value="@string/gcm_sender_id" />
 
         <data
             android:host="hdyelp"
@@ -101,5 +100,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_places_api_key" />
+
+        <activity android:name=".activities.EditEventActivity"></activity>
     </application>
+
 </manifest>

@@ -54,7 +54,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     private OnCompleteEventClick mListener;
 
     public interface OnCompleteEventClick{
-        public abstract void onEventSelect(String place);
+        public abstract void onEventSelect(Place place);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
 
-                mListener.onEventSelect(place.getName().toString());
+                mListener.onEventSelect(place);
                 //draw this on the map:
                 if (mapFragment != null) {
                     buildMap();

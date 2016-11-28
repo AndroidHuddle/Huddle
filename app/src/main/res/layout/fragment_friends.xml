@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:id="@+id/relativeLayout">
 
         <Button
         android:id="@+id/btn_check_details"
@@ -36,6 +37,15 @@
             <!--android:layout_toRightOf="@+id/button_placepicker_friends"-->
             <!--android:text="Select" />-->
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/cb_friends_to_invite"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"></LinearLayout>
 
 </RelativeLayout>
 
