@@ -25,7 +25,11 @@ public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         //once created, they will be automatically cached
         if (position == 0) {
-            return new PlacesFragment();
+            PlacesFragment pf = new PlacesFragment();
+            Bundle args = new Bundle();
+            args.putParcelable("user", user);
+            pf.setArguments(args);
+            return pf;
         } else if (position == 1) {
             // bundle it
             FriendsFragment ff = new FriendsFragment();

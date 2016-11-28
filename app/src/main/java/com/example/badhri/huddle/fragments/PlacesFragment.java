@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.models.UserNonParse;
+import com.example.badhri.huddle.parseModels.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -32,6 +34,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -52,6 +59,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     private Activity activity;
 
     private OnCompleteEventClick mListener;
+    private UserNonParse user;
 
     public interface OnCompleteEventClick{
         public abstract void onEventSelect(Place place);
@@ -84,6 +92,15 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(getActivity(), this)
                 .build();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            user = args.getParcelable("user");
+            if (user != null) {
+                Log.d("DEBUG", "in friends fragment");
+                Log.d("DEBUG", user.getPhoneNumber());
+            }
+        }
 
         myPlaces();
     }
@@ -180,7 +197,35 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
 
     public void centerMapUsingLocation() {
-        LatLng position = place.getLatLng();
+        final LatLng position = place.getLatLng();
+
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("objectId", user.getParseId());
+        query.findInBackground(new FindCallback() {
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                if (o != null) {
+                    List<User> lu = (List<User>) o;
+                    if (lu.size() > 0){
+                        User user = lu.get(0);
+                        if (user.getLatitude() == 0 && user.getLongitude() == 0) {
+                            Log.d("DEBUG", user.getObjectId());
+                            user.setLatitude(position.latitude);
+                            user.setLongitude(position.longitude);
+                            try {
+                                user.save();
+                            } catch (Exception e) {}
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void done(List objects, ParseException e) {
+
+            }
+        });
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(position)      // Sets the center of the map to position
