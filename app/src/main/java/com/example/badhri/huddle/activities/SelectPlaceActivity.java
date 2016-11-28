@@ -73,7 +73,7 @@ public class SelectPlaceActivity extends AppCompatActivity implements PlacesFrag
         i.putExtra("price", place.getPriceLevel());
         i.putExtra("rating", place.getRating());
         i.putExtra("phonenumber", place.getPhoneNumber());
-        i.putExtra("weburi", place.getWebsiteUri().toString());
+//        i.putExtra("weburi", place.getWebsiteUri().toString());
         i.putExtra("invitees", invitees);
         // as reminder, the user is the signed in user
         i.putExtra("user", user);

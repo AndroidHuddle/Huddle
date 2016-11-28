@@ -37,7 +37,7 @@ public class EditEventActivity extends AppCompatActivity {
         price = i.getIntExtra("price", 0);
         rating = i.getFloatExtra("rating", 0);
         phonenumber = i.getStringExtra("phonenumber");
-        weburi = i.getStringExtra("weburi");
+//        weburi = i.getStringExtra("weburi");
         invitees = i.getStringArrayListExtra("invitees");
         // as reminder, the user is the signed in user
         user = i.getParcelableExtra("user");
@@ -55,7 +55,7 @@ public class EditEventActivity extends AppCompatActivity {
         bundle.putInt("price", price);
         bundle.putFloat("rating", rating);
         bundle.putString("phonenumber", phonenumber);
-        bundle.putString("weburi", weburi);
+//        bundle.putString("weburi", weburi);
         bundle.putStringArrayList("invitees", invitees);
         bundle.putParcelable("user", user);
         EventEditFragment eef = new EventEditFragment();

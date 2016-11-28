@@ -115,6 +115,7 @@ public class EventsFragment extends Fragment {
         ParseQuery<Attendees> query = ParseQuery.getQuery(Attendees.class);
         // Configure limit and sort order
         //query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+
         query.whereEqualTo("status", filter);
         // get the latest 500 messages, order will show up newest to oldest of this group
         //query.orderByDescending("startTime");
