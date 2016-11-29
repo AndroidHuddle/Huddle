@@ -70,9 +70,7 @@ public class HuddleApplication extends Application {
                 .clientKey("jargon")
                 .addNetworkInterceptor(new ParseLogInterceptor())
                 .server("https://androidhuddle.herokuapp.com/parse").build());
-        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("user", "badhri");
-        installation.saveInBackground();
+
 
         setupCallbackforLogin();
     }
@@ -95,6 +93,13 @@ public class HuddleApplication extends Application {
                 phonenumber = phoneNumber.toString();
                 editor.putString("phoneNumber", phoneNumber);
                 editor.apply();
+
+                // We are using the fields in the installation instance to bypass the parse
+                // authentication. So the user gets identified using the phoneNumber
+                // registered here.
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("phoneNumber", phonenumber.substring(1));
+                installation.saveInBackground();
                 // at this point, the username hasn't been picked out yet
 
                 // need to set up the user before starting the new activity
