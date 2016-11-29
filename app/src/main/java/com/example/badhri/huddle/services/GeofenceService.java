@@ -14,7 +14,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.activities.MainActivity;
+import com.example.badhri.huddle.activities.SelectPlaceActivity;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
@@ -86,13 +86,13 @@ public class GeofenceService extends IntentService {
     // Send a notification
     private void sendNotification(String msg) {
         // Create an explicit content Intent that starts the main Activity.
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), SelectPlaceActivity.class);
 
         // Construct a task stack.
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
         // Add the main Activity to the task stack as the parent.
-        stackBuilder.addParentStack(MainActivity.class);
+        stackBuilder.addParentStack(SelectPlaceActivity.class);
 
         // Push the content Intent onto the stack.
         stackBuilder.addNextIntent(notificationIntent);

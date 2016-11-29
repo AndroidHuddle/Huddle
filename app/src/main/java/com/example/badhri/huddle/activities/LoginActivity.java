@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.digits.sdk.android.DigitsAuthButton;
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.models.UserNonParse;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
 
     DigitsAuthButton digitsButton;
     private String username;
+    UserNonParse user;
 
     private SharedPreferences mSettings;
 
@@ -40,6 +42,9 @@ public class LoginActivity extends AppCompatActivity {
             digitsButton.performClick();
         }
     }
+
+
+
 
     @OnClick(R.id.auth_button)
     public void onClickCollectUsername() {

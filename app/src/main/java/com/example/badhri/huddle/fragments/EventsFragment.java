@@ -86,7 +86,7 @@ public class EventsFragment extends Fragment {
     }
 
     private void setEventClickHandler() {
-        // i was unable to set a getAdapter to the DashBoard to apply the listener there
+        // i was unable to set a getAdapter to the DashboardActivity to apply the listener there
         adapter.setOnItemClickListener(new EventsAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
