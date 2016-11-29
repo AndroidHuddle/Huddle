@@ -110,7 +110,7 @@ public class GeofenceService extends IntentService {
     private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.icon_huddle)
                 .setColor(Color.RED)
                 .setContentTitle("Friend alert")
                 .setContentText(msg + " nearby!")
