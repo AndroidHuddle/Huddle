@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.DashBoard"
+            android:name=".activities.DashboardActivity"
             android:label="@string/title_activity_dash_board"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -53,10 +53,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.EventDetailActivity" />
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_main_activity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.CreateEventActivity" />
         <activity android:name=".activities.SelectPlaceActivity" />
         <activity android:name=".activities.ProfileActivity" />

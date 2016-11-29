@@ -12,7 +12,7 @@ import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.Digits;
 import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
-import com.example.badhri.huddle.activities.MainActivity;
+import com.example.badhri.huddle.activities.DashboardActivity;
 import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.networks.YelpClient;
 import com.example.badhri.huddle.parseModels.Attendees;
@@ -83,7 +83,6 @@ public class HuddleApplication extends Application {
 
         Fabric.with(this, new TwitterCore(authConfig), new Digits.Builder().build());
 
-
         authCallback = new AuthCallback() {
             @Override
             public void success(DigitsSession session, String phoneNumber) {
@@ -113,8 +112,8 @@ public class HuddleApplication extends Application {
         };
     }
 
-    private void startMainActivity() {
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+    private void launchDashboard() {
+        Intent intent = new Intent(getBaseContext(), DashboardActivity.class);
         intent.putExtra("user", user);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//I don't really get why this is needed
         startActivity(intent);
@@ -159,7 +158,7 @@ public class HuddleApplication extends Application {
                     // create a row for user in parse and update backend
                     // create a UserNonParse instance
                     // this will be performed in the main activity
-                    startMainActivity();
+                    launchDashboard();
                 } else {
                     Log.d("DEBUG", throwable.toString());
                 }
