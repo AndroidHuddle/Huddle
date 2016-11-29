@@ -6,12 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.badhri.huddle.fragments.FriendsAroundMeFragment;
 import com.example.badhri.huddle.fragments.FriendsFragment;
 import com.example.badhri.huddle.fragments.PlacesFragment;
 import com.example.badhri.huddle.models.UserNonParse;
 
 public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
-    private String tabTitles[] = {"Places", "Friends"};
+    private String tabTitles[] = {"Places", "Friends", "Friends around me"};
     private UserNonParse user;
 
     //how the adapter gets the manager to insert/remove fragments from activity
@@ -24,21 +25,26 @@ public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         //once created, they will be automatically cached
-        if (position == 0) {
-            PlacesFragment pf = new PlacesFragment();
-            Bundle args = new Bundle();
-            args.putParcelable("user", user);
-            pf.setArguments(args);
-            return pf;
-        } else if (position == 1) {
-            // bundle it
-            FriendsFragment ff = new FriendsFragment();
-            Bundle args = new Bundle();
-            args.putParcelable("user", user);
-            ff.setArguments(args);
-            return ff;
-        } else {
-            return null;
+
+        Bundle args;
+        args = new Bundle();
+        args.putParcelable("user", user);
+
+        switch (position) {
+            case 0:
+                PlacesFragment pf = new PlacesFragment();
+                pf.setArguments(args);
+                return pf;
+            case 1:
+                FriendsFragment ff = new FriendsFragment();
+                ff.setArguments(args);
+                return ff;
+            case 2:
+                FriendsAroundMeFragment fam = new FriendsAroundMeFragment();
+                fam.setArguments(args);
+                return fam;
+            default:
+                return null;
         }
     }
 
@@ -56,7 +62,7 @@ public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
     }
 
     // now the two fragments can have access to the UserNonParse object
-    public void setUser(UserNonParse u){
+    public void setUser(UserNonParse u) {
         user = u;
     }
 

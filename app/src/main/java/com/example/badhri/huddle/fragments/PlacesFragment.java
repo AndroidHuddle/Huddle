@@ -102,7 +102,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
             }
         }
 
-        myPlaces();
+        //myPlaces();
     }
 
 

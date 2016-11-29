@@ -26,7 +26,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.http.HEAD;
 
 
 public class FriendsFragment extends Fragment {
@@ -73,8 +72,10 @@ public class FriendsFragment extends Fragment {
                     // now get their names/username/ etc.
                     // this is the case where I would love to actually have their names
                     for (int i = 0; i < lf.size(); i++) {
-                        if (user.getParseId().equals(lf.get(i).getUserId())) {
-                            friendIds.add(lf.get(i).getFriendId());
+                        if (user != null) {
+                            if (user.getParseId().equals(lf.get(i).getUserId())) {
+                                friendIds.add(lf.get(i).getFriendId());
+                            }
                         }
                     }
                     Log.d("DEBUG", friendIds.toString());
@@ -109,7 +110,8 @@ public class FriendsFragment extends Fragment {
                             // checkBox.getTag() to get the parse id
                             checkBox.setTag(unp.getParseId().toString());
                             cbFriendsToInvite.addView(checkBox);
-                        } catch (Exception e){}
+                        } catch (Exception e) {
+                        }
                     }
                 }
             }
