@@ -13,7 +13,7 @@ import com.example.badhri.huddle.fragments.EventsFragment;
 
 public class TabFragmentAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] { "Attending", "Not Responded", "Not Attending" };
+    private String tabTitles[] = new String[] { "Yes", "Undecided", "No" };
     private String filters[] = new String [] {"Attending", "Not Responded", "Not Attending"};
     private Context context;
     private EventsAdapter eventsAdapter;

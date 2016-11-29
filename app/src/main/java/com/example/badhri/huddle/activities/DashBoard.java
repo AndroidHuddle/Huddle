@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -57,6 +58,7 @@ public class DashBoard extends AppCompatActivity implements EventsFragment.OnCom
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
         tabLayout.setupWithViewPager(viewPager);
 
         // Want to see if it works
