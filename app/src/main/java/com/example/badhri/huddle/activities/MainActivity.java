@@ -69,7 +69,7 @@ MainActivity extends AppCompatActivity {
                 i.putExtra("user", user);
                 startActivity(i);
 
-                ParsePushHelper.pushToUser("badhri", "You have a new freing request", "Parse");
+                ParsePushHelper.pushToUser("badhri", "You have a new friend request", "Parse");
                 /*Events event = new Events();
                 event.setVenue("new york" + new Random().nextInt(50) + 1);
                 event.setEventName("test" + new Random().nextInt(50) + 1);
