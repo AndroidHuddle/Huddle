@@ -74,6 +74,7 @@
         </receiver>
 
         <service android:name="com.parse.PushService" />
+        <service android:name="com.example.badhri.huddle.services.GeofenceService" />
 
         <receiver
             android:name="com.parse.ParsePushBroadcastReceiver"
