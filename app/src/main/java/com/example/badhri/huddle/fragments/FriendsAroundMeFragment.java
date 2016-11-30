@@ -1,24 +1,25 @@
 package com.example.badhri.huddle.fragments;
 
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.services.GeofenceService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -77,12 +78,22 @@ public class FriendsAroundMeFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        fragmentView = inflater.inflate(R.layout.fragment_friendsaroundme, container, false);
-
-        if (mapFragment == null) {
-            mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.friends_map));
+        if (fragmentView != null) {
+            ViewGroup parent = (ViewGroup) fragmentView.getParent();
+            if (parent != null)
+                parent.removeView(fragmentView);
         }
+        try {
+            fragmentView = inflater.inflate(R.layout.fragment_friendsaroundme, container, false);
 
+            if (mapFragment == null) {
+                mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.friends_map));
+            }
+
+            return fragmentView;
+        } catch (InflateException e) {
+
+        }
         return fragmentView;
     }
 
@@ -205,6 +216,16 @@ public class FriendsAroundMeFragment extends Fragment implements
     // Add the created GeofenceRequest to the device's monitoring list
     protected void addGeofence(GeofencingRequest request) {
 
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         LocationServices.GeofencingApi.addGeofences(
                 googleApiClient,
                 request,
@@ -245,6 +266,16 @@ public class FriendsAroundMeFragment extends Fragment implements
 
     @NeedsPermission({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
     protected void getLastKnownLocation() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (lastLocation != null) {
             Toast.makeText(context, "Actual Lat: " + lastLocation.getLatitude() + ", long: " + lastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
@@ -262,6 +293,16 @@ public class FriendsAroundMeFragment extends Fragment implements
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL);
 
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 

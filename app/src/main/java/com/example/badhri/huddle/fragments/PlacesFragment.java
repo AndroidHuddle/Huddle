@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     private SupportMapFragment mapFragment;
     private GoogleApiClient mGoogleApiClient;
     private Activity activity;
+    private View v;
 
     private OnCompleteEventClick mListener;
     private UserNonParse user;
@@ -108,10 +110,37 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_places, container, false);
+//        View v = inflater.inflate(R.layout.fragment_places, container, false);
+//
+//        if (mapFragment == null) {
+//            mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+//        }
 
-        if (mapFragment == null) {
-            mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+
+        if (v != null) {
+            ViewGroup parent = (ViewGroup) v.getParent();
+            if (parent != null)
+                parent.removeView(v);
+        }
+        try {
+            v = inflater.inflate(R.layout.fragment_friendsaroundme, container, false);
+
+            if (mapFragment == null) {
+                mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.friends_map));
+            }
+
+
+//            Button b = (Button) v.findViewById(R.id.button_placepicker);
+//            b.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    myPlaces();
+//                }
+//            });
+
+            return v;
+        } catch (InflateException e) {
+
         }
 
         Button b = (Button) v.findViewById(R.id.button_placepicker);

@@ -9,18 +9,21 @@ Time spent: **X** hours spent in total
 
 The following **required** functionality is completed:
 
-* [ ] User can create Events
-* [ ] User can create events (from suggestions based on location / or of their own choosing)
-* [ ] User can pick out a radius from current location for suggestion
-* [ ] User can create an invite list for the event
+* [X] User can create Events
+* [X] User can create events (from suggestions based on location / or of their own choosing)
+(Slight issues with google maps and using google places. It had worked previously)
+* [] User can pick out a radius from current location for suggestion
+(We have geo fencing in place to figure close by users)
+* [X] User can create an invite list for the event
 * [ ] Users who accept the invite get into a group
 * [ ] Users can chat in the group
-* [ ] User can get notification of invites (and chat) from group
+* [X] User can get notification of invites (and chat) from group
+(we have versions of push notifications)
 * [ ] User can see profile of preferences of their friends
-* [ ] User can search for friends to invite
+* [X] User can search for friends to invite
 * [ ] User can filter friends list to narrow down people to invite
-* [ ] User can find friends who are close to location of interest
-* [ ] User can share / not share their location on the app
+* [X] User can find friends who are close to location of interest
+* [X] User can share / not share their location on the app
 Optionals
 * [ ] User can suggest multiple events for a group
 * [ ] Users in a group can select events and have almost a doodle-like poll to decide
@@ -32,7 +35,7 @@ Optionals
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.giphy.com/l0HlQJFNLcaRnhl7O.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

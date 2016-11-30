@@ -127,9 +127,12 @@ public class FriendsFragment extends Fragment {
                 inviteeList.add(cb.getTag().toString());
             }
         }
-        Log.d("DEBUG", inviteeList.toString());
-        mListeners.getInviteList(inviteeList);
-        Log.d("DEBUG", "checking for final details of invite");
+        // you shouldn't have an event where there is no invite, so no invite - do nothing
+        if (inviteeList.size() > 0) {
+            Log.d("DEBUG", inviteeList.toString());
+            mListeners.getInviteList(inviteeList);
+            Log.d("DEBUG", "checking for final details of invite");
+        }
     }
 
     @Override
