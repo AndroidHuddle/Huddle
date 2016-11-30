@@ -17,6 +17,7 @@ import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.networks.YelpClient;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
+import com.example.badhri.huddle.parseModels.FriendRequest;
 import com.example.badhri.huddle.parseModels.Friends;
 import com.example.badhri.huddle.parseModels.User;
 import com.example.badhri.huddle.utils.GPSTracker;
@@ -41,7 +42,7 @@ import io.fabric.sdk.android.Fabric;
 
 public class HuddleApplication extends Application {
     private AuthCallback authCallback;
-    private static Context context;
+    public static Context context;
     final public static String TAG = "Huddle";
     final public static  String CHANNEL_NAME = "huddle";
 
@@ -63,6 +64,7 @@ public class HuddleApplication extends Application {
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Attendees.class);
         ParseObject.registerSubclass(Friends.class);
+        ParseObject.registerSubclass(FriendRequest.class);
         // set applicationId and server based on the values in the Heroku settings.
         // any network interceptors must be added with the Configuration Builder given this syntax
         Parse.initialize(new Parse.Configuration.Builder(this)
@@ -98,6 +100,7 @@ public class HuddleApplication extends Application {
                 // authentication. So the user gets identified using the phoneNumber
                 // registered here.
                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                // This SHOULD BE in sync with the phoneNumber format in the User table.
                 installation.put("phoneNumber", phonenumber.substring(1));
                 installation.saveInBackground();
                 // at this point, the username hasn't been picked out yet
