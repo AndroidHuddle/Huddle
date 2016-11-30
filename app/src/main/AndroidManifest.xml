@@ -73,7 +73,7 @@
         <service android:name="com.example.badhri.huddle.services.GeofenceService" />
 
         <receiver
-            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:name="com.example.badhri.huddle.utils.CustomReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />

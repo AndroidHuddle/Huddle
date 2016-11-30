@@ -14,9 +14,9 @@ import java.util.HashMap;
  */
 
 public class ParsePushHelper {
-    public static void pushToUser(String userId, String message, String title) {
+    public static void pushToUser(String phoneNumber, String message, String title) {
         HashMap<String, String> data = new HashMap<>();
-        data.put("userid", userId);
+        data.put("phoneNumber", phoneNumber);
         data.put("message", message);
         data.put("titleString", title);
         ParseCloud.callFunctionInBackground("sendToUser", data, new FunctionCallback<String>() {

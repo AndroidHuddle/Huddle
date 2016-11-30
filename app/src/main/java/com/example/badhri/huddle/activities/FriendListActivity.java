@@ -1,11 +1,13 @@
 package com.example.badhri.huddle.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.fragments.FriendListFragment;
+import com.example.badhri.huddle.adapters.FriendsTabFragmentAdapter;
 import com.example.badhri.huddle.fragments.UserHeaderFragment;
 
 public class FriendListActivity extends AppCompatActivity {
@@ -26,10 +28,13 @@ public class FriendListActivity extends AppCompatActivity {
             ft2.replace(R.id.flUserHeader, userHeaderFragment);
             ft2.commit();
 
-            FriendListFragment friendListFragment = FriendListFragment.newInstance(userObjectId);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fFriendList, friendListFragment);
-            ft.commit();
+            // Get the ViewPager and set it's PagerAdapter so that it can display items
+            ViewPager viewPager = (ViewPager) findViewById(R.id.friendsViewPager);
+            viewPager.setAdapter(new FriendsTabFragmentAdapter(getSupportFragmentManager(), this, userObjectId));
+
+            // Give the TabLayout the ViewPager
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.friendsTab);
+            tabLayout.setupWithViewPager(viewPager);
         }
     }
 }
