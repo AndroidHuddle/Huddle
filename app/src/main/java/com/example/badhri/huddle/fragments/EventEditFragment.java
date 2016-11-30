@@ -1,8 +1,10 @@
 package com.example.badhri.huddle.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.activities.DashBoard;
 import com.example.badhri.huddle.models.UserNonParse;
+import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
 import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,12 +92,31 @@ public class EventEditFragment extends Fragment {
         System.out.println("send out event!");
         // need to send invite, but otherwise
         Events event = new Events();
+        event.setStartTime(new Date());
+        event.setEndTime(new Date());
         event.setEventName(etEventName.getText().toString());
         event.setVenue(etEventName.getText().toString());
         UserNonParse u = getArguments().getParcelable("user");
         event.setOwner(u.getParseId());
         try {
             event.save();
+            Attendees attendees = new Attendees();
+            attendees.setEvent(event.getObjectId());
+            attendees.setUser(event.getOwner());
+            attendees.setStatus("Attending");
+            attendees.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null) {
+                        Toast.makeText(getActivity(), "Successfully created the event and set attenting",
+                                Toast.LENGTH_SHORT).show();
+                        Intent k = new Intent(getActivity(), DashBoard.class);
+                        startActivity(k);
+                    } else {
+                        Log.e("DEBUG", "Failed to save message", e);
+                    }
+                }
+            });
         } catch (ParseException e) {
             e.printStackTrace();
         }

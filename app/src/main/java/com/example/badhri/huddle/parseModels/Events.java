@@ -33,7 +33,10 @@ public class Events extends ParseObject {
     }
 
     public Date getStartTime() {
-        return getDate(START_TIME_KEY);
+        if (getDate(START_TIME_KEY) != null) {
+            return getDate(START_TIME_KEY);
+        }
+        return new Date();
     }
 
     public void setStartTime(Date date)  {
@@ -41,7 +44,10 @@ public class Events extends ParseObject {
     }
 
     public Date getEndTime() {
-        return getDate(END_TIME_KEY);
+        if (getDate(END_TIME_KEY) != null) {
+            return getDate(END_TIME_KEY);
+        }
+        return new Date();
     }
 
     public void setEndTime(Date date)  {
