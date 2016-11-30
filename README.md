@@ -22,6 +22,8 @@ The following **required** functionality is completed:
 * [X] User can find friends who are close to location of interest
 (geofencing is in different branch, but running into issue with using more than one map)
 * [X] User can share / not share their location on the app
+
+
 Optionals
 * [ ] User can suggest multiple events for a group
 * [ ] Users in a group can select events and have almost a doodle-like poll to decide
