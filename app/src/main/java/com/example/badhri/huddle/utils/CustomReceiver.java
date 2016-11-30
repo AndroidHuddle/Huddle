@@ -15,7 +15,7 @@ import android.util.Log;
 
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.activities.DashBoard;
+import com.example.badhri.huddle.activities.DashboardActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +77,7 @@ public class CustomReceiver extends BroadcastReceiver {
                 R.drawable.ic_account_circle).setContentTitle(title).setContentText(message);
         PendingIntent contentIntent =
                 PendingIntent.getActivity(HuddleApplication.context, 0,
-                        new Intent(HuddleApplication.context, DashBoard.class), 0);
+                        new Intent(HuddleApplication.context, DashboardActivity.class), 0);
         mBuilder.setContentIntent(contentIntent);
         NotificationManager mNotificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
