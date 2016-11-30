@@ -143,13 +143,16 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
         }
 
-        Button b = (Button) v.findViewById(R.id.button_placepicker);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myPlaces();
-            }
-        });
+        try {
+            Button b = (Button) v.findViewById(R.id.button_placepicker);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myPlaces();
+                }
+            });
+        } catch (NullPointerException e){}
+
         return v;
     }
 
