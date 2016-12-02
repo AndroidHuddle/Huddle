@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.fragments.UserDetailsFragment;
 import com.example.badhri.huddle.fragments.UserHeaderFragment;
+import com.example.badhri.huddle.models.UserNonParse;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -17,7 +18,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         // objectId of the User
-        String userObjectId = getIntent().getStringExtra(USER_ARG);
+        UserNonParse user = getIntent().getParcelableExtra(USER_ARG);
+        String userObjectId = user.getParseId();
         if (savedInstanceState == null) {
 
             UserHeaderFragment userHeaderFragment = UserHeaderFragment.newInstance(userObjectId);

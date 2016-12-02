@@ -166,13 +166,13 @@ public class DashboardActivity extends AppCompatActivity implements EventsFragme
             // This is the up button
             case R.id.miProfile:
                 i = new Intent(this, ProfileActivity.class);
-                i.putExtra(ProfileActivity.USER_ARG, "B2wtCIzbY2");
+                i.putExtra(ProfileActivity.USER_ARG, user);
                 startActivity(i);
                 // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
                 return true;
             case R.id.miFriends:
                 i = new Intent(this, FriendListActivity.class);
-                i.putExtra(ProfileActivity.USER_ARG, "B2wtCIzbY2");
+                i.putExtra(ProfileActivity.USER_ARG, user);
                 startActivity(i);
                 // overridePendingTransition(R.animator.anim_left, R.animator.anim_right);
                 return true;

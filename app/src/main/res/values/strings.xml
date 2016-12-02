@@ -23,4 +23,5 @@
     <string name="phonenumber">Contact:</string>
     <string name="rating">Rating:</string>
     <string name="send_invite">Send Invite</string>
+    <string name="add_freind"> Add friend</string>
 </resources>

@@ -14,6 +14,7 @@ import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.parseModels.FriendRequest;
 import com.example.badhri.huddle.parseModels.Friends;
 import com.example.badhri.huddle.utils.FriendRequestContainer;
+import com.example.badhri.huddle.utils.ParsePushHelper;
 import com.parse.ParseException;
 import com.parse.SaveCallback;
 
@@ -113,6 +114,7 @@ public class RequestsAdapter extends
                 @Override
                 public void onClick(View v) {
                     addFriend(request.friendRequest, holder);
+                    ParsePushHelper.pushToUser(Long.toString(request.user.getPhoneNumber()), "Your are now freinds with", "Friend Request");
                 }
             });
             holder.btnReject.setOnClickListener(new View.OnClickListener() {

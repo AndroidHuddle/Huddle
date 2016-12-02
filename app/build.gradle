@@ -12,10 +12,6 @@ buildscript {
     }
 }
 
-
-
-
-
 Properties props = new Properties()
 try {
     props.load(file('fabric.properties').newDataInputStream())
