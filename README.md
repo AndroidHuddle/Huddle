@@ -16,14 +16,11 @@ The following **required** functionality is completed:
 (We have geo fencing in place to figure close by users)
 * [X] User can create an invite list for the event
 * [ ] Users who accept the invite get into a group
-* [ ] Users can chat in the group
-* [X] User can get notification of invites (and chat) from group
+* [X] User can get notification of invites
 (we have versions of push notifications)
-* [ ] User can see profile of preferences of their friends
+* [ ] User can see profile of their friends
 * [X] User can search for friends to invite
-* [ ] User can filter friends list to narrow down people to invite
 * [X] User can find friends who are close to location of interest
-* [X] User can share / not share their location on the app
 Optionals
 * [ ] User can suggest multiple events for a group
 * [ ] Users in a group can select events and have almost a doodle-like poll to decide
