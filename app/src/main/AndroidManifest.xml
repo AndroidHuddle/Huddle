@@ -70,10 +70,10 @@
         </receiver>
 
         <service android:name="com.parse.PushService" />
-        <service android:name="com.example.badhri.huddle.services.GeofenceService" />
+        <service android:name=".services.GeofenceService" />
 
         <receiver
-            android:name="com.example.badhri.huddle.utils.CustomReceiver"
+            android:name=".utils.CustomReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -98,7 +98,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_places_api_key" />
 
-        <activity android:name=".activities.EditEventActivity"></activity>
+        <activity android:name=".activities.EditEventActivity" />
+        <activity android:name=".activities.AddFriendActivity"></activity>
     </application>
 
 </manifest>

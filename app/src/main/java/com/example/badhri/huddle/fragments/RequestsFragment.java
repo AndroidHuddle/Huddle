@@ -187,6 +187,12 @@ public class RequestsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        addRequests();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();

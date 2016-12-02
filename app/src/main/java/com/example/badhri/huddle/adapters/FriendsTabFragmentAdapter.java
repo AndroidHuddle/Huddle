@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.badhri.huddle.fragments.FriendListFragment;
 import com.example.badhri.huddle.fragments.RequestsFragment;
+import com.example.badhri.huddle.models.UserNonParse;
 
 /**
  * Created by badhri on 11/28/16.
@@ -17,11 +18,13 @@ public class FriendsTabFragmentAdapter extends FragmentPagerAdapter {
     private Context context;
     private EventsAdapter eventsAdapter;
     private String userObjectId;
+    private UserNonParse user;
 
-    public FriendsTabFragmentAdapter(FragmentManager fm, Context context, String userObjectId) {
+    public FriendsTabFragmentAdapter(FragmentManager fm, Context context, UserNonParse user) {
         super(fm);
         this.context = context;
-        this.userObjectId = userObjectId;
+        this.userObjectId = user.getParseId();
+        this.user = user;
     }
 
     @Override
