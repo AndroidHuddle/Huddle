@@ -78,6 +78,11 @@ public class FriendsAroundMeFragment extends Fragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        context = getContext();
+
+        createGoogleApiClient();
+
         if (fragmentView != null) {
             ViewGroup parent = (ViewGroup) fragmentView.getParent();
             if (parent != null)
@@ -102,16 +107,10 @@ public class FriendsAroundMeFragment extends Fragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        context = getContext();
-
         generateDummyFriends();
 
-        initializeGoogleMaps();
+        initializeGoogleMaps();//and geofencing
 
-        createGoogleApiClient();
-
-        //createGeofenceAroundMe();
-        createFriendsGeofences();
     }
 
 
@@ -131,42 +130,11 @@ public class FriendsAroundMeFragment extends Fragment implements
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 map = googleMap;
+
+                createFriendsGeofences();
             }
         });
     }
-
-
-/*    private void createGeofenceAroundMe() {
-        Toast.makeText(context, "Creating geofence around me", Toast.LENGTH_SHORT).show();
-
-        if (lastLocation != null) {
-
-            LatLng position = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-
-            Toast.makeText(context, "creating geofence on "+position, Toast.LENGTH_SHORT).show();
-
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(position)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                    .title("I am here");
-
-            if (map != null) {
-
-                // Remove last geofence marker
-                if (geofenceMarker != null) {
-                    geofenceMarker.remove();
-                }
-
-                geofenceMarker = map.addMarker(markerOptions);
-
-                Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS);
-                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-                FriendsAroundMeFragmentPermissionsDispatcher.addGeofenceWithCheck(this, geofenceRequest);
-            }
-        } else {
-            Toast.makeText(context, "Unable to retrieve your current location", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
 
     private void createFriendsGeofences() {
@@ -184,7 +152,7 @@ public class FriendsAroundMeFragment extends Fragment implements
 
                 Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS, names[i]);
                 GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-                FriendsAroundMeFragmentPermissionsDispatcher.addGeofenceWithCheck(this, geofenceRequest);
+                FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
             }
         } else {
             Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
@@ -214,7 +182,7 @@ public class FriendsAroundMeFragment extends Fragment implements
 
     @NeedsPermission({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
     // Add the created GeofenceRequest to the device's monitoring list
-    protected void addGeofence(GeofencingRequest request) {
+    protected void startGeofencing(GeofencingRequest request) {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -226,11 +194,14 @@ public class FriendsAroundMeFragment extends Fragment implements
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        LocationServices.GeofencingApi.addGeofences(
-                googleApiClient,
-                request,
-                createGeofencePendingIntent()
-        ).setResultCallback(this);
+
+        if (googleApiClient.isConnected()) {
+            LocationServices.GeofencingApi.addGeofences(
+                    googleApiClient,
+                    request,
+                    createGeofencePendingIntent()
+            ).setResultCallback(this);
+        }
     }
 
     private PendingIntent createGeofencePendingIntent() {
