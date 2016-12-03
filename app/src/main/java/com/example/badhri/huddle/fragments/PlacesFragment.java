@@ -63,7 +63,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     private OnCompleteEventClick mListener;
     private UserNonParse user;
 
-    public interface OnCompleteEventClick{
+    public interface OnCompleteEventClick {
         public abstract void onEventSelect(Place place);
     }
 
@@ -123,25 +123,18 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 parent.removeView(v);
         }
         try {
-            v = inflater.inflate(R.layout.fragment_friendsaroundme, container, false);
-
-            if (mapFragment == null) {
-                mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.friends_map));
-            }
+            v = inflater.inflate(R.layout.fragment_places, container, false);
 
 
-//            Button b = (Button) v.findViewById(R.id.button_placepicker);
-//            b.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    myPlaces();
-//                }
-//            });
 
-            return v;
         } catch (InflateException e) {
 
         }
+
+        if (mapFragment == null) {
+            mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+        }
+
 
         Button b = (Button) v.findViewById(R.id.button_placepicker);
         b.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +143,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 myPlaces();
             }
         });
+
         return v;
     }
 
@@ -236,7 +230,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
             public void done(Object o, Throwable throwable) {
                 if (o != null) {
                     List<User> lu = (List<User>) o;
-                    if (lu.size() > 0){
+                    if (lu.size() > 0) {
                         User user = lu.get(0);
                         if (user.getLatitude() == 0 && user.getLongitude() == 0) {
                             Log.d("DEBUG", user.getObjectId());
@@ -244,7 +238,8 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                             user.setLongitude(position.longitude);
                             try {
                                 user.save();
-                            } catch (Exception e) {}
+                            } catch (Exception e) {
+                            }
                         }
                     }
                 }
@@ -269,7 +264,6 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 .snippet(place.getAddress().toString())
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
     }
-
 
 
     @Override
