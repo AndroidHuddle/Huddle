@@ -40,6 +40,10 @@ public class SelectPlaceActivity extends AppCompatActivity implements PlacesFrag
         vpPager = (ViewPager) findViewById(R.id.viewpager);
         ShowPlacesPagerAdapter a = new ShowPlacesPagerAdapter(getSupportFragmentManager());
         a.setUser(user);
+
+        //Set number of pages that should be retained to either side of the current page in the view hierarchy in an idle state.
+        vpPager.setOffscreenPageLimit(1);
+
         vpPager.setAdapter(a);
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabstrip);
