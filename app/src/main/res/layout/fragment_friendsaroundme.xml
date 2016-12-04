@@ -13,17 +13,13 @@
         android:layout_marginTop="20dp"
         android:id="@+id/textView" />
 
-<!--    <SeekBar
-        style="@style/Widget.AppCompat.SeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:id="@+id/radiusSeekbar" />-->
-
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:dsb_min="500"
         app:dsb_max="2000"
+        app:dsb_progressColor = "@color/colorPrimary"
+        app:dsb_indicatorColor = "@color/colorPrimary"
         android:id="@+id/radiusSeekbar"
         />
 
