@@ -131,6 +131,7 @@ public class HuddleApplication extends Application {
     // find user if user exists, otherwise, set up a new record for user on Parse
     public void setUpUser() {
         ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("phoneNumber", Long.valueOf(phonenumber.substring(1)));
         query.findInBackground(new FindCallback() {
             @Override
             public void done(List objects, ParseException e) {
@@ -152,14 +153,15 @@ public class HuddleApplication extends Application {
                             // updating coordinates for the existing user
                             users.get(i).setLatitude(latitude);
                             users.get(i).setLongitude(longitude);
+
+                            user = UserNonParse.fromUser(users.get(i));
+                            System.out.println("get the parse user id: ");
+                            System.out.println(user.getParseId());
                             try {
                                 users.get(i).save();
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            user = UserNonParse.fromUser(users.get(i));
-                            System.out.println("get the parse user id: ");
-                            System.out.println(user.getParseId());
                         }
                     }
                     // did not find user in parse

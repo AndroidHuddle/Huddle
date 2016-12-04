@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
                 <TextView
+                    android:id="@+id/tvRatingLabel"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/rating">
@@ -68,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
                 <TextView
+                    android:id="@+id/tvContactLabel"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/phonenumber">
@@ -94,13 +96,133 @@
             tools:text="This is a review about raving about the place. So good. Would come back definitely">
 
         </TextView>
-        <Button
-            android:id="@+id/send_invite"
+
+        <RelativeLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            <LinearLayout
+                android:id="@+id/ly_from_block"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/from"
+                    android:id="@+id/tv_from">
+                </TextView>
+
+                <EditText
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="175dp"
+                    android:id="@+id/et_from_date_text"
+                    android:drawableRight="@drawable/calendar_multiple">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_from_time_block"
+                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/ly_from_block"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/activity_vertical_margin">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/from_time"
+                    android:id="@+id/tv_from_time">
+                </TextView>
+
+                <EditText
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="175dp"
+                    android:id="@+id/et_from_time_text"
+                    android:drawableRight="@drawable/calendar_clock">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+            android:id="@+id/ly_to_block"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/ly_from_time_block"
+                android:layout_below="@+id/ly_from_block"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/send_invite">
+                android:orientation="vertical">
 
-        </Button>
+                <TextView
+                    android:id="@+id/tv_to_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/to">
+                </TextView>
+
+                <EditText
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="175dp"
+                    android:id="@+id/et_to_date_text"
+                    android:layout_below="@+id/tv_to_text"
+                    android:drawableRight="@drawable/calendar_multiple">
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_to_time_block"
+                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/ly_to_block"
+                android:layout_below="@+id/ly_from_time_block"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/activity_vertical_margin">
+
+                <TextView
+                    android:id="@+id/tv_to_time_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/to_time">
+                </TextView>
+
+                <EditText
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_width="175dp"
+                    android:id="@+id/et_to_time_text"
+                    android:layout_below="@+id/tv_to_text"
+                    android:drawableRight="@drawable/calendar_clock">
+                </EditText>
+
+                <Button
+                    android:id="@+id/send_invite"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/send_invite">
+
+                </Button>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <!--<Button-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="New Button"-->
+            <!--android:id="@+id/btnTimePicker" />-->
+
+        <!--<Button-->
+            <!--style="?android:attr/buttonStyleSmall"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="New Button"-->
+            <!--android:id="@+id/btnCalendar"-->
+            <!--android:layout_gravity="center_horizontal" />-->
     </LinearLayout>
 
 </FrameLayout>

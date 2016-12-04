@@ -97,7 +97,6 @@ public class FriendsAroundMeFragment extends Fragment implements
         return fragmentView;
     }
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -379,7 +378,6 @@ public class FriendsAroundMeFragment extends Fragment implements
             map.animateCamera(cameraUpdate);
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

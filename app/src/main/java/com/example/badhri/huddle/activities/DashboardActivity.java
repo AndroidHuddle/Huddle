@@ -25,11 +25,15 @@ import com.example.badhri.huddle.parseModels.User;
 import com.example.badhri.huddle.utils.GPSTracker;
 import com.example.badhri.huddle.utils.ParsePushHelper;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParsePush;
+import com.parse.ParseQuery;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -96,30 +100,48 @@ public class DashboardActivity extends AppCompatActivity implements EventsFragme
         // get the user's current location and add to parse; this value should be updated
         // right before the create event activity
         GPSTracker gpsTracker = new GPSTracker(this);
-        Double latitude = gpsTracker.getLatitude();
-        Double longitude = gpsTracker.getLongitude();
+        final Double latitude = gpsTracker.getLatitude();
+        final Double longitude = gpsTracker.getLongitude();
 
         // note that the phone number on the shared preferences has a + as a prefix to the phone number
 
         SharedPreferences mSettings = getApplicationContext().getSharedPreferences("Settings", 0);
-        String phonenumber = mSettings.getString("phoneNumber", null);
-        String username = mSettings.getString("username", null);
+        final String phonenumber = mSettings.getString("phoneNumber", null);
+        final String username = mSettings.getString("username", null);
 
-        User u = new User();
-        u.setPhoneNumber(Long.valueOf(phonenumber.substring(1)));
-        u.setUsername(username);
-        u.setLatitude(latitude);
-        u.setLongitude(longitude);
-        try {
-            u.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        UserNonParse user = UserNonParse.fromUser(u);
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("phoneNumber", Long.valueOf(phonenumber.substring(1)));
+        query.findInBackground(new FindCallback() {
 
-        ParsePush.subscribeInBackground(HuddleApplication.CHANNEL_NAME);
+            @Override
+            public void done(Object o, Throwable throwable) {
+                if (throwable == null) {
+                    List<User> users = (List<User>) o;
+                    User u = users.get(0);
+                    u.setPhoneNumber(Long.valueOf(phonenumber.substring(1)));
+                    u.setUsername(username);
+                    u.setLatitude(latitude);
+                    u.setLongitude(longitude);
+                    try {
+                        u.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    user = UserNonParse.fromUser(u);
 
-        ParsePushHelper.pushToUser("badhri", "You have a new friend request", "Parse");
+                    ParsePush.subscribeInBackground(HuddleApplication.CHANNEL_NAME);
+
+                    ParsePushHelper.pushToUser("badhri", "You have a new friend request", "Parse");
+                }
+            }
+
+            @Override
+            public void done(List objects, ParseException e) {
+
+            }
+        });
+//        User u = new User();
+
                 /*Events event = new Events();
                 event.setVenue("new york" + new Random().nextInt(50) + 1);
                 event.setEventName("test" + new Random().nextInt(50) + 1);

@@ -14,7 +14,6 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.badhri.huddle.R;
@@ -143,13 +142,13 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
         }
 
-        Button b = (Button) v.findViewById(R.id.button_placepicker);
-        b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myPlaces();
-            }
-        });
+//        Button b = (Button) v.findViewById(R.id.button_placepicker);
+//        b.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                myPlaces();
+//            }
+//        });
         return v;
     }
 
