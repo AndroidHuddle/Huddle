@@ -12,11 +12,8 @@ import com.example.badhri.huddle.fragments.PlacesFragment;
 import com.example.badhri.huddle.models.UserNonParse;
 
 public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
-<<<<<<< HEAD
+
     private String tabTitles[] = {"Places", "Nearby", "Invites"};
-=======
-    private String tabTitles[] = {"My places", "My friends"};
->>>>>>> Set custom seekbar for geofencing radius and some refactoring
     private UserNonParse user;
 
     //how the adapter gets the manager to insert/remove fragments from activity
