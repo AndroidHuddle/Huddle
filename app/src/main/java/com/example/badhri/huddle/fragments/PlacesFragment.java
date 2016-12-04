@@ -315,6 +315,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 .title(place.getName().toString())
                 .snippet(place.getAddress().toString())
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#61cae6"))));
     }
 
 

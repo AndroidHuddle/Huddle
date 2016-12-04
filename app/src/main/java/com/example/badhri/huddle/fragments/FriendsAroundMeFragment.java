@@ -51,9 +51,10 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -71,11 +72,13 @@ public class FriendsAroundMeFragment extends Fragment implements
     private GoogleApiClient googleApiClient;
     private SupportMapFragment mapFragment;
     private GoogleMap map;
-    private static final float ZOOM = 16f;
+    private static final float ZOOM = 12f;
     private final int UPDATE_INTERVAL = 3 * 60 * 1000; // 3 minutes
     private final int FASTEST_INTERVAL = 30 * 1000;  // 30 secs
     private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final float GEOFENCE_RADIUS = 400.0f; //500.0f; // in meters
+    //private static final float GEOFENCE_RADIUS = 400.0f; // in meters
+    private static final float MINIMUM_RADIUS = 100.0f; //500.0f
+    private float geofence_radius = MINIMUM_RADIUS;
     private final int GEOFENCE_REQ_CODE = 0;
     private Location lastLocation;
     private PendingIntent geofencePendingIntent;
@@ -87,7 +90,7 @@ public class FriendsAroundMeFragment extends Fragment implements
     private UserNonParse user;
     private ArrayList<FriendType> myFriends;
 
-    private LatLng[] dummyFriends = new LatLng[]{new LatLng(42.360449, -71.103372), new LatLng(42.360223, -71.103774), new LatLng(42.361401, -71.101494)};//todo: remove!!
+    //private LatLng[] dummyFriends = new LatLng[]{new LatLng(42.360449, -71.103372), new LatLng(42.360223, -71.103774), new LatLng(42.361401, -71.101494)};//todo: remove!!
 
 
     @Override
@@ -129,9 +132,37 @@ public class FriendsAroundMeFragment extends Fragment implements
             }
         }
 
+        initializeRadiusBar(view);
+
         initializeGoogleMaps();
 
         getMyFriendsLocation();
+
+    }
+
+    private void initializeRadiusBar(View view) {
+
+        DiscreteSeekBar radiusSeekBar = (DiscreteSeekBar) view.findViewById(R.id.radiusSeekbar);
+        radiusSeekBar.setMax(2000);
+        radiusSeekBar.setProgress(50);
+
+        radiusSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                geofence_radius = MINIMUM_RADIUS + value;
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                recreateGeofences();
+            }
+        });
 
     }
 
@@ -188,11 +219,12 @@ public class FriendsAroundMeFragment extends Fragment implements
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(new LatLng(friend.getLatitude(), friend.getLongitude()))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#ef518f")))
                     .title(friend.getUsername());
 
             geofenceMarker = map.addMarker(markerOptions);
 
-            Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS, friend.getUsername());
+            Geofence geofence = createGeofence(geofenceMarker.getPosition(), geofence_radius, friend.getUsername());
             GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
             FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
 
@@ -350,7 +382,7 @@ public class FriendsAroundMeFragment extends Fragment implements
                 .center(geofenceMarker.getPosition())
                 .strokeColor(Color.argb(50, 70, 70, 70))
                 .fillColor(Color.argb(100, 150, 150, 150))
-                .radius(GEOFENCE_RADIUS);
+                .radius(geofence_radius);
         geofenceLimits = map.addCircle(circleOptions);
     }
 
@@ -360,12 +392,18 @@ public class FriendsAroundMeFragment extends Fragment implements
         lastLocation = location;
         markerLocation(new LatLng(location.getLatitude(), location.getLongitude()));
 
+        recreateGeofences();
+
+    }
+
+
+    private void recreateGeofences() {
+
         //remove current geofences
         if (geofencePendingIntent != null) {
             LocationServices.GeofencingApi.removeGeofences(googleApiClient, geofencePendingIntent);
         }
 
-        //recreate geofences:
         for (int i = 0; i < myFriends.size(); i++) {
             createFriendGeofence(myFriends.get(i));
         }
@@ -385,6 +423,7 @@ public class FriendsAroundMeFragment extends Fragment implements
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(latLng)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#ef518f")))
                     .title(title);
 
             myLocationMarker = map.addMarker(markerOptions);
@@ -402,16 +441,13 @@ public class FriendsAroundMeFragment extends Fragment implements
     }
 
 
-
-
-
     public void getMyFriendsLocation() {
 
         //get friends from friends table:
         ParseQuery<Friends> query = ParseQuery.getQuery(Friends.class);
 
-        //query.whereEqualTo("user", user.getParseId());
-        query.whereEqualTo("user", "B2wtCIzbY2"); //hardcode for now; todo: remove!!
+        query.whereEqualTo("user", user.getParseId());
+        //query.whereEqualTo("user", "B2wtCIzbY2"); //hardcode for now; todo: remove!!
         query.findInBackground(new FindCallback<Friends>() {
             public void done(List<Friends> friendList, ParseException e) {
                 if (e == null) {
@@ -423,10 +459,12 @@ public class FriendsAroundMeFragment extends Fragment implements
                             public void done(User user, ParseException e) {
                                 if (e == null) {
                                     FriendType thisFriend = new FriendType(user.getUsername(), new LatLng(user.getLatitude(), user.getLongitude()));
+                                    /*
                                     //todo: remove this block:
                                     int randomIndex = new Random().nextInt((dummyFriends.length));
                                     thisFriend = new FriendType(user.getUsername(), dummyFriends[randomIndex]);
                                     //todo: end of remove
+                                    */
                                     myFriends.add(thisFriend);
 
                                     createFriendGeofence(thisFriend);

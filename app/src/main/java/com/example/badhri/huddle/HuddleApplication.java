@@ -162,6 +162,12 @@ public class HuddleApplication extends Application {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
+<<<<<<< HEAD
+=======
+                            user = UserNonParse.fromUser(users.get(i));
+//                            System.out.println("get the parse user id: ");
+//                            System.out.println(user.getParseId());
+>>>>>>> Set custom seekbar for geofencing radius and some refactoring
                         }
                     }
                     // did not find user in parse
