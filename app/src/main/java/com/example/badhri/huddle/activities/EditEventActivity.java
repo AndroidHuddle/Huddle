@@ -11,7 +11,7 @@ import com.example.badhri.huddle.models.UserNonParse;
 
 import java.util.ArrayList;
 
-public class EditEventActivity extends AppCompatActivity {
+public class EditEventActivity extends AppCompatActivity  {
 
     private String name;
     private String latitude;
@@ -64,4 +64,6 @@ public class EditEventActivity extends AppCompatActivity {
         ft.replace(R.id.edit_event_confirmation, eef);
         ft.commit();
     }
+
+
 }

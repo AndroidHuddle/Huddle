@@ -76,17 +76,17 @@ public class SelectPlaceActivity extends AppCompatActivity implements PlacesFrag
         Log.d("DEBUG", invitees.toString());
         Intent i = new Intent(SelectPlaceActivity.this, EditEventActivity.class);
         // should pass more than just the place
-        i.putExtra("name", place.getName());
-        i.putExtra("latitude", String.valueOf(place.getLatLng().latitude));
-        i.putExtra("longitude", String.valueOf(place.getLatLng().longitude));
-        i.putExtra("address", place.getAddress());
-        i.putExtra("price", place.getPriceLevel());
-        i.putExtra("rating", place.getRating());
-        i.putExtra("phonenumber", place.getPhoneNumber());
+        try {i.putExtra("name", place.getName()); } catch (Exception e){}
+        try {i.putExtra("latitude", String.valueOf(place.getLatLng().latitude));} catch (Exception e){}
+        try {i.putExtra("longitude", String.valueOf(place.getLatLng().longitude));} catch (Exception e){}
+        try {i.putExtra("address", place.getAddress());} catch (Exception e){}
+        try {i.putExtra("price", place.getPriceLevel());} catch (Exception e){}
+        try {i.putExtra("rating", place.getRating());} catch (Exception e){}
+        try {i.putExtra("phonenumber", place.getPhoneNumber());} catch (Exception e){}
 //        i.putExtra("weburi", place.getWebsiteUri().toString());
-        i.putExtra("invitees", invitees);
+        try {i.putExtra("invitees", invitees);} catch (Exception e){}
         // as reminder, the user is the signed in user
-        i.putExtra("user", user);
+        try {i.putExtra("user", user);} catch (Exception e){}
         startActivity(i);
     }
 

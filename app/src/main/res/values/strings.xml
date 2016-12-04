@@ -24,4 +24,8 @@
     <string name="rating">Rating:</string>
     <string name="send_invite">Send Invite</string>
     <string name="add_freind"> Add friend</string>
+    <string name="to">To:</string>
+    <string name="from">From:</string>
+    <string name="from_time">Event Start:</string>
+    <string name="to_time">Event End:</string>
 </resources>

@@ -128,11 +128,13 @@ public class FriendsFragment extends Fragment {
             }
         }
         // you shouldn't have an event where there is no invite, so no invite - do nothing
-        if (inviteeList.size() > 0) {
+        // now that logins work, the user should have friends to invite
+        // they should invite in this fragment
+//        if (inviteeList.size() > 0) {
             Log.d("DEBUG", inviteeList.toString());
             mListeners.getInviteList(inviteeList);
             Log.d("DEBUG", "checking for final details of invite");
-        }
+//        }
     }
 
     @Override

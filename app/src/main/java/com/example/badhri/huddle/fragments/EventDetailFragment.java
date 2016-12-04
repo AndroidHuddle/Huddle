@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.adapters.UsersAdapter;
 import com.example.badhri.huddle.models.EventNonParse;
+import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.parseModels.User;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class EventDetailFragment extends Fragment {
 
     @BindView(R.id.tvCost)
     TextView tvCost;
+
+    private UserNonParse user;
 
 
     private ArrayList<User> users;

@@ -17,6 +17,11 @@ public class Events extends ParseObject {
     public static final String END_TIME_KEY = "endTime";
     public static final String OWNER_KEY = "owner";
 
+    public static final String EVENT_START_DATE = "eventStartDate";
+    public static final String EVENT_END_DATE = "eventStartDate";
+    public static final String EVENT_START_TIME = "eventStartTime";
+    public static final String EVENT_END_TIME = "eventEndTime";
+
     public String getVenue() {
         return getString(VENUE_KEY);
     }
@@ -55,4 +60,16 @@ public class Events extends ParseObject {
     public void setOwner(String objectID) {
         put(OWNER_KEY, objectID);
     }
+
+    public void setStartDate(String date) {put(EVENT_START_DATE, date);}
+    public void getStartDate() {getString(EVENT_START_DATE);}
+
+    public void setEndDate(String date) {put(EVENT_END_DATE, date);}
+    public void getEndDate() {getString(EVENT_END_DATE);}
+
+    public void setEventStartTime(String time) {put(EVENT_START_TIME, time);}
+    public void getEventStartTime() {getString(EVENT_START_TIME);}
+
+    public void setEventEndTime(String time) {put(EVENT_END_TIME, time);}
+    public void getEventEndTime() {getString(EVENT_END_TIME);}
 }

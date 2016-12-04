@@ -7,11 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.badhri.huddle.fragments.FriendsAroundMeFragment;
+import com.example.badhri.huddle.fragments.FriendsFragment;
 import com.example.badhri.huddle.fragments.PlacesFragment;
 import com.example.badhri.huddle.models.UserNonParse;
 
 public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
-    private String tabTitles[] = {"Places", "Friends around me"};
+    private String tabTitles[] = {"Places", "Nearby", "Invites"};
     private UserNonParse user;
 
     //how the adapter gets the manager to insert/remove fragments from activity
@@ -38,6 +39,10 @@ public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
                 FriendsAroundMeFragment fam = new FriendsAroundMeFragment();
                 fam.setArguments(args);
                 return fam;
+            case 2:
+                FriendsFragment ff = new FriendsFragment();
+                ff.setArguments(args);
+                return ff;
             default:
                 return null;
         }
