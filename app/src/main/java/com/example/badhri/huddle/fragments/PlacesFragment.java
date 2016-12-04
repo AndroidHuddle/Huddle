@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.InflateException;
@@ -36,6 +35,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -54,13 +54,13 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
     private int PLACE_PICKER_REQUEST = 1;
 
-    private FragmentManager sfm;
     private GoogleMap map;
     private Place place;
     private SupportMapFragment mapFragment;
     private GoogleApiClient googleApiClient;
     private Activity activity;
     private View v;
+    private Marker selectedPlaceMarker;
 
     private static final float ZOOM = 14f;
 
@@ -89,7 +89,6 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        sfm = getActivity().getSupportFragmentManager();
 
         Bundle args = getArguments();
         if (args != null) {
@@ -192,12 +191,18 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
+
+                //remove previous markers
+                if (selectedPlaceMarker != null) {
+                    selectedPlaceMarker.remove();
+                }
+
                 place = PlacePicker.getPlace(activity, data);
 
                 // I should force the place to be an event object and pass that back to the
                 // select place activity as an object
                 Log.d("DEBUG", data.toString());
-                String toastMsg = String.format("Place: %s", place.getName());
+                String toastMsg = String.format("You selected %s", place.getName());
                 Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
 
                 mListener.onEventSelect(place);
@@ -310,11 +315,14 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //put a marker on the place selected:
-        map.addMarker(new MarkerOptions()
+        MarkerOptions markerOptions = new MarkerOptions()
                 .position(position)
                 .title(place.getName().toString())
                 .snippet(place.getAddress().toString())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+        //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#61cae6"))))
+
+        selectedPlaceMarker = map.addMarker(markerOptions);
     }
 
 

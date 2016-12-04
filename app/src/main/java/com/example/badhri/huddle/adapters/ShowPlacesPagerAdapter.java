@@ -12,6 +12,7 @@ import com.example.badhri.huddle.fragments.PlacesFragment;
 import com.example.badhri.huddle.models.UserNonParse;
 
 public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
+
     private String tabTitles[] = {"Places", "Nearby", "Invites"};
     private UserNonParse user;
 

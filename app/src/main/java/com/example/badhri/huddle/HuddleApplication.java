@@ -155,8 +155,8 @@ public class HuddleApplication extends Application {
                             users.get(i).setLongitude(longitude);
 
                             user = UserNonParse.fromUser(users.get(i));
-                            System.out.println("get the parse user id: ");
-                            System.out.println(user.getParseId());
+//                            System.out.println("get the parse user id: ");
+//                            System.out.println(user.getParseId());
                             try {
                                 users.get(i).save();
                             } catch (ParseException e) {
