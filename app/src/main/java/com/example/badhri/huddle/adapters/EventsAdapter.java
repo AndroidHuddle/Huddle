@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.parseModels.Events;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -101,9 +102,21 @@ public class EventsAdapter extends
         TextView tvTitle = viewHolder.tvTiltle;
         tvTitle.setText(event.getEventName());
         TextView tvStartTime  = viewHolder.tvStartTime;
-        tvStartTime.setText(event.getStartTime().toString());
+
+        if (event.getStartTime() != null) {
+            tvStartTime.setText(event.getStartTime().toString());
+        } else {
+            tvStartTime.setText(new Date().toString());
+        }
+
         TextView tvEndTime  = viewHolder.tvEndTime;
-        tvEndTime.setText(event.getEndTime().toString());
+
+        if (event.getEndTime() != null) {
+            tvEndTime.setText(event.getEndTime().toString());
+        } else {
+            tvEndTime.setText(new Date().toString());
+        }
+
         TextView tvVenue  = viewHolder.tvVenue;
         tvVenue.setText(event.getVenue());
 

@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.models.UserNonParse;
+import com.example.badhri.huddle.parseModels.Friends;
+import com.example.badhri.huddle.parseModels.User;
 import com.example.badhri.huddle.services.GeofenceService;
+import com.example.badhri.huddle.utils.FriendType;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -41,8 +46,14 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
@@ -60,6 +71,7 @@ public class FriendsAroundMeFragment extends Fragment implements
     private GoogleApiClient googleApiClient;
     private SupportMapFragment mapFragment;
     private GoogleMap map;
+    private static final float ZOOM = 16f;
     private final int UPDATE_INTERVAL = 3 * 60 * 1000; // 3 minutes
     private final int FASTEST_INTERVAL = 30 * 1000;  // 30 secs
     private static final long GEO_DURATION = 60 * 60 * 1000;
@@ -72,12 +84,19 @@ public class FriendsAroundMeFragment extends Fragment implements
     private Marker myLocationMarker;
     private LocationRequest locationRequest;
     private View fragmentView;
-    private LatLng[] friends;
-    private String[] names;
+    private UserNonParse user;
+    private ArrayList<FriendType> myFriends;
+
+    private LatLng[] dummyFriends = new LatLng[]{new LatLng(42.360449, -71.103372), new LatLng(42.360223, -71.103774), new LatLng(42.361401, -71.101494)};//todo: remove!!
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        context = getContext();
+
+        createGoogleApiClient();
+
         if (fragmentView != null) {
             ViewGroup parent = (ViewGroup) fragmentView.getParent();
             if (parent != null)
@@ -101,16 +120,19 @@ public class FriendsAroundMeFragment extends Fragment implements
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        context = getContext();
-
-        generateDummyFriends();
+        //initialize user
+        Bundle args = getArguments();
+        if (args != null) {
+            user = args.getParcelable("user");
+            if (user != null) {
+                Log.d("DEBUG", "in FriendsAroundMeFragment, user retrieved");
+            }
+        }
 
         initializeGoogleMaps();
 
-        createGoogleApiClient();
+        getMyFriendsLocation();
 
-        //createGeofenceAroundMe();
-        createFriendsGeofences();
     }
 
 
@@ -135,56 +157,45 @@ public class FriendsAroundMeFragment extends Fragment implements
     }
 
 
-/*    private void createGeofenceAroundMe() {
-        Toast.makeText(context, "Creating geofence around me", Toast.LENGTH_SHORT).show();
-
-        if (lastLocation != null) {
-
-            LatLng position = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-
-            Toast.makeText(context, "creating geofence on "+position, Toast.LENGTH_SHORT).show();
-
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(position)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                    .title("I am here");
-
-            if (map != null) {
-
-                // Remove last geofence marker
-                if (geofenceMarker != null) {
-                    geofenceMarker.remove();
-                }
-
-                geofenceMarker = map.addMarker(markerOptions);
-
-                Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS);
-                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-                FriendsAroundMeFragmentPermissionsDispatcher.addGeofenceWithCheck(this, geofenceRequest);
-            }
-        } else {
-            Toast.makeText(context, "Unable to retrieve your current location", Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
-
-    private void createFriendsGeofences() {
+    private void createFriendGeofence(FriendType friend) {
         if (map != null) {
 
             //map.clear();// todo: remove all geofence markers in a more elegant way
 
-            for (int i = 0; i < friends.length; i++) {
+/*            for (int i = 0; i < friends.length; i++) {
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(friends[i])
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        .title(friends[i].toString());
+                        .title(friends[i].toString());*/
+
+
+
+
+/*            for (int i = 0; i < myFriends.size(); i++) {
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(new LatLng(myFriends.get(i).getLatitude(), myFriends.get(i).getLongitude()))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        .title(myFriends.get(i).getUsername());
 
                 geofenceMarker = map.addMarker(markerOptions);
 
                 Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS, names[i]);
                 GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-                FriendsAroundMeFragmentPermissionsDispatcher.addGeofenceWithCheck(this, geofenceRequest);
-            }
+                FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
+            }*/
+
+
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(friend.getLatitude(), friend.getLongitude()))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    .title(friend.getUsername());
+
+            geofenceMarker = map.addMarker(markerOptions);
+
+            Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS, friend.getUsername());
+            GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
+            FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
+
         } else {
             Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
         }
@@ -213,7 +224,7 @@ public class FriendsAroundMeFragment extends Fragment implements
 
     @NeedsPermission({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
     // Add the created GeofenceRequest to the device's monitoring list
-    protected void addGeofence(GeofencingRequest request) {
+    protected void startGeofencing(GeofencingRequest request) {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -225,11 +236,14 @@ public class FriendsAroundMeFragment extends Fragment implements
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        LocationServices.GeofencingApi.addGeofences(
-                googleApiClient,
-                request,
-                createGeofencePendingIntent()
-        ).setResultCallback(this);
+
+        if (googleApiClient.isConnected()) {
+            LocationServices.GeofencingApi.addGeofences(
+                    googleApiClient,
+                    request,
+                    createGeofencePendingIntent()
+            ).setResultCallback(this);
+        }
     }
 
     private PendingIntent createGeofencePendingIntent() {
@@ -351,14 +365,14 @@ public class FriendsAroundMeFragment extends Fragment implements
             LocationServices.GeofencingApi.removeGeofences(googleApiClient, geofencePendingIntent);
         }
 
-        //create a new one:
-        //createGeofenceAroundMe();
-        createFriendsGeofences();
+        //recreate geofences:
+        for (int i = 0; i < myFriends.size(); i++) {
+            createFriendGeofence(myFriends.get(i));
+        }
     }
 
 
     private void markerLocation(LatLng latLng) {
-        String title = latLng.latitude + ", " + latLng.longitude;
 
         if (map != null) {
             // Remove the previous marker
@@ -366,6 +380,8 @@ public class FriendsAroundMeFragment extends Fragment implements
                 myLocationMarker.remove();
             }
 
+            String title = latLng.latitude + ", " + latLng.longitude;
+            title = user.getUsername();
             MarkerOptions markerOptions = new MarkerOptions()
                     .position(latLng)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
@@ -373,8 +389,7 @@ public class FriendsAroundMeFragment extends Fragment implements
 
             myLocationMarker = map.addMarker(markerOptions);
 
-            float zoom = 14f;
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, ZOOM);
             map.animateCamera(cameraUpdate);
         }
     }
@@ -387,28 +402,48 @@ public class FriendsAroundMeFragment extends Fragment implements
     }
 
 
-    public void generateDummyFriends() {
 
-        int i;
 
-        names = new String[]{"Jack", "Kate", "Sawyer"};
 
-        LatLng Jack = new LatLng(42.360449, -71.103372);//pacific_street_park
-        LatLng Kate = new LatLng(42.360223, -71.103774);//wistia
-        LatLng Sawyer = new LatLng(42.361401, -71.101494);//university_park_commons
+    public void getMyFriendsLocation() {
 
-        friends = new LatLng[]{Jack, Kate, Sawyer};
+        //get friends from friends table:
+        ParseQuery<Friends> query = ParseQuery.getQuery(Friends.class);
 
-        //add them to the listview:
-        ArrayList<String> friendsStr = new ArrayList<>();
-        for (i = 0; i < friends.length; i++) {
-            friendsStr.add(friends[i].toString());
-        }
+        //query.whereEqualTo("user", user.getParseId());
+        query.whereEqualTo("user", "B2wtCIzbY2"); //hardcode for now; todo: remove!!
+        query.findInBackground(new FindCallback<Friends>() {
+            public void done(List<Friends> friendList, ParseException e) {
+                if (e == null) {
+                    //initialize checking if any friends were retrieved
+                    myFriends = friendList.size() > 0 ? new ArrayList<FriendType>() : null;
+                    for (Friends friend : friendList) {
+                        ParseQuery<User> query = ParseQuery.getQuery(User.class);
+                        query.getInBackground(friend.getFriendId(), new GetCallback<User>() {
+                            public void done(User user, ParseException e) {
+                                if (e == null) {
+                                    FriendType thisFriend = new FriendType(user.getUsername(), new LatLng(user.getLatitude(), user.getLongitude()));
+                                    //todo: remove this block:
+                                    int randomIndex = new Random().nextInt((dummyFriends.length));
+                                    thisFriend = new FriendType(user.getUsername(), dummyFriends[randomIndex]);
+                                    //todo: end of remove
+                                    myFriends.add(thisFriend);
 
-//        ArrayAdapter<String> itemsAdapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, friendsStr);
-//        ListView listView = (ListView) fragmentView.findViewById(R.id.friends_list);
-//        listView.setAdapter(itemsAdapter);
+                                    createFriendGeofence(thisFriend);
+
+                                } else {
+                                    // something went wrong
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Log.e("message", "Error Loading Messages" + e);
+                }
+            }
+        });
+
+
     }
-
 
 }
