@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -56,14 +58,16 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     private GoogleMap map;
     private Place place;
     private SupportMapFragment mapFragment;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient googleApiClient;
     private Activity activity;
     private View v;
+
+    private static final float ZOOM = 14f;
 
     private OnCompleteEventClick mListener;
     private UserNonParse user;
 
-    public interface OnCompleteEventClick{
+    public interface OnCompleteEventClick {
         public abstract void onEventSelect(Place place);
     }
 
@@ -87,35 +91,32 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
         activity = getActivity();
         sfm = getActivity().getSupportFragmentManager();
 
-        //set up google places
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(activity)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(getActivity(), this)
-                .build();
-
         Bundle args = getArguments();
         if (args != null) {
             user = args.getParcelable("user");
             if (user != null) {
-                Log.d("DEBUG", "in friends fragment");
+                Log.d("DEBUG", "in PlacesFragment");
                 Log.d("DEBUG", user.getPhoneNumber());
             }
         }
+    }
 
-        //myPlaces();
+
+    private void createGoogleApiClient() {
+        //Toast.makeText(this, "createGoogleApi()", Toast.LENGTH_SHORT).show();
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient
+                    .Builder(activity)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .enableAutoManage(getActivity(), this)
+                    .build();
+        }
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v = inflater.inflate(R.layout.fragment_places, container, false);
-//
-//        if (mapFragment == null) {
-//            mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
-//        }
-
 
         if (v != null) {
             ViewGroup parent = (ViewGroup) v.getParent();
@@ -123,36 +124,47 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 parent.removeView(v);
         }
         try {
-            v = inflater.inflate(R.layout.fragment_friendsaroundme, container, false);
-
-            if (mapFragment == null) {
-                mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.friends_map));
-            }
-
-
-//            Button b = (Button) v.findViewById(R.id.button_placepicker);
-//            b.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    myPlaces();
-//                }
-//            });
-
-            return v;
+            v = inflater.inflate(R.layout.fragment_places, container, false);
         } catch (InflateException e) {
 
         }
 
-        Button b = (Button) v.findViewById(R.id.button_placepicker);
+        if (mapFragment == null) {
+            mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+        }
+
+
+        //set up google API for Places
+        createGoogleApiClient();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            user = args.getParcelable("user");
+            if (user != null) {
+                Log.d("DEBUG", "in PlacesFragment");
+                Log.d("DEBUG", user.getPhoneNumber());
+            }
+        }
+
+        //myPlaces();
+        buildMap();
+
+        return v;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Button b = (Button) view.findViewById(R.id.button_placepicker);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myPlaces();
             }
         });
-        return v;
     }
-
 
     @SuppressWarnings("all")
     @NeedsPermission({Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
@@ -190,7 +202,8 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 mListener.onEventSelect(place);
                 //draw this on the map:
                 if (mapFragment != null) {
-                    buildMap();
+                    //buildMap();
+                    centerMapUsingSelectedLocation();
                 }
             }
         }
@@ -208,14 +221,17 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 if (googleMap != null) {
 
                     map = googleMap;
-                    //some properties for the map:
 
+                    getLastKnownLocationAndCenter();
+
+                    //some properties for the map:
 //                    map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 //                    map.setTrafficEnabled(true);
-//                    map.setBuildingsEnabled(true);
-//                    map.getUiSettings().setZoomControlsEnabled(true);
+                    map.setBuildingsEnabled(true);
+                    map.getUiSettings().setZoomControlsEnabled(true);
+
                     map.clear();
-                    centerMapUsingLocation();
+                    //centerMapUsingSelectedLocation();
                     map.clear();
                 } else {
                     Toast.makeText(activity, "Error - Map was null", Toast.LENGTH_SHORT).show();
@@ -225,7 +241,36 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     }
 
 
-    public void centerMapUsingLocation() {
+    private void getLastKnownLocationAndCenter() {
+
+        ParseQuery query = new ParseQuery("User");
+        query.whereEqualTo("objectId", user.getParseId());
+        query.findInBackground(new FindCallback() {
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                if (o != null) {
+                    List<User> lu = (List<User>) o;
+                    if (lu.size() > 0) {
+                        User user = lu.get(0);
+                        LatLng lastKnownLocation = new LatLng(user.getLatitude(), user.getLongitude());
+
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(lastKnownLocation, ZOOM);
+                        map.animateCamera(cameraUpdate);
+
+                    }
+                }
+            }
+
+            @Override
+            public void done(List objects, ParseException e) {
+
+            }
+        });
+    }
+
+
+    public void centerMapUsingSelectedLocation() {
         final LatLng position = place.getLatLng();
 
         ParseQuery query = new ParseQuery("User");
@@ -236,7 +281,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
             public void done(Object o, Throwable throwable) {
                 if (o != null) {
                     List<User> lu = (List<User>) o;
-                    if (lu.size() > 0){
+                    if (lu.size() > 0) {
                         User user = lu.get(0);
                         if (user.getLatitude() == 0 && user.getLongitude() == 0) {
                             Log.d("DEBUG", user.getObjectId());
@@ -244,7 +289,8 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                             user.setLongitude(position.longitude);
                             try {
                                 user.save();
-                            } catch (Exception e) {}
+                            } catch (Exception e) {
+                            }
                         }
                     }
                 }
@@ -267,9 +313,8 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                 .position(position)
                 .title(place.getName().toString())
                 .snippet(place.getAddress().toString())
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
     }
-
 
 
     @Override
@@ -280,9 +325,9 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     @Override
     public void onStop() {
         // Disconnecting the client invalidates it.
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.stopAutoManage(getActivity());
-            mGoogleApiClient.disconnect();
+        if (googleApiClient != null) {
+            googleApiClient.stopAutoManage(getActivity());
+            googleApiClient.disconnect();
         }
         super.onStop();
     }
@@ -290,8 +335,8 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
     @Override
     public void onPause() {
         super.onPause();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
+        if (googleApiClient != null) {
+            googleApiClient.disconnect();
         }
 
     }
