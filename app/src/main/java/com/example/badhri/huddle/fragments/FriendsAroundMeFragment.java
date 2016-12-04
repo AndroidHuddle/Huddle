@@ -323,7 +323,7 @@ public class FriendsAroundMeFragment extends Fragment implements
         }
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (lastLocation != null) {
-            Toast.makeText(context, "Actual Lat: " + lastLocation.getLatitude() + ", long: " + lastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "Actual Lat: " + lastLocation.getLatitude() + ", long: " + lastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "No location retrieved yet", Toast.LENGTH_SHORT).show();
         }
@@ -404,8 +404,10 @@ public class FriendsAroundMeFragment extends Fragment implements
             LocationServices.GeofencingApi.removeGeofences(googleApiClient, geofencePendingIntent);
         }
 
-        for (int i = 0; i < myFriends.size(); i++) {
-            createFriendGeofence(myFriends.get(i));
+        if (myFriends.size() > 0) {
+            for (int i = 0; i < myFriends.size(); i++) {
+                createFriendGeofence(myFriends.get(i));
+            }
         }
     }
 
@@ -447,7 +449,6 @@ public class FriendsAroundMeFragment extends Fragment implements
         ParseQuery<Friends> query = ParseQuery.getQuery(Friends.class);
 
         query.whereEqualTo("user", user.getParseId());
-        //query.whereEqualTo("user", "B2wtCIzbY2"); //hardcode for now; todo: remove!!
         query.findInBackground(new FindCallback<Friends>() {
             public void done(List<Friends> friendList, ParseException e) {
                 if (e == null) {
