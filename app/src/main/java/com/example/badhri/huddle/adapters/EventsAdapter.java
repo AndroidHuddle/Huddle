@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 public class EventsAdapter extends
         RecyclerView.Adapter<EventsAdapter.ViewHolder> {
 
+    private static final String DATE_FORMAT = "d MMMM yyyy";
+    private static final String TIME_FORMAT = "hh:mm a, z";
 
     private OnItemClickListener listener;
 
@@ -38,8 +40,10 @@ public class EventsAdapter extends
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
+
         @BindView(R.id.tvTitle)
         public TextView tvTiltle;
 
@@ -95,6 +99,9 @@ public class EventsAdapter extends
     // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(EventsAdapter.ViewHolder viewHolder, int position) {
+        Date date;
+        String dateStr;
+
         // Get the data model based on position
         Events event = mEvents.get(position);
 
@@ -104,18 +111,22 @@ public class EventsAdapter extends
         TextView tvStartTime  = viewHolder.tvStartTime;
 
         if (event.getStartTime() != null) {
-            tvStartTime.setText(event.getStartTime().toString());
+            date = event.getStartTime();
         } else {
-            tvStartTime.setText(new Date().toString());
+            date = new Date();
         }
+        dateStr = com.example.badhri.huddle.utils.Utilities.formatDate(date, DATE_FORMAT) + " at " + com.example.badhri.huddle.utils.Utilities.formatDate(date, TIME_FORMAT);
+        tvStartTime.setText(dateStr);
 
         TextView tvEndTime  = viewHolder.tvEndTime;
 
         if (event.getEndTime() != null) {
-            tvEndTime.setText(event.getEndTime().toString());
+            date =  event.getEndTime();
         } else {
-            tvEndTime.setText(new Date().toString());
+            date = new Date();
         }
+        dateStr = com.example.badhri.huddle.utils.Utilities.formatDate(date, DATE_FORMAT) + " at " + com.example.badhri.huddle.utils.Utilities.formatDate(date, TIME_FORMAT);
+        tvEndTime.setText(dateStr);
 
         TextView tvVenue  = viewHolder.tvVenue;
         tvVenue.setText(event.getVenue());
