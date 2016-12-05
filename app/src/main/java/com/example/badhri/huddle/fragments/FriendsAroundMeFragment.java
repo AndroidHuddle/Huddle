@@ -26,6 +26,7 @@ import com.example.badhri.huddle.parseModels.Friends;
 import com.example.badhri.huddle.parseModels.User;
 import com.example.badhri.huddle.services.GeofenceService;
 import com.example.badhri.huddle.utils.FriendType;
+import com.example.badhri.huddle.utils.LocationCalculator;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -77,7 +78,7 @@ public class FriendsAroundMeFragment extends Fragment implements
     private final int FASTEST_INTERVAL = 30 * 1000;  // 30 secs
     private static final long GEO_DURATION = 60 * 60 * 1000;
     //private static final float GEOFENCE_RADIUS = 400.0f; // in meters
-    private static final float MINIMUM_RADIUS = 100.0f; //500.0f
+    private static final float MINIMUM_RADIUS = 500.0f;
     private float geofence_radius = MINIMUM_RADIUS;
     private final int GEOFENCE_REQ_CODE = 0;
     private Location lastLocation;
@@ -89,8 +90,6 @@ public class FriendsAroundMeFragment extends Fragment implements
     private View fragmentView;
     private UserNonParse user;
     private ArrayList<FriendType> myFriends;
-
-    //private LatLng[] dummyFriends = new LatLng[]{new LatLng(42.360449, -71.103372), new LatLng(42.360223, -71.103774), new LatLng(42.361401, -71.101494)};//todo: remove!!
 
 
     @Override
@@ -160,7 +159,13 @@ public class FriendsAroundMeFragment extends Fragment implements
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+                map.clear();// todo: remove all geofence markers in a more elegant way?
+
+                drawMarkerOnMap(user.getUsername(), new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()), BitmapDescriptorFactory.HUE_ORANGE);
+
                 recreateGeofences();
+                drawCircle(myLocationMarker);
             }
         });
 
@@ -191,43 +196,30 @@ public class FriendsAroundMeFragment extends Fragment implements
     private void createFriendGeofence(FriendType friend) {
         if (map != null) {
 
-            //map.clear();// todo: remove all geofence markers in a more elegant way
+            LatLng friendsLocation = new LatLng(friend.getLatitude(), friend.getLongitude());
+            String friendsName = friend.getUsername();
 
-/*            for (int i = 0; i < friends.length; i++) {
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(friends[i])
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        .title(friends[i].toString());*/
+            if (lastLocation == null) {
+                getLastKnownLocation();
+            }
 
+            if (lastLocation != null) {//make sure some location has been retrieved
 
+                LatLng myLocation = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
+                //only draw marker if we're in our friend(s) range:
+                if (LocationCalculator.inRange(friendsLocation, myLocation, geofence_radius)) {
 
-/*            for (int i = 0; i < myFriends.size(); i++) {
-                MarkerOptions markerOptions = new MarkerOptions()
-                        .position(new LatLng(myFriends.get(i).getLatitude(), myFriends.get(i).getLongitude()))
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                        .title(myFriends.get(i).getUsername());
+                    //Toast.makeText(context, "Drawing marker on "+friendsName, Toast.LENGTH_SHORT).show();
 
-                geofenceMarker = map.addMarker(markerOptions);
+                    drawMarkerOnMap(friendsName, friendsLocation, BitmapDescriptorFactory.HUE_RED);
+                    //Color.parseColor("#ef518f")
 
-                Geofence geofence = createGeofence(geofenceMarker.getPosition(), GEOFENCE_RADIUS, names[i]);
+                }
+                Geofence geofence = createGeofence(friendsLocation, geofence_radius, friendsName);
                 GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
                 FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
-            }*/
-
-
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(new LatLng(friend.getLatitude(), friend.getLongitude()))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-                    //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#ef518f")))
-                    .title(friend.getUsername());
-
-            geofenceMarker = map.addMarker(markerOptions);
-
-            Geofence geofence = createGeofence(geofenceMarker.getPosition(), geofence_radius, friend.getUsername());
-            GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-            FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
-
+            }
         } else {
             Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
         }
@@ -259,7 +251,7 @@ public class FriendsAroundMeFragment extends Fragment implements
     protected void startGeofencing(GeofencingRequest request) {
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            // TO DO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -306,13 +298,15 @@ public class FriendsAroundMeFragment extends Fragment implements
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         FriendsAroundMeFragmentPermissionsDispatcher.getLastKnownLocationWithCheck(this);
+
+        FriendsAroundMeFragmentPermissionsDispatcher.startLocationUpdatesWithCheck(this);
     }
 
 
     @NeedsPermission({android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION})
     protected void getLastKnownLocation() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            // TO DO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -325,9 +319,8 @@ public class FriendsAroundMeFragment extends Fragment implements
         if (lastLocation != null) {
             //Toast.makeText(context, "Actual Lat: " + lastLocation.getLatitude() + ", long: " + lastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "No location retrieved yet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Location could not be retrieved", Toast.LENGTH_SHORT).show();
         }
-        FriendsAroundMeFragmentPermissionsDispatcher.startLocationUpdatesWithCheck(this);
     }
 
 
@@ -339,7 +332,7 @@ public class FriendsAroundMeFragment extends Fragment implements
                 .setFastestInterval(FASTEST_INTERVAL);
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            // TO DO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -364,22 +357,25 @@ public class FriendsAroundMeFragment extends Fragment implements
 
     @Override
     public void onResult(@NonNull Status status) {
-        if (status.isSuccess()) {
-            drawGeofence();
-        } else {
+//        if (status.isSuccess()) {
+//            drawCircle(geofenceMarker);
+//        } else {
+//            Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
+//        }
+        if (!status.isSuccess()) {
             Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    // Draw Geofence circle on GoogleMap
-    private void drawGeofence() {
+    // Draw circle on GoogleMap
+    private void drawCircle(Marker point) {
         if (geofenceLimits != null) {
             geofenceLimits.remove();
         }
 
         CircleOptions circleOptions = new CircleOptions()
-                .center(geofenceMarker.getPosition())
+                .center(point.getPosition())
                 .strokeColor(Color.argb(50, 70, 70, 70))
                 .fillColor(Color.argb(100, 150, 150, 150))
                 .radius(geofence_radius);
@@ -420,20 +416,28 @@ public class FriendsAroundMeFragment extends Fragment implements
                 myLocationMarker.remove();
             }
 
-            String title = latLng.latitude + ", " + latLng.longitude;
-            title = user.getUsername();
-            MarkerOptions markerOptions = new MarkerOptions()
-                    .position(latLng)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
-                    //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#ef518f")))
-                    .title(title);
+            String title = user.getUsername();
 
-            myLocationMarker = map.addMarker(markerOptions);
+            myLocationMarker = drawMarkerOnMap(title, latLng, BitmapDescriptorFactory.HUE_ORANGE);
+
+            drawCircle(myLocationMarker);
 
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, ZOOM);
             map.animateCamera(cameraUpdate);
         }
     }
+
+
+    private Marker drawMarkerOnMap(String title, LatLng position, float hue) {
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(position)
+                .icon(BitmapDescriptorFactory.defaultMarker(hue))
+                //.icon(BitmapDescriptorFactory.defaultMarker(Color.parseColor("#ef518f")))
+                .title(title);
+
+        return map.addMarker(markerOptions);
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -460,12 +464,6 @@ public class FriendsAroundMeFragment extends Fragment implements
                             public void done(User user, ParseException e) {
                                 if (e == null) {
                                     FriendType thisFriend = new FriendType(user.getUsername(), new LatLng(user.getLatitude(), user.getLongitude()));
-                                    /*
-                                    //todo: remove this block:
-                                    int randomIndex = new Random().nextInt((dummyFriends.length));
-                                    thisFriend = new FriendType(user.getUsername(), dummyFriends[randomIndex]);
-                                    //todo: end of remove
-                                    */
                                     myFriends.add(thisFriend);
 
                                     createFriendGeofence(thisFriend);

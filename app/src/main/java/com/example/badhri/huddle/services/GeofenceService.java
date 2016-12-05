@@ -24,7 +24,9 @@ import java.util.List;
 public class GeofenceService extends IntentService {
 
     private static final String TAG = GeofenceService.class.getSimpleName();
-    public static final int GEOFENCE_NOTIFICATION_ID = 0;
+    private static final int GEOFENCE_NOTIFICATION_ID = 0;
+    private static int index = 0;
+    private NotificationManager notificationMngr;
 
     public GeofenceService() {
         super(TAG);
@@ -38,6 +40,8 @@ public class GeofenceService extends IntentService {
         //String friend = intent.getStringExtra("friend");
         //Toast.makeText(getApplicationContext(), friend, Toast.LENGTH_SHORT).show();
 
+        notificationMngr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
         // Handling errors
         if (geofencingEvent.hasError()) {
             String errorMsg = getErrorString(geofencingEvent.getErrorCode());
@@ -49,16 +53,28 @@ public class GeofenceService extends IntentService {
         int geoFenceTransition = geofencingEvent.getGeofenceTransition();
 
         // Check if the transition type
-        if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
-                geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+        if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
+
             // Get the geofence that was triggered
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
-            // Create a detail message with Geofences received
-            String geofenceTransitionDetails = getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences);
+//            //remove all previous notifications:
+//            for (int i = 0; i < index; i++) {
+//                notificationMngr.cancel(i);
+//            }
+//            index = 0;
 
-            // Send notification details as a String
-            sendNotification(geofenceTransitionDetails);
+//            // Create a detail message with Geofences received
+//            String geofenceTransitionDetails = getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences);
+//
+//            // Send notification details as a String
+//            sendNotification(geofenceTransitionDetails);
+            // get the ID of each geofence triggered
+            for (Geofence geofence : triggeringGeofences) {
+                sendNotification(geofence.getRequestId());
+                index++;
+            }
+
         }
     }
 
@@ -71,13 +87,13 @@ public class GeofenceService extends IntentService {
             triggeringGeofencesList.add(geofence.getRequestId());
         }
 
-        String status = null;
+/*        String status = null;
         if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER)
             status = "Entering ";
         else if (geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT)
             status = "Exiting ";
+        //return status + TextUtils.join(", ", triggeringGeofencesList);*/
 
-        //return status + TextUtils.join(", ", triggeringGeofencesList);
         return TextUtils.join(", ", triggeringGeofencesList);
     }
 
@@ -99,20 +115,21 @@ public class GeofenceService extends IntentService {
         // Get a PendingIntent containing the entire back stack.
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Creating and sending Notification
-        NotificationManager notificationMng = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationMng.notify(GEOFENCE_NOTIFICATION_ID, createNotification(msg, notificationPendingIntent));
+        // Create and send Notification
+
+        //notificationMng.notify(GEOFENCE_NOTIFICATION_ID, createNotification(msg, notificationPendingIntent));
+        notificationMngr.notify(index, createNotification(msg, notificationPendingIntent));
     }
 
 
     // Create a notification
-    private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
+    private Notification createNotification(String friendsName, PendingIntent notificationPendingIntent) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
         notificationBuilder
                 .setSmallIcon(R.mipmap.icon_huddle)
                 //.setColor(Color.RED)
                 .setContentTitle("Friend alert")
-                .setContentText(msg + " nearby!")
+                .setContentText(friendsName + " nearby!")
                 .setContentIntent(notificationPendingIntent)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);
