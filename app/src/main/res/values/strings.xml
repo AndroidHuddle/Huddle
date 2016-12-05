@@ -28,4 +28,7 @@
     <string name="from">From:</string>
     <string name="from_time">Event Start:</string>
     <string name="to_time">Event End:</string>
+    <string name="maybe">Maybe</string>
+    <string name="no_attend">Nope</string>
+    <string name="save">Save</string>
 </resources>
