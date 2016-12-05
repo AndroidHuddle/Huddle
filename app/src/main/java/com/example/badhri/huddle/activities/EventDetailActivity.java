@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.fragments.EventDetailFragment;
 import com.example.badhri.huddle.models.EventNonParse;
+import com.example.badhri.huddle.models.UserNonParse;
 
 public class EventDetailActivity extends AppCompatActivity {
+
+    private UserNonParse user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +30,10 @@ public class EventDetailActivity extends AppCompatActivity {
         // this data should be received here and taken to pass into the
         //
         EventNonParse event = getIntent().getParcelableExtra("event");
+        UserNonParse user = getIntent().getParcelableExtra("user");
         Bundle args = new Bundle();
         args.putParcelable("event", event);
+        args.putParcelable("user", user);
         EventDetailFragment edf = new EventDetailFragment();
         edf.setArguments(args);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

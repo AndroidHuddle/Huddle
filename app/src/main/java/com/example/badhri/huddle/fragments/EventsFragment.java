@@ -14,10 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.badhri.huddle.R;
-import com.example.badhri.huddle.utils.DividerItemDecoration;
 import com.example.badhri.huddle.adapters.EventsAdapter;
+import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
+import com.example.badhri.huddle.utils.DividerItemDecoration;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -50,6 +51,11 @@ public class EventsFragment extends Fragment {
 
 
     private static final String TAG = "";
+    private UserNonParse user;
+
+    public void setUser(UserNonParse user) {
+        this.user = user;
+    }
 
     @Nullable
     @Override
@@ -81,7 +87,12 @@ public class EventsFragment extends Fragment {
 
         setEventClickHandler();
         addEvents();
-        //setUpSwipe();
+        setUpSwipe();
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                R.color.colorAccent,
+                R.color.colorPrimary,
+                R.color.colorPrimaryDark);
         return v;
     }
 
@@ -117,6 +128,9 @@ public class EventsFragment extends Fragment {
         //query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
 
         query.whereEqualTo("status", filter);
+        if (user != null) {
+            query.whereEqualTo("user", user.getParseId());
+        }
         // get the latest 500 messages, order will show up newest to oldest of this group
         //query.orderByDescending("startTime");
         // Execute query to fetch all messages from Parse asynchronously
@@ -172,8 +186,9 @@ public class EventsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mEvents = new ArrayList<>();
         filter = getArguments().getString(ARG_FILTER);
-
     }
+
+
     @Override public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -181,7 +196,7 @@ public class EventsFragment extends Fragment {
 
 
 
-    /*private void setUpSwipe() {
+    private void setUpSwipe() {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -189,13 +204,19 @@ public class EventsFragment extends Fragment {
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 loadRecent();
+                swipeContainer.setRefreshing(false);
 
             }
         });
     }
 
+    private void loadRecent() {
+        adapter.clear();
+        addEvents();
+    }
 
 
+/*
 
     protected void postDelayed(final long since_id, final long max_id) {
         Handler handler = new Handler();

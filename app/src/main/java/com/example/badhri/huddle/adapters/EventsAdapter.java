@@ -142,5 +142,9 @@ public class EventsAdapter extends
     public int getItemCount() {
         return mEvents.size();
     }
+
+    public void clear() {
+        mEvents.clear();
+    }
 }
 

@@ -18,6 +18,16 @@ public class EventNonParse implements Parcelable {
     private Date createdAt;
     private Date updatedAt;
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    private String eventId;
+
     public String getVenue() {
         return venue;
     }
@@ -63,6 +73,14 @@ public class EventNonParse implements Parcelable {
         try {
             event.endTime = parseEvent.getEndTime();
         } catch (Exception e) {}
+
+        try {
+            event.eventId = parseEvent.getObjectId();
+        } catch (Exception e) {}
+
+        try {
+
+        } catch (Exception e) {}
         return event;
     }
 
@@ -77,6 +95,7 @@ public class EventNonParse implements Parcelable {
         dest.writeString(this.eventName);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
+        dest.writeString(this.eventId);
         dest.writeLong(this.endTime != null ? this.endTime.getTime() : -1);
     }
 
@@ -87,11 +106,12 @@ public class EventNonParse implements Parcelable {
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
         long tmpUpdatedAt = in.readLong();
         this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
+        this.eventId = in.readString();
         long tmpEndTime = in.readLong();
         this.endTime = tmpEndTime == -1 ? null : new Date(tmpEndTime);
     }
 
-    public static final Parcelable.Creator<EventNonParse> CREATOR = new Parcelable.Creator<EventNonParse>() {
+    public static final Creator<EventNonParse> CREATOR = new Creator<EventNonParse>() {
         @Override
         public EventNonParse createFromParcel(Parcel source) {
             return new EventNonParse(source);

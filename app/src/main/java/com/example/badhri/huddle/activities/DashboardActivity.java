@@ -69,7 +69,11 @@ public class DashboardActivity extends AppCompatActivity implements EventsFragme
 
             // Get the ViewPager and set it's PagerAdapter so that it can display items
             ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            viewPager.setAdapter(new TabFragmentAdapter(getSupportFragmentManager(), this));
+            TabFragmentAdapter tfa = new TabFragmentAdapter(getSupportFragmentManager(), this);
+            if (user != null) {
+                tfa.setUser(user);
+            }
+            viewPager.setAdapter(tfa);
 
             // Give the TabLayout the ViewPager
             TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -213,6 +217,7 @@ public class DashboardActivity extends AppCompatActivity implements EventsFragme
         // open up the event details activity
         EventNonParse eventNonParse = EventNonParse.fromEvent(event);
         Intent i = new Intent(DashboardActivity.this, EventDetailActivity.class);
+        i.putExtra("user", user);
         i.putExtra("event", eventNonParse);
         startActivity(i);
     }

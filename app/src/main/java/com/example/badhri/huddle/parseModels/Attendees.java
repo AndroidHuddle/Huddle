@@ -10,8 +10,8 @@ import com.parse.ParseObject;
 
 @ParseClassName("Attendees")
 public class Attendees extends ParseObject {
-    public static final String USER_KEY = "event";
-    public static final String EVENT_KEY = "user";
+    public static final String EVENT_KEY = "event";
+    public static final String  USER_KEY = "user";
     public static final String STATUS_KEY = "status";
 
     public String getEvent() {

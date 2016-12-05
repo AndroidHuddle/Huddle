@@ -56,18 +56,45 @@
                 android:text="~$30.00"
                 tools:text="~$30.00"
                 android:id="@+id/tvCost" />
-
-            <Button
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/attend"
-                android:id="@+id/btnAttend" />
+                android:orientation="vertical">
+                <RadioGroup
+                    android:id="@+id/rgRadioAttendOption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/attend"
+                    android:id="@+id/rbAttend"
+                    android:checked="true"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maybe"
+                    android:id="@+id/rbMaybe" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_attend"
+                    android:id="@+id/rbNoAttend" />
+                </RadioGroup>
+            </LinearLayout>
+
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/invite"
                 android:id="@+id/btnInvite" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:id="@+id/btnSave" />
 
 
         </LinearLayout>
