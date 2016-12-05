@@ -1,9 +1,7 @@
 package com.example.badhri.huddle.utils;
 
-import android.location.Location;
-
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.SphericalUtil;
 
 /**
  * Created by victorhom on 11/28/16.
@@ -18,13 +16,17 @@ public class LocationCalculator {
         return meters;
     }
 
-    public static Boolean inRange(Place l, String latitude, String longitude, int range) {
-        LatLng center = l.getLatLng();
-        float[] results = new float[1];
-        Location.distanceBetween(center.latitude,center.longitude, Double.valueOf(latitude), Double.valueOf(longitude), results);
+    //public static Boolean inRange(double latitude1, double longitude1, double latitude2, double longitude2, float range) {
+    public static Boolean inRange(LatLng position1, LatLng position2, float range) {
+
+/*        float[] results = new float[3];
+        Location.distanceBetween(latitude1, longitude1, latitude2, longitude2, results);
         float distanceInMeters = results[0];
         boolean isInRange = distanceInMeters < range;
-        return isInRange;
+        return isInRange;*/
+
+        return SphericalUtil.computeDistanceBetween(position1, position2) < range;
+        //return true;
     }
 
 }
