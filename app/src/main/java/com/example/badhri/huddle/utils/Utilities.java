@@ -3,6 +3,9 @@ package com.example.badhri.huddle.utils;
 
 import android.graphics.Color;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Utilities {
 
 
@@ -18,4 +21,10 @@ public class Utilities {
     }
 
 
+    static public String formatDate(Date date, String format){
+//        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
+//        return dateFormat.format(date);
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        return formatter.format(date);
+    }
 }
