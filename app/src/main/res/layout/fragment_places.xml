@@ -21,14 +21,16 @@
             android:id="@+id/button_placepicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Place picker" />
+            android:text="Place picker"
+            android:background="@drawable/button_pink"/>
 
         <Button
             android:id="@+id/button_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/button_placepicker"
-            android:text="Select" />
+            android:text="Select"
+            android:background="@drawable/button_pink"/>
     </RelativeLayout>
 
 </RelativeLayout>
