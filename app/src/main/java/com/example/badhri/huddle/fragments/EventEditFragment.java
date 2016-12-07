@@ -13,24 +13,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.activities.DashboardActivity;
 import com.example.badhri.huddle.models.UserNonParse;
+import com.example.badhri.huddle.networks.YelpClient;
 import com.example.badhri.huddle.parseModels.Attendees;
 import com.example.badhri.huddle.parseModels.Events;
 import com.example.badhri.huddle.parseModels.User;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,8 +70,8 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
     @BindView(R.id.tvPhoneNumber)
     TextView tvPhoneNumber;
 
-    @BindView(R.id.lvInvitees)
-    ListView lvInvitees;
+//    @BindView(R.id.lvInvitees)
+//    ListView lvInvitees;
 
     @BindView(R.id.et_to_date_text)
     EditText etToDateText;
@@ -82,10 +88,24 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
     @BindView(R.id.tvContactLabel)
     TextView tvContactLabel;
 
-    Fragment fg;
+    @BindView(R.id.tvRatingLabel)
+    TextView tvRatingLabel;
 
-    private ArrayAdapter<String> adapter;
+    @BindView(R.id.et_event_details)
+    TextView etEventDetails;
+
+    Fragment fg;
+    private ArrayList<User> users;
+//    private ArrayAdapter<String> adapter;
     private UserNonParse user;
+
+    private double rating;
+    private String ratingImgUrl;
+    private String mobileUrl;
+    private int reviewCount;
+    private String nameOfLocation;
+    private String image_url;
+    private String url;
 
     public EventEditFragment() {
         // Required empty public constructor
@@ -102,11 +122,74 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
         String name = getArguments().getString("name");
         etEventName.setText(name);
 
+        String latitude = getArguments().getString("latitude");
+        String longitude= getArguments().getString("longitude");
+        String number = "";
+        if (getArguments().getString("phonenumber") != null) {
+            number = getArguments().getString("phonenumber").replaceAll("[\\D.]", "");
+        }
+
+        if (number.length() > 0) {
+            YelpClient yc = HuddleApplication.getYelpRestClient();
+            //+1 212-228-4919
+            // .replaceAll("[\\D.]", "");
+            yc.searchByPhoneNumber( number , new JsonHttpResponseHandler(){
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("DEBUG", response.toString());
+                    try {
+                        JSONArray business = (JSONArray) response.getJSONArray("businesses");
+                        JSONObject businessDetails = (JSONObject) business.get(0);
+                        Log.d("DEBUG", businessDetails.keys().toString());
+                        try {
+                            rating = businessDetails.getDouble("rating");
+                        } catch (Exception e){}
+
+                        try {
+                            mobileUrl = businessDetails.getString("mobile_url");
+                        } catch (Exception e) {}
+
+                        try {
+                            ratingImgUrl = businessDetails.getString("rating_img_url");
+                        } catch (Exception e) {}
+
+                        try {
+                            reviewCount = businessDetails.getInt("review_count");
+                        } catch (Exception e) {}
+
+                        try {
+                            nameOfLocation = businessDetails.getString("name");
+                        } catch (Exception e){}
+
+                        try {
+                            url = businessDetails.getString("url");
+                        } catch (Exception e){}
+
+                        try {
+                            image_url = businessDetails.getString("image_url");
+                            if (image_url != null && image_url.length() > 0) {
+                                image_url = image_url.replace("ms", "o");
+                            }
+                        } catch (Exception e) {}
+
+                        // location -> object with cross_streets, city, display_address, neighborhoods (array)
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    // this will likely occur if user picks a random non Google place location
+                }
+            });
+        }
+
         String address = getArguments().getString("address");
         tvAddress.setText(address);
 
         Integer price = getArguments().getInt("price");
-        if (price != 0) {
+        if (price > 0) {
             tvPrice.setText(String.valueOf(price));
         } else {
             tvPrice.setText("$$");
@@ -114,10 +197,11 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
 
 
         Float rating = getArguments().getFloat("rating");
-        if (rating != 0.0) {
+        if (rating > 0.0) {
             tvRating.setText(String.valueOf(rating));
         } else {
-            tvRating.setText("Take a chance.");
+            tvRating.setText("");
+            tvRatingLabel.setText("");
         }
 
 
@@ -162,13 +246,14 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
             @Override
             public void done(Object o, Throwable throwable) {
                 if (throwable == null) {
-                    ArrayList<User> users = (ArrayList<User>) o;
+                    users = (ArrayList<User>) o;
                     ArrayList<String> names = new ArrayList<>();
                     for (int i = 0; i < users.size(); i++) {
                         names.add(users.get(i).getUsername());
                     }
-                    adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, names);
-                    lvInvitees.setAdapter(adapter);
+//                    might take out the list of users in place of an edit text for a note
+//                    adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, names);
+//                    lvInvitees.setAdapter(adapter);
                 }
 
             }
@@ -181,7 +266,7 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
         if (etEventName.getText().length() == 0) {
             Toast.makeText(getActivity(), "please name the event", Toast.LENGTH_LONG).show();
         } else {
-            System.out.println("send out event!");
+//            System.out.println("send out event!");
             // need to send invite, but otherwise
             Events event = new Events();
             if (etFromDateText.getText().length() > 0){
@@ -198,6 +283,38 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
                 event.setStartTime(new Date());
             }
 
+            String eventDetails = etEventDetails.getText().toString();
+            if (eventDetails.length() > 0) {
+                event.setEventDetails(eventDetails);
+            }
+
+            if (rating > 0) {
+                event.setRating(rating);
+            }
+
+            if (ratingImgUrl != null &&ratingImgUrl.length() > 0) {
+                event.setRatingImgUrl(ratingImgUrl);
+            }
+
+            if (mobileUrl != null && mobileUrl.length() > 0) {
+                event.setMobileUrl(mobileUrl);
+            }
+
+            if (reviewCount > 0) {
+                event.setReviewCount(reviewCount);
+            }
+
+            if (nameOfLocation != null && nameOfLocation.length() > 0) {
+                event.setNameOfLocation(nameOfLocation);
+            }
+
+            if(image_url != null && image_url.length() > 0) {
+                event.setImageUrl(image_url);
+            }
+
+            if (url != null && url.length() > 0) {
+                event.setUrl(url);
+            }
 
             event.setEventName(etEventName.getText().toString());
             event.setVenue(etEventName.getText().toString());
@@ -217,6 +334,18 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
         attendees.setEvent(event.getObjectId());
         attendees.setUser(event.getOwner());
         attendees.setStatus("Attending");
+        // now your invite list will have it in their dashboard
+        for (int i = 0; i < users.size(); i++) {
+            Attendees a = new Attendees();
+            a.setEvent(event.getObjectId());
+            attendees.setUser(users.get(i).getObjectId());
+            attendees.setStatus("Not Responded");
+            try {
+                a.save();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         attendees.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

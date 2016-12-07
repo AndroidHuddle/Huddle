@@ -21,6 +21,41 @@ public class Events extends ParseObject {
     public static final String EVENT_END_DATE = "eventStartDate";
     public static final String EVENT_START_TIME = "eventStartTime";
     public static final String EVENT_END_TIME = "eventEndTime";
+    public static final String EVENT_DETAILS = "eventDetails";
+
+//    taken from data received from Yelp if possible
+    public static final String RATING = "rating";
+    public static final String RATING_IMG_URL = "ratingImgUrl";
+    public static final String MOBILE_URL = "mobileUrl";
+    public static final String REVIEW_COUNT = "reviewCount";
+    public static final String NAME_OF_LOCATION = "nameOfLocation";
+    public static final String IMAGE_URL = "imageUrl";
+    public static final String URL = "url";
+
+
+    public double getRating() {return getDouble(RATING); }
+    public void setRating( double rating) { put(RATING, rating); }
+
+    public String getRatingImgUrl() {return getString(RATING_IMG_URL);}
+    public void setRatingImgUrl(String url){ put(RATING_IMG_URL, url);}
+
+    public String getMobileUrl() { return getString(MOBILE_URL);}
+    public void setMobileUrl(String url){ put(MOBILE_URL, url);}
+
+    public int getReviewCount() {return getInt(REVIEW_COUNT);}
+    public void setReviewCount(int count) {put(REVIEW_COUNT, count);}
+
+    public String getNameOfLocation() {return getString(NAME_OF_LOCATION);}
+    public void setNameOfLocation(String name){put(NAME_OF_LOCATION, name);}
+
+    public String getImageUrl() {return getString(IMAGE_URL);}
+    public void setImageUrl(String url){put(IMAGE_URL, url);}
+
+    public String getUrl() {return getString(URL);}
+    public void setUrl(String url){put(URL, url);}
+
+    public String getEventDetails() { return getString(EVENT_DETAILS); };
+    public void setEventDetails(String details) { put(EVENT_DETAILS, details);}
 
     public String getVenue() {
         return getString(VENUE_KEY);
