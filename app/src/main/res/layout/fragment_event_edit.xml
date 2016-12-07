@@ -228,8 +228,8 @@
                     android:id="@+id/send_invite"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:text="@string/send_invite">
-
+                    android:text="@string/send_invite"
+                    android:background="@drawable/button_pink">
                 </Button>
             </LinearLayout>
 

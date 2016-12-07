@@ -23,7 +23,7 @@
         android:id="@+id/btn_check_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/check_final_details" />
+        android:text="@string/check_final_details" android:background="@drawable/button_pink"/>
 
         <!--<Button-->
             <!--android:id="@+id/button_placepicker_friends"-->
