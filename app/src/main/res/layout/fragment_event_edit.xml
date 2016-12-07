@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.badhri.huddle.fragments.EventEditFragment">
 
     <LinearLayout
@@ -17,6 +18,7 @@
             tools:text="A Wonderful Event"
             android:gravity="center_horizontal"/>
         <TextView
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:id="@+id/tvAddress"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
@@ -29,16 +31,19 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
             <LinearLayout
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal"
                 android:id="@+id/llprice"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/price">
                 </TextView>
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/tvPrice"
@@ -46,17 +51,20 @@
                 </TextView>
             </LinearLayout>
             <LinearLayout
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal"
                 android:id="@+id/llrating"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:id="@+id/tvRatingLabel"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/rating">
                 </TextView>
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/tvRating"
@@ -64,17 +72,20 @@
                 </TextView>
             </LinearLayout>
             <LinearLayout
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal"
                 android:id="@+id/llphonenumber"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:id="@+id/tvContactLabel"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/phonenumber">
                 </TextView>
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/tvPhoneNumber"
@@ -83,11 +94,27 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lvInvitees"
-            android:layout_height="180dp"
-            android:layout_width="match_parent">
-        </ListView>
+        <!--<ListView-->
+            <!--android:id="@+id/lvInvitees"-->
+            <!--android:layout_height="180dp"-->
+            <!--android:layout_width="match_parent">-->
+        <!--</ListView>-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        <EditText
+            android:id="@+id/et_event_details"
+            android:layout_width="match_parent"
+            android:inputType="textMultiLine"
+            android:layout_height="100dp"
+            android:maxLines="6"
+            android:hint="@string/joinme">
+
+        </EditText>
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/tvReviews"
