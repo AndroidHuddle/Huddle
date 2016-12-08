@@ -329,22 +329,28 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
         }
     }
 
-    private void setAttendeesTable(Events event) {
-        Attendees attendees = new Attendees();
+    private void setAttendeesTable(final Events event) {
+        final Attendees attendees = new Attendees();
         attendees.setEvent(event.getObjectId());
         attendees.setUser(event.getOwner());
         attendees.setStatus("Attending");
         // now your invite list will have it in their dashboard
         for (int i = 0; i < users.size(); i++) {
-            Attendees a = new Attendees();
-            a.setEvent(event.getObjectId());
-            attendees.setUser(users.get(i).getObjectId());
-            attendees.setStatus("Not Responded");
-            try {
-                a.save();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+            //Body of your click handler
+            final int finalI = i;
+            Thread thread = new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    Attendees a = new Attendees();
+                    a.setEvent(event.getObjectId());
+                    a.setUser(users.get(finalI).getObjectId());
+                    a.setStatus("Not Responded");
+                    a.saveInBackground();
+                }
+            });
+            thread.start();
+
         }
         attendees.saveInBackground(new SaveCallback() {
             @Override
