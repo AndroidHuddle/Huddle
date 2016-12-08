@@ -240,7 +240,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                     //centerMapUsingSelectedLocation();
                     map.clear();
                 } else {
-                    Toast.makeText(activity, "Error - Map was null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Trouble loading map. Try again later.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -290,7 +290,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                     if (lu.size() > 0) {
                         User user = lu.get(0);
                         if (user.getLatitude() == 0 && user.getLongitude() == 0) {
-                            Log.d("DEBUG", user.getObjectId());
+//                            Log.d("DEBUG", user.getObjectId());
                             user.setLatitude(position.latitude);
                             user.setLongitude(position.longitude);
                             try {

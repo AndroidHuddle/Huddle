@@ -59,6 +59,7 @@ import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
+import retrofit2.http.HEAD;
 
 
 @RuntimePermissions
@@ -221,7 +222,7 @@ public class FriendsAroundMeFragment extends Fragment implements
                 FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
             }
         } else {
-            Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
         }
 
 

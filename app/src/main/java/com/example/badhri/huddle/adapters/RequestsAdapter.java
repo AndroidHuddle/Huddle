@@ -76,7 +76,7 @@ public class RequestsAdapter extends
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Toast.makeText(getContext(), "You have a new Friend !!",
+                    Toast.makeText(getContext(), "You have a new Friend",
                             Toast.LENGTH_LONG).show();
                     request.setStatus("accepted");
                     request.saveInBackground(new SaveCallback() {
@@ -90,7 +90,7 @@ public class RequestsAdapter extends
                     disableBtn(holder,"accepted");
 
                 } else {
-                    Toast.makeText(getContext(), "Error while accepting friend request. Try again !",
+                    Toast.makeText(getContext(), "Error while accepting friend request. Try again",
                             Toast.LENGTH_LONG).show();
                 }
             }
