@@ -18,6 +18,62 @@ public class EventNonParse implements Parcelable {
     private Date createdAt;
     private Date updatedAt;
 
+    private String imageUrl;
+    private String eventDetails;
+    private String owner;
+    private String crossStreet;
+    private String city;
+    private String displayAddress;
+
+    public String getCrossStreet() {
+        return crossStreet;
+    }
+
+    public void setCrossStreet(String crossStreet) {
+        this.crossStreet = crossStreet;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDisplayAddress() {
+        return displayAddress;
+    }
+
+    public void setDisplayAddress(String displayAddress) {
+        this.displayAddress = displayAddress;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getEventDetails() {
+        return eventDetails;
+    }
+
+    public void setEventDetails(String eventDetails) {
+        this.eventDetails = eventDetails;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+
+
     public String getEventId() {
         return eventId;
     }
@@ -79,7 +135,27 @@ public class EventNonParse implements Parcelable {
         } catch (Exception e) {}
 
         try {
+            event.imageUrl = parseEvent.getImageUrl();
+        } catch (Exception e) {}
 
+        try {
+            event.eventDetails = parseEvent.getEventDetails();
+        } catch (Exception e) {}
+
+        try {
+            event.owner = parseEvent.getOwner();
+        } catch (Exception e) {}
+
+        try {
+            event.crossStreet = parseEvent.getCrossStreet();
+        } catch (Exception e) {}
+
+        try {
+            event.city = parseEvent.getCity();
+        } catch (Exception e) {}
+
+        try {
+            event.displayAddress = parseEvent.getDisplayAddress();
         } catch (Exception e) {}
         return event;
     }
@@ -95,6 +171,12 @@ public class EventNonParse implements Parcelable {
         dest.writeString(this.eventName);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeLong(this.updatedAt != null ? this.updatedAt.getTime() : -1);
+        dest.writeString(this.imageUrl);
+        dest.writeString(this.eventDetails);
+        dest.writeString(this.owner);
+        dest.writeString(this.crossStreet);
+        dest.writeString(this.city);
+        dest.writeString(this.displayAddress);
         dest.writeString(this.eventId);
         dest.writeLong(this.endTime != null ? this.endTime.getTime() : -1);
     }
@@ -106,6 +188,12 @@ public class EventNonParse implements Parcelable {
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
         long tmpUpdatedAt = in.readLong();
         this.updatedAt = tmpUpdatedAt == -1 ? null : new Date(tmpUpdatedAt);
+        this.imageUrl = in.readString();
+        this.eventDetails = in.readString();
+        this.owner = in.readString();
+        this.crossStreet = in.readString();
+        this.city = in.readString();
+        this.displayAddress = in.readString();
         this.eventId = in.readString();
         long tmpEndTime = in.readLong();
         this.endTime = tmpEndTime == -1 ? null : new Date(tmpEndTime);
