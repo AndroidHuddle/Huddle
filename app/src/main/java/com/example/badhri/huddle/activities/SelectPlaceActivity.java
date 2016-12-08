@@ -2,6 +2,7 @@ package com.example.badhri.huddle.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,6 +54,8 @@ public class SelectPlaceActivity extends AppCompatActivity implements PlacesFrag
         vpPager.setAdapter(a);
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabstrip);
+        tabStrip.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorWhite));
+        tabStrip.setTextSize(45);
         tabStrip.setViewPager(vpPager);
     }
 
@@ -98,8 +101,6 @@ public class SelectPlaceActivity extends AppCompatActivity implements PlacesFrag
         getMenuInflater().inflate(R.menu.dashboard, menu);
         return true;
     }
-
-
 
 
     @Override

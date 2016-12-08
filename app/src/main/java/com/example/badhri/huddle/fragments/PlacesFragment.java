@@ -201,9 +201,9 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
                 // I should force the place to be an event object and pass that back to the
                 // select place activity as an object
-                Log.d("DEBUG", data.toString());
-                String toastMsg = String.format("You selected %s", place.getName());
-                Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
+//                Log.d("DEBUG", data.toString());
+//                String toastMsg = String.format("You selected %s", place.getName());
+//                Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
 
                 mListener.onEventSelect(place);
                 //draw this on the map:
