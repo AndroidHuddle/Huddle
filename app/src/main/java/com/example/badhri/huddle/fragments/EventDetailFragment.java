@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +76,9 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.btnSave)
     Button btnSave;
 
+    @BindView(R.id.tvDetails)
+    TextView tvDetails;
+
 
     private ArrayList<User> users;
     private UsersAdapter usersAdapter;
@@ -126,17 +128,60 @@ public class EventDetailFragment extends Fragment {
         rvAttendees.setAdapter(usersAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvAttendees.setLayoutManager(linearLayoutManager);
-//
-//        for (int i = 0; i < 15; i++) {
-//            usersAdapter.add(com.example.badhri.huddle.models.User.randomUser());
-//        }
 
         tvEventName.setText(event.getEventName());
         if (event.getEndTime() != null) {
             tvEventTime.setText(event.getEndTime().toString());
         }
 
-        tvEventAddress.setText(event.getVenue());
+        tvEventAddress.setText(event.getDisplayAddress());
+
+        if (event.getEventDetails() != null && event.getEventDetails().length() > 0) {
+            tvDetails.setText(event.getEventDetails());
+        }
+
+
+        addUsers();
+    }
+
+    private void addUsers() {
+        ParseQuery<Attendees> query = ParseQuery.getQuery(Attendees.class);
+        query.whereEqualTo("event", event.getEventId());
+        query.whereEqualTo("status", "Attending");
+        users.clear();
+        query.findInBackground(new FindCallback() {
+
+            @Override
+            public void done(Object o, Throwable throwable) {
+                ArrayList<Attendees> attendees = (ArrayList<Attendees>) o;
+                ArrayList<String> userIds = new ArrayList<String>();
+                for (int i = 0; i < attendees.size(); i++) {
+                    userIds.add(attendees.get(i).getUser());
+                }
+                ParseQuery<User> userQuery = ParseQuery.getQuery(User.class);
+                userQuery.whereContainedIn("objectId", userIds);
+                populateAttendingUsers(userQuery);
+            }
+
+            @Override
+            public void done(List objects, ParseException e) {
+
+            }
+        });
+    }
+
+    private void populateAttendingUsers(ParseQuery<User> userQuery) {
+        userQuery.findInBackground(new FindCallback<User>() {
+            @Override
+            public void done(List<User> objects, ParseException e) {
+                if (objects.size() > 0) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        users.add(objects.get(i));
+                        usersAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     @OnClick(R.id.btnSave)
@@ -145,7 +190,7 @@ public class EventDetailFragment extends Fragment {
         int selectedId = rbRadioAttendOption.getCheckedRadioButtonId();
 
         RadioButton btn = (RadioButton) getView().findViewById(selectedId);
-        Log.d("DEBUG", btn.getText().toString());
+//        Log.d("DEBUG", btn.getText().toString());
         String decision = btn.getText().toString();
 
         // need to update the Attendees table
@@ -200,14 +245,4 @@ public class EventDetailFragment extends Fragment {
             }
         });
     }
-
-    private void markMaybe() {
-
-    }
-
-    private void markNotAttending() {
-
-    }
-
-
 }

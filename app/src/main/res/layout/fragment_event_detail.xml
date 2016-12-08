@@ -3,102 +3,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.EventDetailFragment">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        <LinearLayout
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=""
-                tools:text="Awesome Event"
-                android:id="@+id/tvEventName"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=""
-                tools:text="Sunday 3PM"
-                android:id="@+id/tvEventTime"
-                android:layout_gravity="center_horizontal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="123 Fake Street, Long City Name 12345"
-                tools:text="123 Fake Street, Long City Name 12345"
-                android:id="@+id/tvEventAddress"
-                android:layout_gravity="center_horizontal" />
-
+            android:layout_height="wrap_content"
+            android:id="@+id/svDetails">
             <LinearLayout
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvAttendees"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="~$30.00"
-                tools:text="~$30.00"
-                android:id="@+id/tvCost" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-                <RadioGroup
-                    android:id="@+id/rgRadioAttendOption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                <RadioButton
+
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/attend"
-                    android:id="@+id/rbAttend"
-                    android:checked="true"/>
-                <RadioButton
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text=""
+                    tools:text="Awesome Event"
+                    android:id="@+id/tvEventName"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/maybe"
-                    android:id="@+id/rbMaybe" />
-                <RadioButton
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text=""
+                    tools:text="Sunday 3PM"
+                    android:id="@+id/tvEventTime"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_attend"
-                    android:id="@+id/rbNoAttend" />
-                </RadioGroup>
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="123 Fake Street, Long City Name 12345"
+                    tools:text="123 Fake Street, Long City Name 12345"
+                    android:id="@+id/tvEventAddress"
+                    android:layout_gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/tvCost" />
+                    <TextView
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:layout_margin="@dimen/activity_vertical_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Notes:"
+                        android:id="@+id/tvNotesLabel" />
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="This is going to be great! Join me."
+                        android:id="@+id/tvDetails"
+                        android:layout_weight="13.02" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="81dp"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    <RadioGroup
+                        android:orientation="horizontal"
+                        android:layout_margin="@dimen/activity_vertical_margin"
+                        android:id="@+id/rgRadioAttendOption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/attend"
+                            android:id="@+id/rbAttend"
+                            android:checked="true"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/maybe"
+                            android:id="@+id/rbMaybe" />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no_attend"
+                            android:id="@+id/rbNoAttend" />
+                    </RadioGroup>
+
+
+                </LinearLayout>
+
+
             </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:id="@+id/linearLayout"></LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAttendees"
+            android:layout_width="match_parent"
+            android:layout_height="333dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@+id/svDetails"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/btnSave" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/invite"
-                android:id="@+id/btnInvite"
-                android:background="@drawable/button_pink"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/save"
-                android:id="@+id/btnSave"
-                android:background="@drawable/button_pink"/>
-
-
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:id="@+id/btnSave"
+            android:background="@drawable/button_pink"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 </FrameLayout>

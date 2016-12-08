@@ -32,6 +32,18 @@ public class Events extends ParseObject {
     public static final String IMAGE_URL = "imageUrl";
     public static final String URL = "url";
 
+    public static final String CROSS_STREET = "crossStreet";
+    public static final String CITY = "city";
+    public static final String DISPLAY_ADDRESS = "displayAddress";
+
+    public String getCrossStreet() {return getString(CROSS_STREET);}
+    public void setCrossStreet(String cs) {put(CROSS_STREET, cs);}
+
+    public String getCity() {return getString(CITY);}
+    public void setCity(String city ) { put(CITY, city);}
+
+    public String getDisplayAddress() {return getString(DISPLAY_ADDRESS);}
+    public void setDisplayAddress(String address) {put(DISPLAY_ADDRESS, address);}
 
     public double getRating() {return getDouble(RATING); }
     public void setRating( double rating) { put(RATING, rating); }
@@ -97,14 +109,14 @@ public class Events extends ParseObject {
     }
 
     public void setStartDate(String date) {put(EVENT_START_DATE, date);}
-    public void getStartDate() {getString(EVENT_START_DATE);}
+    public String getStartDate() {return getString(EVENT_START_DATE);}
 
     public void setEndDate(String date) {put(EVENT_END_DATE, date);}
-    public void getEndDate() {getString(EVENT_END_DATE);}
+    public String getEndDate() {return getString(EVENT_END_DATE);}
 
     public void setEventStartTime(String time) {put(EVENT_START_TIME, time);}
-    public void getEventStartTime() {getString(EVENT_START_TIME);}
+    public String getEventStartTime() {return getString(EVENT_START_TIME);}
 
     public void setEventEndTime(String time) {put(EVENT_END_TIME, time);}
-    public void getEventEndTime() {getString(EVENT_END_TIME);}
+    public String getEventEndTime() {return getString(EVENT_END_TIME);}
 }

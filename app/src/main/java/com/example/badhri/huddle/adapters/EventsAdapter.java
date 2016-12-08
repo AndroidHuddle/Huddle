@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,11 +57,14 @@ public class EventsAdapter extends
         @BindView(R.id.tvStartTime)
         public TextView tvStartTime;
 
-        @BindView(R.id.tvEndTime)
-        public TextView tvEndTime;
+//        @BindView(R.id.tvEndTime)
+//        public TextView tvEndTime;
 
         @BindView(R.id.tvVenue)
         public TextView tvVenue;
+
+        @BindView(R.id.frameAttenders)
+        public FrameLayout frameAttenders;
 
 
         // We also create a constructor that accepts the entire item row
@@ -102,11 +106,15 @@ public class EventsAdapter extends
         return viewHolder;
     }
 
+    //FriendListFragment friendListFragment = FriendListFragment.newInstance(userObjectId);
+    //frameAttenders
+
     // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(EventsAdapter.ViewHolder viewHolder, int position) {
         Date date;
         String dateStr;
+        String sDate = "";
 
         // Get the data model based on position
         Events event = mEvents.get(position);
@@ -118,7 +126,6 @@ public class EventsAdapter extends
                     .into(viewHolder.locationImage);
         } else {
             // ContextCompat.getColor(mContext, R.color.colorPrimaryDark)
-
             viewHolder.locationImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.placeholder));
         }
 
@@ -128,15 +135,25 @@ public class EventsAdapter extends
         tvTitle.setText(event.getEventName());
         TextView tvStartTime  = viewHolder.tvStartTime;
 
+        if (event.getEventStartTime() != null && event.getStartDate() != null) {
+            sDate = event.getStartDate() + " |  " + event.getEventStartTime();
+        }
         if (event.getStartTime() != null) {
             date = event.getStartTime();
         } else {
             date = new Date();
         }
         dateStr = com.example.badhri.huddle.utils.Utilities.formatDate(date, DATE_FORMAT) + " at " + com.example.badhri.huddle.utils.Utilities.formatDate(date, TIME_FORMAT);
-        tvStartTime.setText(dateStr);
 
-        TextView tvEndTime  = viewHolder.tvEndTime;
+        if (sDate.length() > 0) {
+            tvStartTime.setText(sDate);
+        } else{
+            tvStartTime.setText(dateStr);
+        }
+
+
+
+//        TextView tvEndTime  = viewHolder.tvEndTime;
 
         if (event.getEndTime() != null) {
             date =  event.getEndTime();
@@ -144,13 +161,14 @@ public class EventsAdapter extends
             date = new Date();
         }
         dateStr = com.example.badhri.huddle.utils.Utilities.formatDate(date, DATE_FORMAT) + " at " + com.example.badhri.huddle.utils.Utilities.formatDate(date, TIME_FORMAT);
-        tvEndTime.setText(dateStr);
+//        tvEndTime.setText(dateStr);
 
         TextView tvVenue  = viewHolder.tvVenue;
         tvVenue.setText(event.getVenue());
 
         View parent = (View)viewHolder.tvVenue.getParent();
         parent.setTag(position);
+
 
         parent.setOnClickListener(new View.OnClickListener() {
             @Override

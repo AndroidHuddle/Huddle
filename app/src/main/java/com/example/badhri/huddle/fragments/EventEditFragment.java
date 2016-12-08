@@ -107,6 +107,10 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
     private String image_url;
     private String url;
 
+    private String crossStreet;
+    private String city;
+    private String displayAddress;
+
     public EventEditFragment() {
         // Required empty public constructor
     }
@@ -170,6 +174,13 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
                             if (image_url != null && image_url.length() > 0) {
                                 image_url = image_url.replace("ms", "o");
                             }
+                        } catch (Exception e) {}
+
+                        try {
+                            JSONObject location = businessDetails.getJSONObject("location");
+                            crossStreet = location.getString("cross_streets");
+                            city = location.getString("city");
+                            displayAddress = location.getJSONArray("display_address").join("|");
                         } catch (Exception e) {}
 
                         // location -> object with cross_streets, city, display_address, neighborhoods (array)
@@ -316,6 +327,18 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
                 event.setUrl(url);
             }
 
+            if (city != null && city.length() > 0) {
+                event.setCity(city);
+            }
+
+            if (displayAddress != null && displayAddress.length() > 0) {
+                event.setDisplayAddress(displayAddress);
+            }
+
+            if (crossStreet != null && crossStreet.length() > 0) {
+                event.setDisplayAddress(crossStreet);
+            }
+
             event.setEventName(etEventName.getText().toString());
             event.setVenue(etEventName.getText().toString());
             UserNonParse u = getArguments().getParcelable("user");
@@ -447,9 +470,12 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
             }
 
             String sHour;
-            if (minute < 10) {
+            if (hourOfDay < 10) {
                 sHour = "0" + String.valueOf(hourOfDay);
             } else {
+                if (hourOfDay > 12) {
+                    hourOfDay = hourOfDay - 12;
+                }
                 sHour = "" + hourOfDay;
             }
             et_from_time_text.setText(sHour+":"+sMinute);
