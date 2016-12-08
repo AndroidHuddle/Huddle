@@ -1,12 +1,15 @@
 package com.example.badhri.huddle.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.parseModels.Events;
 
@@ -43,6 +46,9 @@ public class EventsAdapter extends
 
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
+
+        @BindView(R.id.locationImage)
+        public ImageView locationImage;
 
         @BindView(R.id.tvTitle)
         public TextView tvTiltle;
@@ -104,6 +110,18 @@ public class EventsAdapter extends
 
         // Get the data model based on position
         Events event = mEvents.get(position);
+        if (event.getImageUrl() != null && event.getImageUrl().length() > 0) {
+            Glide.with(mContext)
+                    .load(event.getImageUrl())
+                    .fitCenter()
+                    .placeholder(R.drawable.placeholder)
+                    .into(viewHolder.locationImage);
+        } else {
+            // ContextCompat.getColor(mContext, R.color.colorPrimaryDark)
+
+            viewHolder.locationImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.placeholder));
+        }
+
 
         // Set item views based on your views and data model
         TextView tvTitle = viewHolder.tvTiltle;
