@@ -201,9 +201,9 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
 
                 // I should force the place to be an event object and pass that back to the
                 // select place activity as an object
-                Log.d("DEBUG", data.toString());
-                String toastMsg = String.format("You selected %s", place.getName());
-                Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
+//                Log.d("DEBUG", data.toString());
+//                String toastMsg = String.format("You selected %s", place.getName());
+//                Toast.makeText(activity, toastMsg, Toast.LENGTH_LONG).show();
 
                 mListener.onEventSelect(place);
                 //draw this on the map:
@@ -240,7 +240,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                     //centerMapUsingSelectedLocation();
                     map.clear();
                 } else {
-                    Toast.makeText(activity, "Error - Map was null", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Trouble loading map. Try again later.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -290,7 +290,7 @@ public class PlacesFragment extends Fragment implements GoogleApiClient.OnConnec
                     if (lu.size() > 0) {
                         User user = lu.get(0);
                         if (user.getLatitude() == 0 && user.getLongitude() == 0) {
-                            Log.d("DEBUG", user.getObjectId());
+//                            Log.d("DEBUG", user.getObjectId());
                             user.setLatitude(position.latitude);
                             user.setLongitude(position.longitude);
                             try {

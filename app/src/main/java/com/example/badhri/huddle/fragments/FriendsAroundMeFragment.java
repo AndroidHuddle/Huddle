@@ -221,7 +221,7 @@ public class FriendsAroundMeFragment extends Fragment implements
                 FriendsAroundMeFragmentPermissionsDispatcher.startGeofencingWithCheck(this, geofenceRequest);
             }
         } else {
-            Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Map not available", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -319,7 +319,7 @@ public class FriendsAroundMeFragment extends Fragment implements
         if (lastLocation != null) {
             //Toast.makeText(context, "Actual Lat: " + lastLocation.getLatitude() + ", long: " + lastLocation.getLongitude(), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Location could not be retrieved", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Location could not be retrieved", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -363,7 +363,7 @@ public class FriendsAroundMeFragment extends Fragment implements
 //            Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
 //        }
         if (!status.isSuccess()) {
-            Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
         }
     }
 

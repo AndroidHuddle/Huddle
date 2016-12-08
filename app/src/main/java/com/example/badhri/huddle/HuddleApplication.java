@@ -87,7 +87,7 @@ public class HuddleApplication extends Application {
             @Override
             public void success(DigitsSession session, String phoneNumber) {
                 // Do something with the session
-                Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
 
                 // storing phone numbers and username
                 SharedPreferences mSettings = getApplicationContext().getSharedPreferences("Settings", 0);

@@ -66,7 +66,7 @@ public class FriendsFragment extends Fragment {
             public void done(Object o, Throwable throwable) {
                 if (throwable == null) {
                     List<Friends> lf = (List<Friends>) o;
-                    System.out.println(lf.size());
+//                    System.out.println(lf.size());
                     ArrayList<String> friendIds = new ArrayList<>();
                     // get friend ids;
                     // now get their names/username/ etc.
@@ -78,7 +78,7 @@ public class FriendsFragment extends Fragment {
                             }
                         }
                     }
-                    Log.d("DEBUG", friendIds.toString());
+//                    Log.d("DEBUG", friendIds.toString());
                     queryUsers(friendIds);
                 }
             }
