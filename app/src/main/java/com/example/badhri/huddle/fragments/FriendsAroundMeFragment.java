@@ -59,6 +59,7 @@ import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
+import retrofit2.http.HEAD;
 
 
 @RuntimePermissions
@@ -362,9 +363,9 @@ public class FriendsAroundMeFragment extends Fragment implements
 //        } else {
 //            Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
 //        }
-        if (!status.isSuccess()) {
+//        if (!status.isSuccess()) {
 //            Toast.makeText(context, "Error drawing geofence" + status, Toast.LENGTH_SHORT).show();
-        }
+//        }
     }
 
 
