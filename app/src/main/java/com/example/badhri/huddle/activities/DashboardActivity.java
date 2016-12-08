@@ -210,9 +210,9 @@ public class DashboardActivity extends AppCompatActivity implements EventsFragme
     // get the event up to the activity level for best practice of communication
     @Override
     public void onEventPress(int tabIndex, Events event) {
-        Log.d("DEBUG", event.toString());
-        Log.d("DEBUG", String.valueOf(tabIndex));
-        Log.d("DEBUG", event.getVenue());
+//        Log.d("DEBUG", event.toString());
+//        Log.d("DEBUG", String.valueOf(tabIndex));
+//        Log.d("DEBUG", event.getVenue());
 
         // open up the event details activity
         EventNonParse eventNonParse = EventNonParse.fromEvent(event);
@@ -229,9 +229,9 @@ public class DashboardActivity extends AppCompatActivity implements EventsFragme
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     JSONArray businessesJson = response.getJSONArray("businesses");
-                    Log.d("DEBUG", businessesJson.toString());
+//                    Log.d("DEBUG", businessesJson.toString());
 //                    ArrayList<Business> businesses = Business.fromJSONArray(businessesJson);
-                    Log.d("DEBUG", String.valueOf(statusCode));
+//                    Log.d("DEBUG", String.valueOf(statusCode));
                 } catch (Exception e) {
                     Log.e("ERROR", e.toString());
                 }

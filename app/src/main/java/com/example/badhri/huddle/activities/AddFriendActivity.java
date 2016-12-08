@@ -80,12 +80,12 @@ public class AddFriendActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if(e == null) {
-                    Toast.makeText(context, "Friend request sent !!",
+                    Toast.makeText(context, "Friend request sent",
                             Toast.LENGTH_LONG).show();
                     ParsePushHelper.pushToUser(phoneNumber, "You have a new friend request", "Friend Request");
 
                 } else {
-                    Toast.makeText(context, "Error while sending friend request. Try again !",
+                    Toast.makeText(context, "Error while sending friend request. Try again",
                             Toast.LENGTH_LONG).show();
                 }
             }
