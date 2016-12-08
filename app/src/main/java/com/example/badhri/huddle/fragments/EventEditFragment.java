@@ -73,8 +73,8 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
 //    @BindView(R.id.lvInvitees)
 //    ListView lvInvitees;
 
-    @BindView(R.id.et_to_date_text)
-    EditText etToDateText;
+//    @BindView(R.id.et_to_date_text)
+//    EditText etToDateText;
 
     @BindView(R.id.et_from_date_text)
     EditText etFromDateText;
@@ -82,8 +82,8 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
     @BindView(R.id.et_from_time_text)
     EditText et_from_time_text;
 
-    @BindView(R.id.et_to_time_text)
-    EditText et_to_time_text;
+//    @BindView(R.id.et_to_time_text)
+//    EditText et_to_time_text;
 
     @BindView(R.id.tvContactLabel)
     TextView tvContactLabel;
@@ -215,7 +215,7 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
         populateInviteeList();
 
         fg = this;
-        etToDateText.setCursorVisible(false);
+//        etToDateText.setCursorVisible(false);
         etFromDateText.setCursorVisible(false);
 
         // set calendar
@@ -276,12 +276,12 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
                 event.setStartTime(new Date());
             }
 
-            if (etToDateText.getText().length() > 0){
-                event.setEndTime(new Date());
-                event.setEventEndTime(etToDateText.getText().toString());
-            } else {
-                event.setStartTime(new Date());
-            }
+//            if (etToDateText.getText().length() > 0){
+//                event.setEndTime(new Date());
+//                event.setEventEndTime(etToDateText.getText().toString());
+//            } else {
+//                event.setStartTime(new Date());
+//            }
 
             String eventDetails = etEventDetails.getText().toString();
             if (eventDetails.length() > 0) {
@@ -368,19 +368,19 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    @OnClick(R.id.et_to_date_text)
-    public void openToCalendar() {
-        Calendar now = Calendar.getInstance();
-        DatePickerDialog dpd = DatePickerDialog.newInstance(
-                (DatePickerDialog.OnDateSetListener) fg,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-        );
-        FragmentManager fm = getActivity().getFragmentManager();
-        dpd.show(fm, TO_DATE);
-    }
+//    @TargetApi(Build.VERSION_CODES.N)
+//    @OnClick(R.id.et_to_date_text)
+//    public void openToCalendar() {
+//        Calendar now = Calendar.getInstance();
+//        DatePickerDialog dpd = DatePickerDialog.newInstance(
+//                (DatePickerDialog.OnDateSetListener) fg,
+//                now.get(Calendar.YEAR),
+//                now.get(Calendar.MONTH),
+//                now.get(Calendar.DAY_OF_MONTH)
+//        );
+//        FragmentManager fm = getActivity().getFragmentManager();
+//        dpd.show(fm, TO_DATE);
+//    }
 
     @TargetApi(Build.VERSION_CODES.N)
     @OnClick(R.id.et_from_date_text)
@@ -398,17 +398,17 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
 
 
 //
-    @TargetApi(Build.VERSION_CODES.N)
-    @OnClick(R.id.et_to_time_text)
-    public void openTimeToPicker() {
-        Calendar now = Calendar.getInstance();
-        TimePickerDialog tpd = TimePickerDialog.newInstance(
-                (TimePickerDialog.OnTimeSetListener) fg,
-                now.get(Calendar.HOUR),
-                now.get(Calendar.MINUTE), false);
-        FragmentManager fm = getActivity().getFragmentManager();
-        tpd.show(fm, TO_TIME);
-    }
+//    @TargetApi(Build.VERSION_CODES.N)
+//    @OnClick(R.id.et_to_time_text)
+//    public void openTimeToPicker() {
+//        Calendar now = Calendar.getInstance();
+//        TimePickerDialog tpd = TimePickerDialog.newInstance(
+//                (TimePickerDialog.OnTimeSetListener) fg,
+//                now.get(Calendar.HOUR),
+//                now.get(Calendar.MINUTE), false);
+//        FragmentManager fm = getActivity().getFragmentManager();
+//        tpd.show(fm, TO_TIME);
+//    }
 
     @TargetApi(Build.VERSION_CODES.N)
     @OnClick(R.id.et_from_time_text)
@@ -425,25 +425,38 @@ public class EventEditFragment extends Fragment implements DatePickerDialog.OnDa
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         if (view.getTag().equals(TO_DATE)) {
-            etToDateText.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+//            etToDateText.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
         } else {
-            etFromDateText.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
+            etFromDateText.setText((monthOfYear+1)+"/"+dayOfMonth+"/"+year);
         }
-        String date = "You picked the following date: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
-        Log.d("DEBUG", date.toString());
+//        String date = "You picked the following date: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+//        Log.d("DEBUG", date.toString());
 
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         if (view.getTag().equals(TO_TIME)) {
-            et_to_time_text.setText(hourOfDay+":"+minute);
+//            et_to_time_text.setText(hourOfDay+":"+minute);
         } else {
-            et_from_time_text.setText(hourOfDay+":"+minute);
+            String sMinute;
+            if (minute < 10) {
+                sMinute = "0" + String.valueOf(minute);
+            } else {
+                sMinute = "" + minute;
+            }
+
+            String sHour;
+            if (minute < 10) {
+                sHour = "0" + String.valueOf(hourOfDay);
+            } else {
+                sHour = "" + hourOfDay;
+            }
+            et_from_time_text.setText(sHour+":"+sMinute);
         }
-        String time = "You picked the following time: "+hourOfDay+"h"+minute+"m"+second;
+//        String time = "You picked the following time: "+hourOfDay+"h"+minute+"m"+second;
 //        timeTextView.setText(time);
-        Log.d("DEBUG", time.toString());
+//        Log.d("DEBUG", time.toString());
 
     }
 }

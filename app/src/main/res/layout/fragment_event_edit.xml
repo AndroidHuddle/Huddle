@@ -181,21 +181,21 @@
             android:layout_width="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_to_text"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/to">
-                </TextView>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_to_text"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:text="@string/to">-->
+                <!--</TextView>-->
 
-                <EditText
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_height="wrap_content"
-                    android:layout_width="175dp"
-                    android:id="@+id/et_to_date_text"
-                    android:layout_below="@+id/tv_to_text"
-                    android:drawableRight="@drawable/calendar_multiple">
-                </EditText>
+                <!--<EditText-->
+                    <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="175dp"-->
+                    <!--android:id="@+id/et_to_date_text"-->
+                    <!--android:layout_below="@+id/tv_to_text"-->
+                    <!--android:drawableRight="@drawable/calendar_multiple">-->
+                <!--</EditText>-->
             </LinearLayout>
 
             <LinearLayout
@@ -208,27 +208,28 @@
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/activity_vertical_margin">
 
-                <TextView
-                    android:id="@+id/tv_to_time_text"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/to_time">
-                </TextView>
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_to_time_text"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:text="@string/to_time">-->
+                <!--</TextView>-->
 
-                <EditText
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
-                    android:layout_height="wrap_content"
-                    android:layout_width="175dp"
-                    android:id="@+id/et_to_time_text"
-                    android:layout_below="@+id/tv_to_text"
-                    android:drawableRight="@drawable/calendar_clock">
-                </EditText>
+                <!--<EditText-->
+                    <!--android:layout_marginTop="@dimen/activity_horizontal_margin"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_width="175dp"-->
+                    <!--android:id="@+id/et_to_time_text"-->
+                    <!--android:layout_below="@+id/tv_to_text"-->
+                    <!--android:drawableRight="@drawable/calendar_clock">-->
+                <!--</EditText>-->
 
                 <Button
                     android:id="@+id/send_invite"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="@string/send_invite"
+                    android:layout_margin="@dimen/activity_vertical_margin"
                     android:background="@drawable/button_pink">
                 </Button>
             </LinearLayout>
