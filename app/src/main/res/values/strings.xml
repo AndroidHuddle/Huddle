@@ -18,7 +18,7 @@
     <string name="google_places_api_key">AIzaSyDgpj2uUTodiKhmj3GsCzfiZvvK1s8t0Ok</string>
 
     <string name="gcm_sender_id">id:932123556269</string>
-    <string name="check_final_details">Verify</string>
+    <string name="check_final_details">Add Details</string>
     <string name="price">Price:</string>
     <string name="phonenumber">Contact:</string>
     <string name="rating">Rating:</string>
