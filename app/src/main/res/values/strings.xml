@@ -32,4 +32,7 @@
     <string name="no_attend">Nope</string>
     <string name="save">Save</string>
     <string name="joinme">Join the event!</string>
+    <string name="nearby">Nearby</string>
+    <string name="invites">Invites</string>
+    <string name="places">Places</string>
 </resources>

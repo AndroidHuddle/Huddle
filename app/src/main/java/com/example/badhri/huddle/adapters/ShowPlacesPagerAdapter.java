@@ -1,11 +1,13 @@
 package com.example.badhri.huddle.adapters;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.fragments.FriendsAroundMeFragment;
 import com.example.badhri.huddle.fragments.FriendsFragment;
 import com.example.badhri.huddle.fragments.PlacesFragment;
@@ -13,12 +15,13 @@ import com.example.badhri.huddle.models.UserNonParse;
 
 public class ShowPlacesPagerAdapter extends FragmentPagerAdapter {
 
-    private String tabTitles[] = {"Places", "Nearby", "Invites"};
+    private String[] tabTitles;
     private UserNonParse user;
 
     //how the adapter gets the manager to insert/remove fragments from activity
-    public ShowPlacesPagerAdapter(FragmentManager fm) {
+    public ShowPlacesPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
+        tabTitles = context.getApplicationContext().getResources().getStringArray(R.array.tab_titles);
     }
 
 

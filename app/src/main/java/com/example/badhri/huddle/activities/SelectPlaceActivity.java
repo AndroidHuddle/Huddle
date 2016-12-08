@@ -44,7 +44,7 @@ public class SelectPlaceActivity extends AppCompatActivity implements PlacesFrag
 
     private void setupPagedFragments() {
         vpPager = (ViewPager) findViewById(R.id.viewpager);
-        ShowPlacesPagerAdapter a = new ShowPlacesPagerAdapter(getSupportFragmentManager());
+        ShowPlacesPagerAdapter a = new ShowPlacesPagerAdapter(this, getSupportFragmentManager());
         a.setUser(user);
 
         //Set number of pages that should be retained to either side of the current page in the view hierarchy in an idle state.
