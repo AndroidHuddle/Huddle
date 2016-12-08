@@ -1,15 +1,20 @@
 package com.example.badhri.huddle.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
+import com.example.badhri.huddle.activities.DashboardActivity;
+import com.example.badhri.huddle.models.UserNonParse;
 import com.example.badhri.huddle.parseModels.User;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -19,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -35,14 +41,18 @@ public class UserDetailsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String userObjectId;
 
-    @BindView(R.id.tvEmail)
-    TextView tvEmail;
+    @BindView(R.id.etEmail)
+    EditText evEmail;
 
     @BindView(R.id.tvPhoneNumber)
     TextView tvPhoneNumber;
 
+    @BindView(R.id.et_bio)
+    EditText etBio;
+
 
     private Unbinder unbinder;
+    User profileUser;
 
     //private OnFragmentInteractionListener mListener;
 
@@ -86,8 +96,13 @@ public class UserDetailsFragment extends Fragment {
         query.findInBackground(new FindCallback<User>() {
             public void done(List<User> user, ParseException e) {
                 if (e == null) {
+                    profileUser = user.get(0);
                     tvPhoneNumber.setText(Long.toString(user.get(0).getPhoneNumber()));
-                    tvEmail.setText(user.get(0).getEmail());
+                    evEmail.setText(user.get(0).getEmail());
+
+                    if (user.get(0).getBio().length() > 0) {
+                        etBio.setText(user.get(0).getBio());
+                    }
                 } else {
                     Log.d(HuddleApplication.TAG, "Fetching user object failed");
                     e.printStackTrace();
@@ -141,5 +156,22 @@ public class UserDetailsFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     } */
+
+    @OnClick(R.id.save_profile)
+    public void saveProfile(Button btn) {
+
+        if (etBio.getText().length() > 0) {
+            profileUser.setBio(etBio.getText().toString());
+        }
+
+        if (evEmail.getText().length() > 0) {
+            profileUser.setEmail(evEmail.getText().toString());
+        }
+        profileUser.saveInBackground();
+        Intent myIntent = new Intent(getActivity(), DashboardActivity.class);
+        myIntent.putExtra("user", UserNonParse.fromUser(profileUser));
+        startActivity(myIntent);
+
+    }
 
 }

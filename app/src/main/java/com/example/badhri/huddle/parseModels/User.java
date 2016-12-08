@@ -16,7 +16,16 @@ public class User extends ParseObject {
     public static final String STATUS_KEY = "phoneNumber";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
+    public static final String ABOUT_ME = "aboutMe";
 
+
+    public String getBio() {
+        return getString(ABOUT_ME);
+    }
+
+    public void setBio(String bio) {
+        put(ABOUT_ME, bio);
+    }
 
     public String getUsername() {
         return getString(USERNAME_KEY);
