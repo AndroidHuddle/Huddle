@@ -1,5 +1,7 @@
 package com.example.badhri.huddle.fragments;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -7,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.badhri.huddle.HuddleApplication;
 import com.example.badhri.huddle.R;
 import com.example.badhri.huddle.parseModels.User;
@@ -47,6 +52,9 @@ public class UserHeaderFragment extends Fragment {
 
     @BindView(R.id.tvStatus)
     TextView tvStatus;
+
+    @BindView(R.id.rlUserHeader)
+    RelativeLayout rlUserHeader;
 
     //private OnFragmentInteractionListener mListener;
 
@@ -92,7 +100,23 @@ public class UserHeaderFragment extends Fragment {
                 if (e == null) {
                     tvUserName.setText(user.get(0).getUsername());
                     tvStatus.setText(user.get(0).getStatus());
-                    //Todo: profile Image
+                    ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+                    // generate random color
+                    // generate color based on a key (same key returns the same color), useful for list/grid views
+                    int color = generator.getColor(user.get(0).getUsername());
+                    int colorB = generator.getColor(user.get(0).getUsername().substring(1,2));
+                    // declare the builder object once.
+                    TextDrawable drawable = TextDrawable.builder()
+                            .beginConfig()
+                            .textColor(Color.WHITE)
+                            .useFont(Typeface.DEFAULT)
+                            .fontSize(100) /* size in px */
+                            .bold()
+                            .toUpperCase()
+                            .endConfig()
+                            .buildRoundRect(user.get(0).getUsername().substring(0,1).toUpperCase(), colorB, 160);
+                    ivProfileImage.setImageDrawable(drawable);
+                    rlUserHeader.setBackgroundColor(color);
                 } else {
                     Log.d(HuddleApplication.TAG, "Fetching user object failed");
                     e.printStackTrace();
