@@ -100,7 +100,9 @@ public class UserDetailsFragment extends Fragment {
                     tvPhoneNumber.setText(Long.toString(user.get(0).getPhoneNumber()));
                     evEmail.setText(user.get(0).getEmail());
 
-                    if (user.get(0).getBio().length() > 0) {
+                    String bio = user.get(0).getBio();
+
+                    if (bio != null && bio.length() > 0) {
                         etBio.setText(user.get(0).getBio());
                     }
                 } else {
