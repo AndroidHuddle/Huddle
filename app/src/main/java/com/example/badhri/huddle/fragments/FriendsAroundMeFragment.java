@@ -401,9 +401,10 @@ public class FriendsAroundMeFragment extends Fragment implements
         }
 
         if (myFriends.size() > 0) {
-            for (int i = 0; i < myFriends.size(); i++) {
+            getMyFriendsLocation();
+/*            for (int i = 0; i < myFriends.size(); i++) {
                 createFriendGeofence(myFriends.get(i));
-            }
+            }*/
         }
     }
 
