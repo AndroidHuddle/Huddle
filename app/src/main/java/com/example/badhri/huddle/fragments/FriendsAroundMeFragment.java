@@ -59,7 +59,6 @@ import java.util.List;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
-import retrofit2.http.HEAD;
 
 
 @RuntimePermissions
@@ -402,9 +401,7 @@ public class FriendsAroundMeFragment extends Fragment implements
         }
 
         if (myFriends.size() > 0) {
-            for (int i = 0; i < myFriends.size(); i++) {
-                createFriendGeofence(myFriends.get(i));
-            }
+            getMyFriendsLocation();
         }
     }
 
