@@ -400,7 +400,7 @@ public class FriendsAroundMeFragment extends Fragment implements
             LocationServices.GeofencingApi.removeGeofences(googleApiClient, geofencePendingIntent);
         }
 
-        if (myFriends.size() > 0) {
+        if (myFriends != null && myFriends.size() > 0) {
             getMyFriendsLocation();
         }
     }
